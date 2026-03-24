@@ -240,6 +240,38 @@
   @keyframes glitch-1{0%{clip-path:inset(0 0 95% 0);transform:translate(-2px,0)}10%{clip-path:inset(20% 0 60% 0);transform:translate(2px,0)}20%{clip-path:inset(50% 0 30% 0);transform:translate(-1px,0)}30%{clip-path:inset(80% 0 5% 0);transform:translate(1px,0)}100%{clip-path:inset(0 0 95% 0);transform:translate(0,0)}}
   .glt{font-family:var(--font-display);font-size:30px;font-weight:900;text-transform:uppercase;color:var(--g-white);position:relative}
   .glt::before{content:attr(data-text);position:absolute;left:0;top:0;color:var(--g-cyan);animation:glitch-1 3s infinite}
+
+  /* ══════ MOBILE ══════ */
+  @media (max-width: 768px) {
+    .sidebar {
+      position: relative;
+      width: 100%;
+      border-right: none;
+      border-bottom: 1px solid var(--g-border);
+      padding: 16px 0 8px;
+      overflow-y: visible;
+    }
+    .sb-logo { padding: 0 16px 12px; }
+    .nav-grp { padding: 0 8px 8px; display: flex; flex-wrap: wrap; gap: 0; }
+    .nav-grp-lbl { width: 100%; padding: 4px 8px; }
+    .nav-btn { width: auto; padding: 6px 10px; font-size: 12px; }
+    .main { margin-left: 0; }
+    .sec-hdr { padding: 24px 20px 20px; }
+    .sec-title { font-size: 24px; }
+    .sec-body { padding: 20px 16px; }
+    .g2, .g3, .g4, .g5 { grid-template-columns: 1fr; gap: 12px; }
+    .g4 { grid-template-columns: repeat(2, 1fr); }
+    .lc { padding: 20px; }
+    .lc svg { max-width: 100%; height: auto; }
+    .wm, .wm-outline { font-size: 36px; }
+    .hero-prev { padding: 24px; min-height: 280px; }
+    .h1x { font-size: 32px; }
+    .h-act { flex-wrap: wrap; }
+    .cb { font-size: 10px; padding: 12px 14px; }
+    .sp-row { flex-wrap: wrap; }
+    .br { gap: 8px; }
+    .sub { margin-bottom: 32px; }
+  }
 </style>
 </head>
 <body>
