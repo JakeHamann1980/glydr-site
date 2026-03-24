@@ -226,15 +226,27 @@ a:hover {
   border: none;
   cursor: pointer;
   border-radius: var(--r-md);
-  transition: transform var(--dur-fast) ease,
-              box-shadow var(--dur-fast) ease,
-              background var(--dur-fast) ease;
+  transition: all var(--dur-mid) var(--ease-expo);
   text-decoration: none;
   white-space: nowrap;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0);
+  transition: background var(--dur-fast) ease;
 }
 
 .btn:hover {
   transform: translateY(-1px);
+}
+
+.btn:hover::after {
+  background: rgba(255, 255, 255, 0.06);
 }
 
 /* Sizes */
@@ -344,6 +356,7 @@ a:hover {
 .badge-cyan {
   background: var(--g-cyan-ghost);
   color: var(--g-cyan);
+  border: 1px solid rgba(0, 229, 255, 0.2);
 }
 
 .badge-cyan .badge-dot {
@@ -353,16 +366,19 @@ a:hover {
 .badge-volt {
   background: var(--g-volt-ghost);
   color: var(--g-volt);
+  border: 1px solid rgba(170, 255, 0, 0.2);
 }
 
 .badge-ember {
   background: var(--g-ember-ghost);
   color: var(--g-ember);
+  border: 1px solid rgba(255, 77, 28, 0.2);
 }
 
 .badge-neutral {
   background: rgba(168, 173, 203, 0.08);
   color: var(--g-mid);
+  border: 1px solid var(--g-border);
 }
 
 @keyframes badge-blink {
@@ -685,10 +701,9 @@ a:hover {
 .feature-card {
   background: var(--g-surface);
   border: 1px solid var(--g-border);
-  border-radius: var(--r-xl);
-  padding: var(--sp-32);
-  transition: transform var(--dur-mid) var(--ease-expo),
-              border-color var(--dur-mid) var(--ease-expo);
+  border-radius: 10px;
+  padding: 28px;
+  transition: all var(--dur-mid) var(--ease-expo);
   position: relative;
   overflow: hidden;
 }
@@ -708,6 +723,7 @@ a:hover {
 .feature-card:hover {
   transform: translateY(-2px);
   border-color: var(--g-cyan-dark);
+  background: var(--g-panel);
 }
 
 .feature-card:hover::before {
@@ -748,10 +764,23 @@ a:hover {
 
 .stat-card {
   text-align: center;
-  padding: var(--sp-32) var(--sp-24);
+  padding: 22px;
   background: var(--g-surface);
   border: 1px solid var(--g-border);
-  border-radius: var(--r-xl);
+  border-radius: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card::after {
+  content: '';
+  position: absolute;
+  bottom: -30px;
+  right: -30px;
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(circle, rgba(0, 229, 255, 0.05) 0%, transparent 70%);
+  pointer-events: none;
 }
 
 .stat-label {
@@ -980,15 +1009,15 @@ a:hover {
 
 .newsletter-input {
   flex: 1;
-  background: var(--g-surface);
+  background: var(--g-panel);
   border: 1px solid var(--g-border);
   border-radius: var(--r-md);
-  padding: var(--sp-12) var(--sp-16);
+  padding: 11px 14px;
   font-family: var(--font-body);
   font-size: 14px;
   color: var(--g-offwhite);
   outline: none;
-  transition: border-color var(--dur-fast) ease;
+  transition: all var(--dur-fast) ease;
 }
 
 .newsletter-input::placeholder {
@@ -997,6 +1026,8 @@ a:hover {
 
 .newsletter-input:focus {
   border-color: var(--g-cyan);
+  box-shadow: 0 0 0 3px rgba(0, 229, 255, 0.1);
+  background: var(--g-surface);
 }
 
 /* ═══════════════════════════════════════════════════
