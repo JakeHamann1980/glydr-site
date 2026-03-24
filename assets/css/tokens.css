@@ -292,6 +292,19 @@ a:hover {
   color: var(--g-cyan);
 }
 
+/* Ghost volt (accent) */
+.btn-accent-ghost {
+  background: transparent;
+  color: var(--g-volt);
+  border: 1px solid var(--g-volt);
+}
+
+.btn-accent-ghost:hover {
+  background: var(--g-volt-ghost);
+  box-shadow: var(--g-glow-volt);
+  color: var(--g-volt);
+}
+
 /* Ghost neutral */
 .btn-outline {
   background: transparent;
@@ -324,7 +337,8 @@ a:hover {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  animation: pulse-dot 2s ease infinite;
+  box-shadow: 0 0 8px currentColor;
+  animation: badge-blink 1.5s ease infinite;
 }
 
 .badge-cyan {
@@ -351,9 +365,9 @@ a:hover {
   color: var(--g-mid);
 }
 
-@keyframes pulse-dot {
+@keyframes badge-blink {
   0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
+  50% { opacity: 0; }
 }
 
 /* ═══════════════════════════════════════════════════
@@ -450,9 +464,11 @@ a:hover {
   inset: 0;
   z-index: 2;
   background-image:
-    linear-gradient(rgba(0, 229, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 229, 255, 0.03) 1px, transparent 1px);
+    linear-gradient(rgba(0, 229, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 229, 255, 0.04) 1px, transparent 1px);
   background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
   pointer-events: none;
 }
 
@@ -464,14 +480,25 @@ a:hover {
   z-index: 2;
   width: 800px;
   height: 800px;
-  background: radial-gradient(circle, rgba(0, 229, 255, 0.12) 0%, transparent 70%);
+  background: radial-gradient(ellipse at 70% 50%, rgba(0, 229, 255, 0.07) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.hero-glow-volt {
+  position: absolute;
+  bottom: -20%;
+  left: -10%;
+  z-index: 2;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(ellipse at 20% 80%, rgba(170, 255, 0, 0.03) 0%, transparent 50%);
   pointer-events: none;
 }
 
 .hero-content {
   position: relative;
   z-index: 3;
-  max-width: 700px;
+  max-width: 680px;
 }
 
 .hero h1 {
@@ -480,16 +507,22 @@ a:hover {
   font-size: clamp(64px, 10vw, 96px);
   text-transform: uppercase;
   color: var(--g-white);
-  line-height: 0.95;
+  letter-spacing: 0.02em;
+  line-height: 0.92;
   margin-bottom: var(--sp-24);
+}
+
+.hero-h1-accent {
+  color: var(--g-cyan);
+  text-shadow: 0 0 40px rgba(0, 229, 255, 0.4);
 }
 
 .hero-sub {
   font-family: var(--font-body);
-  font-size: clamp(16px, 2vw, 20px);
+  font-size: 14px;
   font-weight: 400;
-  color: var(--g-light);
-  line-height: 1.6;
+  color: var(--g-mid);
+  line-height: 1.7;
   max-width: 520px;
   margin-bottom: var(--sp-48);
 }
