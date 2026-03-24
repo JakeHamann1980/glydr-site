@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GLYDR — Brand Kit & Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600;700;800;900&family=Barlow:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --g-black:       #050608;
+    --g-void:        #0C0D13;
+    --g-dark:        #11121A;
+    --g-surface:     #181923;
+    --g-panel:       #1E2030;
+    --g-border:      #2A2D3E;
+    --g-muted:       #3D4160;
+    --g-mid:         #6B708C;
+    --g-light:       #A8ADCB;
+    --g-offwhite:    #E8EAFF;
+    --g-white:       #FFFFFF;
+    --g-cyan:        #00E5FF;
+    --g-cyan-dim:    #00B8CC;
+    --g-cyan-dark:   #006B7A;
+    --g-cyan-ghost:  rgba(0,229,255,0.08);
+    --g-volt:        #AAFF00;
+    --g-volt-dim:    #88CC00;
+    --g-volt-ghost:  rgba(170,255,0,0.07);
+    --g-ember:       #FF4D1C;
+    --g-ember-ghost: rgba(255,77,28,0.10);
+    --g-gradient-primary: linear-gradient(135deg,#00E5FF 0%,#0077FF 100%);
+    --g-gradient-accent:  linear-gradient(135deg,#AAFF00 0%,#00E5FF 100%);
+    --g-gradient-ember:   linear-gradient(135deg,#FF4D1C 0%,#FF8C00 100%);
+    --g-gradient-dark:    linear-gradient(180deg,#11121A 0%,#050608 100%);
+    --g-glow-cyan:  0 0 20px rgba(0,229,255,.4),0 0 60px rgba(0,229,255,.15);
+    --g-glow-volt:  0 0 20px rgba(170,255,0,.4),0 0 60px rgba(170,255,0,.15);
+    --g-glow-ember: 0 0 20px rgba(255,77,28,.4),0 0 60px rgba(255,77,28,.15);
+    --font-display: 'Barlow Condensed', sans-serif;
+    --font-body:    'Barlow', sans-serif;
+    --font-mono:    'Share Tech Mono', monospace;
+    --ease-expo: cubic-bezier(0.16,1,0.3,1);
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--g-black);color:var(--g-offwhite);font-family:var(--font-body);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");opacity:.022;pointer-events:none;z-index:9999}
+  ::-webkit-scrollbar{width:5px;height:5px}
+  ::-webkit-scrollbar-track{background:var(--g-void)}
+  ::-webkit-scrollbar-thumb{background:var(--g-border);border-radius:3px}
+
+  /* SIDEBAR */
+  .sidebar{position:fixed;left:0;top:0;bottom:0;width:216px;background:var(--g-void);border-right:1px solid var(--g-border);display:flex;flex-direction:column;z-index:100;padding:28px 0;overflow-y:auto}
+  .sb-logo{padding:0 22px 24px;border-bottom:1px solid var(--g-border);margin-bottom:20px}
+  .sb-wm{font-family:var(--font-display);font-weight:900;font-size:26px;letter-spacing:.08em;color:var(--g-white)}
+  .sb-wm span{color:var(--g-cyan)}
+  .sb-ver{font-family:var(--font-mono);font-size:9px;letter-spacing:.15em;color:var(--g-muted);margin-top:3px}
+  .nav-grp{padding:0 14px 20px}
+  .nav-grp-lbl{font-family:var(--font-mono);font-size:8px;letter-spacing:.22em;color:var(--g-muted);text-transform:uppercase;padding:0 8px 8px}
+  .nav-btn{display:block;width:100%;text-align:left;background:none;border:none;cursor:pointer;padding:8px 10px;border-radius:4px;font-family:var(--font-body);font-size:13px;font-weight:500;color:var(--g-mid);transition:all 150ms ease}
+  .nav-btn:hover{color:var(--g-offwhite);background:var(--g-surface)}
+  .nav-btn.active{color:var(--g-cyan);background:var(--g-cyan-ghost)}
+
+  /* MAIN */
+  .main{margin-left:216px;min-height:100vh}
+
+  /* SECTION */
+  .pg{display:none}
+  .pg.active{display:block;animation:fadeUp .3s ease}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+  .sec-hdr{border-bottom:1px solid var(--g-border);padding:52px 56px 40px;position:relative;overflow:hidden}
+  .sec-hdr::before{content:'';position:absolute;top:-80px;right:-80px;width:340px;height:340px;background:radial-gradient(circle,rgba(0,229,255,.05) 0%,transparent 70%);pointer-events:none}
+  .eyebrow{font-family:var(--font-mono);font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:var(--g-cyan);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+  .eyebrow::before{content:'';width:20px;height:1px;background:var(--g-cyan)}
+  .sec-title{font-family:var(--font-display);font-size:clamp(28px,3.5vw,46px);font-weight:800;letter-spacing:.02em;color:var(--g-white);margin-bottom:10px}
+  .sec-desc{font-size:14px;color:var(--g-mid);max-width:520px;line-height:1.7}
+  .sec-body{padding:44px 56px}
+  .sub{margin-bottom:56px}
+  .sub-title{font-family:var(--font-display);font-size:12px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--g-mid);margin-bottom:20px;display:flex;align-items:center;gap:12px}
+  .sub-title::after{content:'';flex:1;height:1px;background:var(--g-border)}
+
+  /* GRIDS */
+  .g2{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+  .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .g4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+  .g5{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+
+  /* COLOR SWATCHES */
+  .swatch{border-radius:8px;overflow:hidden;border:1px solid var(--g-border)}
+  .sw-color{height:88px;display:flex;align-items:flex-end;padding:8px}
+  .sw-aa{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.2)}
+  .sw-aa.dk{background:rgba(0,0,0,.2);color:rgba(0,0,0,.8);border-color:rgba(0,0,0,.1)}
+  .sw-info{background:var(--g-panel);padding:10px 14px}
+  .sw-name{font-family:var(--font-display);font-weight:700;font-size:13px;letter-spacing:.04em;color:var(--g-offwhite);margin-bottom:1px}
+  .sw-hex{font-family:var(--font-mono);font-size:10px;color:var(--g-mid);letter-spacing:.1em}
+  .sw-role{font-size:11px;color:var(--g-muted);margin-top:3px}
+  .glow-c{box-shadow:var(--g-glow-cyan)} .glow-v{box-shadow:var(--g-glow-volt)} .glow-e{box-shadow:var(--g-glow-ember)}
+
+  /* LOGO CANVAS */
+  .lc{background:var(--g-surface);border:1px solid var(--g-border);border-radius:8px;display:flex;align-items:center;justify-content:center;padding:40px;position:relative;overflow:hidden}
+  .lc::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 39px,var(--g-border) 39px,var(--g-border) 40px),repeating-linear-gradient(90deg,transparent,transparent 39px,var(--g-border) 39px,var(--g-border) 40px);opacity:.25}
+  .lc.blk{background:var(--g-black)} .lc.lt{background:#ECEEF8} .lc.cy{background:var(--g-cyan);border:none}
+  .wm{font-family:var(--font-display);font-weight:900;font-size:72px;letter-spacing:.05em;text-transform:uppercase;position:relative;z-index:1;line-height:1}
+  .wm.dk{color:var(--g-white)} .wm.dk .y{color:var(--g-cyan)}
+  .wm.lt{color:var(--g-dark)} .wm.lt .y{color:var(--g-cyan-dim)}
+  .wm.cb{color:var(--g-black)}
+  .wm-outline{font-family:var(--font-display);font-weight:900;font-size:72px;letter-spacing:.05em;text-transform:uppercase;position:relative;z-index:1;line-height:1;-webkit-text-stroke:2px var(--g-cyan);color:transparent}
+
+  /* TYPE SPECIMENS */
+  .ts{background:var(--g-surface);border:1px solid var(--g-border);border-radius:8px;overflow:hidden;margin-bottom:14px}
+  .ts-meta{padding:12px 20px;border-bottom:1px solid var(--g-border);display:flex;align-items:center;justify-content:space-between}
+  .ts-lbl{font-family:var(--font-mono);font-size:9px;letter-spacing:.18em;color:var(--g-muted);text-transform:uppercase}
+  .ts-vals{font-family:var(--font-mono);font-size:9px;color:var(--g-muted);display:flex;gap:20px}
+  .ts-body{padding:28px 28px}
+
+  /* SPACING */
+  .sp-row{display:flex;align-items:center;gap:20px;margin-bottom:8px;padding:10px 14px;background:var(--g-surface);border:1px solid var(--g-border);border-radius:4px}
+  .sp-lbl{font-family:var(--font-mono);font-size:10px;color:var(--g-mid);min-width:68px}
+  .sp-bar-wrap{flex:1;height:20px;background:var(--g-panel);border-radius:2px;overflow:hidden}
+  .sp-bar{height:100%;background:var(--g-gradient-primary);border-radius:2px}
+  .sp-px{font-family:var(--font-mono);font-size:10px;color:var(--g-muted);min-width:36px;text-align:right}
+
+  /* BUTTONS */
+  .btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-display);font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;border:none;text-decoration:none;transition:all 300ms var(--ease-expo);position:relative;overflow:hidden}
+  .btn::after{content:'';position:absolute;inset:0;background:rgba(255,255,255,0);transition:background 150ms ease}
+  .btn:hover::after{background:rgba(255,255,255,.06)}
+  .btn-sm{font-size:11px;padding:7px 14px;border-radius:4px}
+  .btn-md{font-size:13px;padding:11px 22px;border-radius:4px}
+  .btn-lg{font-size:15px;padding:14px 28px;border-radius:4px}
+  .btn-xl{font-size:17px;padding:18px 44px;border-radius:4px}
+  .bp{background:var(--g-cyan);color:var(--g-black)} .bp:hover{background:#22EEFF;box-shadow:var(--g-glow-cyan);transform:translateY(-1px)}
+  .bv{background:var(--g-volt);color:var(--g-black)} .bv:hover{background:#BBFF22;box-shadow:var(--g-glow-volt);transform:translateY(-1px)}
+  .be{background:var(--g-gradient-ember);color:var(--g-white)} .be:hover{box-shadow:var(--g-glow-ember);transform:translateY(-1px)}
+  .bg{background:transparent;color:var(--g-cyan);border:1px solid var(--g-cyan)} .bg:hover{background:var(--g-cyan-ghost);box-shadow:var(--g-glow-cyan)}
+  .bgv{background:transparent;color:var(--g-volt);border:1px solid var(--g-volt)} .bgv:hover{background:var(--g-volt-ghost);box-shadow:var(--g-glow-volt)}
+  .bo{background:transparent;color:var(--g-offwhite);border:1px solid var(--g-border)} .bo:hover{border-color:var(--g-mid);background:var(--g-surface)}
+  .bs{background:var(--g-surface);color:var(--g-offwhite);border:1px solid var(--g-border)} .bs:hover{background:var(--g-panel);border-color:var(--g-muted)}
+  .btn-icon{width:38px;height:38px;padding:0;display:inline-flex;align-items:center;justify-content:center;background:var(--g-surface);color:var(--g-mid);border:1px solid var(--g-border);border-radius:4px} .btn-icon:hover{color:var(--g-cyan);border-color:var(--g-cyan);background:var(--g-cyan-ghost)}
+  .br{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:20px}
+
+  /* BADGES */
+  .badge{display:inline-flex;align-items:center;gap:5px;font-family:var(--font-mono);font-size:9px;letter-spacing:.15em;text-transform:uppercase;padding:3px 9px;border-radius:9999px;font-weight:600}
+  .bc{background:var(--g-cyan-ghost);color:var(--g-cyan);border:1px solid rgba(0,229,255,.2)}
+  .bdc{background:var(--g-volt-ghost);color:var(--g-volt);border:1px solid rgba(170,255,0,.2)}
+  .bde{background:var(--g-ember-ghost);color:var(--g-ember);border:1px solid rgba(255,77,28,.2)}
+  .bdm{background:var(--g-surface);color:var(--g-mid);border:1px solid var(--g-border)}
+  .bdw{background:rgba(255,255,255,.06);color:var(--g-offwhite);border:1px solid rgba(255,255,255,.1)}
+  .bdg{background:rgba(255,200,0,.08);color:#FFD700;border:1px solid rgba(255,215,0,.25)}
+  .dot-i{width:5px;height:5px;border-radius:50%;background:currentColor;opacity:.8}
+  .badge-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+
+  /* CARDS */
+  .fc{background:var(--g-surface);border:1px solid var(--g-border);border-radius:10px;padding:28px;transition:all 300ms var(--ease-expo);position:relative;overflow:hidden}
+  .fc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--g-gradient-primary);opacity:0;transition:opacity 300ms ease}
+  .fc:hover{border-color:var(--g-cyan-dark);background:var(--g-panel);transform:translateY(-2px)} .fc:hover::before{opacity:1}
+  .fi{width:44px;height:44px;background:var(--g-cyan-ghost);border:1px solid rgba(0,229,255,.15);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--g-cyan);font-size:18px;margin-bottom:14px}
+  .ft{font-family:var(--font-display);font-size:15px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--g-white);margin-bottom:6px}
+  .fd{font-size:12px;color:var(--g-mid);line-height:1.6}
+  .sc{background:var(--g-surface);border:1px solid var(--g-border);border-radius:10px;padding:22px;position:relative;overflow:hidden}
+  .sc::after{content:'';position:absolute;bottom:-30px;right:-30px;width:100px;height:100px;background:radial-gradient(circle,rgba(0,229,255,.05) 0%,transparent 70%)}
+  .sv{font-family:var(--font-display);font-size:40px;font-weight:900;letter-spacing:-.01em;line-height:1;color:var(--g-cyan);margin-bottom:3px}
+  .sl{font-family:var(--font-mono);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--g-mid)}
+  .sc-ch{font-family:var(--font-mono);font-size:10px;color:var(--g-volt);margin-top:6px}
+
+  /* INPUTS */
+  .ig{margin-bottom:14px}
+  .il{font-family:var(--font-mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--g-mid);margin-bottom:7px;display:block}
+  .gi{width:100%;background:var(--g-panel);border:1px solid var(--g-border);border-radius:4px;padding:11px 14px;color:var(--g-offwhite);font-family:var(--font-body);font-size:14px;outline:none;transition:all 150ms ease}
+  .gi::placeholder{color:var(--g-muted)} .gi:focus{border-color:var(--g-cyan);box-shadow:0 0 0 3px rgba(0,229,255,.1);background:var(--g-surface)}
+  .gi.err{border-color:var(--g-ember);box-shadow:0 0 0 3px rgba(255,77,28,.1)}
+  .gsel{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%236B708C' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:36px}
+
+  /* TABLE */
+  .gt{width:100%;border-collapse:collapse;font-size:12px}
+  .gt th{font-family:var(--font-mono);font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:var(--g-mid);padding:10px 14px;border-bottom:1px solid var(--g-border);text-align:left;font-weight:600}
+  .gt td{padding:10px 14px;border-bottom:1px solid var(--g-border);color:var(--g-light)}
+  .gt tr:last-child td{border-bottom:none} .gt tr:hover td{background:rgba(255,255,255,.02)}
+
+  /* ALERTS */
+  .al{display:flex;align-items:flex-start;gap:10px;padding:14px 18px;border-radius:8px;border-left:3px solid transparent;margin-bottom:10px;font-size:13px}
+  .al-ic{font-size:15px;flex-shrink:0;margin-top:1px}
+  .al-t{font-family:var(--font-display);font-weight:700;font-size:13px;letter-spacing:.05em;text-transform:uppercase;margin-bottom:1px}
+  .al-d{font-size:11px;opacity:.75;line-height:1.5}
+  .al-c{background:var(--g-cyan-ghost);border-color:var(--g-cyan);color:var(--g-cyan)}
+  .al-v{background:var(--g-volt-ghost);border-color:var(--g-volt);color:var(--g-volt)}
+  .al-e{background:var(--g-ember-ghost);border-color:var(--g-ember);color:var(--g-ember)}
+  .al-m{background:var(--g-surface);border-color:var(--g-muted);color:var(--g-light)}
+
+  /* PROGRESS */
+  .gp{width:100%;height:4px;background:var(--g-panel);border-radius:9999px;overflow:hidden;margin-bottom:14px}
+  .gpb{height:100%;border-radius:9999px}
+  .gpc{background:var(--g-gradient-primary)} .gpv{background:linear-gradient(90deg,#AAFF00,#55FF88)} .gpe{background:var(--g-gradient-ember)}
+
+  /* HERO PREVIEW */
+  .hero-prev{background:var(--g-black);border:1px solid var(--g-border);border-radius:10px;overflow:hidden;position:relative;min-height:400px;display:flex;align-items:center;padding:60px}
+  .hero-prev::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 70% 50%,rgba(0,229,255,.07) 0%,transparent 60%),radial-gradient(ellipse at 20% 80%,rgba(170,255,0,.03) 0%,transparent 50%)}
+  .hp-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,229,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,255,.04) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse at center,black 30%,transparent 75%)}
+  .hp-ct{position:relative;z-index:1;max-width:680px}
+  .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,229,255,.08);border:1px solid rgba(0,229,255,.2);border-radius:9999px;padding:5px 12px;font-family:var(--font-mono);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--g-cyan);margin-bottom:22px}
+  .hb-dot{width:6px;height:6px;border-radius:50%;background:var(--g-cyan);box-shadow:0 0 8px var(--g-cyan);animation:blink 1.5s ease infinite}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+  .h1x{font-family:var(--font-display);font-size:clamp(44px,6vw,72px);font-weight:900;text-transform:uppercase;letter-spacing:.02em;line-height:.92;color:var(--g-white);margin-bottom:22px}
+  .h1x .hl{color:var(--g-cyan);text-shadow:0 0 40px rgba(0,229,255,.4)}
+  .h-sub{font-size:14px;color:var(--g-mid);line-height:1.7;max-width:460px;margin-bottom:28px}
+  .h-act{display:flex;align-items:center;gap:14px}
+
+  /* GRADIENTS */
+  .gt-tile{height:72px;border-radius:8px;display:flex;align-items:flex-end;padding:10px;position:relative;overflow:hidden}
+  .gt-lbl{font-family:var(--font-mono);font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.55)}
+
+  /* USAGE */
+  .ud,.ux{border-radius:8px;padding:18px 22px;border-left:3px solid;margin-bottom:10px}
+  .ud{background:rgba(170,255,0,.04);border-color:var(--g-volt)}
+  .ux{background:rgba(255,77,28,.04);border-color:var(--g-ember)}
+  .uh{font-family:var(--font-mono);font-size:8px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;margin-bottom:7px}
+  .ud .uh{color:var(--g-volt)} .ux .uh{color:var(--g-ember)}
+  .ut{font-size:12px;color:var(--g-light);line-height:1.6}
+
+  /* CODE BLOCK */
+  .cb{background:var(--g-panel);border:1px solid var(--g-border);border-radius:8px;padding:18px 22px;font-family:var(--font-mono);font-size:11px;color:var(--g-light);line-height:1.75;overflow-x:auto;margin-bottom:22px}
+  .kw{color:var(--g-cyan)} .vl{color:var(--g-volt)} .cm{color:var(--g-muted)} .st{color:#FF9C6E}
+
+  /* MOTION */
+  .mc{background:var(--g-surface);border:1px solid var(--g-border);border-radius:8px;padding:18px;display:flex;align-items:center;gap:14px;margin-bottom:10px}
+  .mp{width:56px;height:7px;background:var(--g-border);border-radius:9999px;overflow:hidden;flex-shrink:0}
+  .mpf{height:100%;width:60%;background:var(--g-gradient-primary);border-radius:9999px}
+  .mn{font-family:var(--font-mono);font-size:11px;color:var(--g-offwhite);margin-bottom:2px}
+  .mv{font-family:var(--font-mono);font-size:9px;color:var(--g-muted)}
+
+  /* ANIM DEMOS */
+  .ad{background:var(--g-surface);border:1px solid var(--g-border);border-radius:10px;padding:28px;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:150px;gap:10px;position:relative;overflow:hidden}
+  .ad-lbl{font-family:var(--font-mono);font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:var(--g-muted);position:absolute;bottom:14px;left:50%;transform:translateX(-50%);white-space:nowrap}
+  @keyframes pulse-ring{0%{transform:scale(.8);opacity:.8}100%{transform:scale(1.8);opacity:0}}
+  .pulse-dot{width:14px;height:14px;border-radius:50%;background:var(--g-cyan);position:relative;box-shadow:var(--g-glow-cyan)}
+  .pulse-dot::before,.pulse-dot::after{content:'';position:absolute;inset:0;border-radius:50%;border:2px solid var(--g-cyan);animation:pulse-ring 1.8s ease-out infinite}
+  .pulse-dot::after{animation-delay:.6s}
+  @keyframes scan{0%{top:-4px}100%{top:calc(100% + 4px)}}
+  .scan-c{width:100%;height:60px;position:relative;overflow:hidden;background:repeating-linear-gradient(0deg,transparent 0px,transparent 3px,rgba(0,229,255,.03) 3px,rgba(0,229,255,.03) 4px);border-radius:4px}
+  .scan-l{position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--g-cyan),transparent);animation:scan 2.5s linear infinite;box-shadow:0 0 12px rgba(0,229,255,.6)}
+  @keyframes glitch-1{0%{clip-path:inset(0 0 95% 0);transform:translate(-2px,0)}10%{clip-path:inset(20% 0 60% 0);transform:translate(2px,0)}20%{clip-path:inset(50% 0 30% 0);transform:translate(-1px,0)}30%{clip-path:inset(80% 0 5% 0);transform:translate(1px,0)}100%{clip-path:inset(0 0 95% 0);transform:translate(0,0)}}
+  .glt{font-family:var(--font-display);font-size:30px;font-weight:900;text-transform:uppercase;color:var(--g-white);position:relative}
+  .glt::before{content:attr(data-text);position:absolute;left:0;top:0;color:var(--g-cyan);animation:glitch-1 3s infinite}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sb-logo">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4000 966" width="130" style="display:block;"><g transform="translate(0,966) scale(0.1,-0.1)" fill="#FFFFFF" stroke="none"><path d="M2500 7803 c-313 -24 -627 -103 -855 -213 -121 -58 -282 -164 -382 -252 -328 -287 -513 -722 -563 -1323 -8 -100 -10 -487 -8 -1345 4 -1086 6 -1217 22 -1325 69 -469 204 -793 430 -1032 249 -264 605 -418 1131 -490 121 -17 274 -18 2315 -18 2255 0 2350 1 2715 41 144 16 355 53 436 78 69 21 127 53 133 74 4 12 -13 61 -44 127 l-50 107 0 1534 0 1534 -1850 0 -1850 0 0 -705 0 -705 23 0 c13 0 318 22 678 49 360 27 741 52 847 56 l192 6 0 -384 0 -385 -347 -7 c-192 -4 -755 -8 -1253 -9 -952 -1 -970 0 -1138 45 -158 42 -247 111 -310 242 -47 95 -68 175 -82 307 -13 126 -13 1864 0 1990 32 305 153 474 390 544 151 45 182 46 1255 46 980 0 1473 -8 1935 -30 473 -23 914 -52 997 -65 l31 -6 156 631 c86 347 156 641 156 655 0 37 -51 71 -155 105 -197 62 -453 101 -805 120 -169 9 -4035 12 -4150 3z"/><path d="M31430 7786 c0 -13 23 -207 50 -430 l50 -406 0 -2575 0 -2575 995 0 995 0 0 981 0 982 248 -6 c752 -16 1179 -183 1732 -676 47 -42 254 -242 460 -446 206 -204 411 -399 455 -435 193 -153 431 -287 622 -349 112 -37 366 -92 563 -123 128 -20 182 -22 470 -23 215 0 357 4 420 13 140 20 390 61 430 72 l35 10 150 566 c83 312 151 572 153 579 2 8 -44 17 -155 28 -178 19 -289 41 -478 93 -350 97 -674 263 -1205 619 -124 83 -285 189 -357 234 l-133 84 97 34 c115 40 300 127 393 185 445 279 723 764 781 1363 17 178 6 624 -19 791 -41 262 -88 420 -179 595 -204 395 -600 669 -1117 774 -309 63 -125 59 -2913 62 l-2543 3 0 -24z m4491 -1422 c126 -39 207 -106 255 -208 39 -84 47 -145 42 -330 -6 -188 -20 -254 -81 -371 -86 -161 -252 -252 -522 -284 -342 -40 -1143 -49 -1717 -18 -174 9 -331 17 -348 17 l-30 0 0 610 0 611 1168 -3 c1147 -3 1168 -4 1233 -24z"/><path d="M9400 5219 l0 -2581 -50 -398 c-27 -219 -50 -408 -50 -419 l0 -21 2758 0 c1722 0 2828 4 2947 10 317 17 544 53 568 91 8 12 -59 161 -294 655 l-304 639 -1808 3 -1807 2 0 2300 0 2300 -980 0 -980 0 0 -2581z"/><path d="M14810 7794 c0 -3 668 -795 1485 -1761 l1485 -1755 0 -1239 0 -1239 990 0 990 0 0 1218 0 1217 1304 1473 1305 1473 191 295 c105 162 193 301 197 309 4 13 -149 15 -1228 14 l-1234 0 -494 -700 c-373 -529 -550 -789 -725 -1069 l-231 -370 -49 3 -48 2 -242 382 c-198 314 -329 503 -736 1067 l-495 686 -1232 0 c-678 0 -1233 -2 -1233 -6z"/><path d="M22810 7779 c0 -11 23 -200 50 -419 l50 -398 0 -2581 0 -2581 2438 0 c1506 0 2489 4 2572 10 599 44 1033 171 1388 406 115 77 311 272 384 384 154 234 246 494 294 836 15 105 18 256 21 1259 5 1345 1 1454 -76 1750 -213 829 -871 1264 -2031 1345 -91 6 -1060 10 -2617 10 l-2473 0 0 -21z m4733 -1406 c212 -60 336 -170 420 -369 57 -136 57 -127 57 -1191 0 -931 -1 -983 -20 -1073 -22 -110 -79 -231 -140 -302 -46 -53 -149 -124 -230 -158 -30 -12 -95 -32 -145 -43 -88 -20 -119 -21 -1337 -24 l-1248 -4 0 1596 0 1596 1283 -3 1282 -3 78 -22z"/></g></svg>
+    <div class="sb-ver">Brand Kit v1.0 — 2025</div>
+  </div>
+  <div class="nav-grp">
+    <div class="nav-grp-lbl">Foundation</div>
+    <button class="nav-btn active" onclick="show('logo',this)">Logo System</button>
+    <button class="nav-btn" onclick="show('color',this)">Color</button>
+    <button class="nav-btn" onclick="show('type',this)">Typography</button>
+    <button class="nav-btn" onclick="show('spacing',this)">Spacing & Grid</button>
+    <button class="nav-btn" onclick="show('motion',this)">Motion & Animation</button>
+  </div>
+  <div class="nav-grp">
+    <div class="nav-grp-lbl">Components</div>
+    <button class="nav-btn" onclick="show('buttons',this)">Buttons</button>
+    <button class="nav-btn" onclick="show('badges',this)">Badges & Tags</button>
+    <button class="nav-btn" onclick="show('cards',this)">Cards</button>
+    <button class="nav-btn" onclick="show('forms',this)">Forms & Inputs</button>
+    <button class="nav-btn" onclick="show('feedback',this)">Feedback</button>
+  </div>
+  <div class="nav-grp">
+    <div class="nav-grp-lbl">Patterns</div>
+    <button class="nav-btn" onclick="show('hero',this)">Hero Pattern</button>
+    <button class="nav-btn" onclick="show('tokens',this)">Design Tokens</button>
+    <button class="nav-btn" onclick="show('voice',this)">Voice & Tone</button>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main class="main">
+
+<!-- LOGO -->
+<section id="logo" class="pg active">
+  <div class="sec-hdr">
+    <div class="eyebrow">Foundation</div>
+    <div class="sec-title">Logo System</div>
+    <div class="sec-desc">The GLYDR wordmark is the primary brand identifier. Custom-traced vector paths — no font dependency. Infinitely scalable, production-ready SVG.</div>
+  </div>
+  <div class="sec-body">
+    <div class="sub">
+      <div class="sub-title">Primary Wordmark</div>
+      <div class="g2">
+        <div class="lc blk">
+          <div style="text-align:center;position:relative;z-index:1;">
+            <div style="font-family:var(--font-mono);font-size:8px;letter-spacing:.3em;text-transform:uppercase;color:var(--g-muted);margin-bottom:10px;">Analog Foot Controller</div>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4000 966" width="240" style="display:block;margin:0 auto;"><g transform="translate(0,966) scale(0.1,-0.1)" fill="#FFFFFF" stroke="none"><path d="M2500 7803 c-313 -24 -627 -103 -855 -213 -121 -58 -282 -164 -382 -252 -328 -287 -513 -722 -563 -1323 -8 -100 -10 -487 -8 -1345 4 -1086 6 -1217 22 -1325 69 -469 204 -793 430 -1032 249 -264 605 -418 1131 -490 121 -17 274 -18 2315 -18 2255 0 2350 1 2715 41 144 16 355 53 436 78 69 21 127 53 133 74 4 12 -13 61 -44 127 l-50 107 0 1534 0 1534 -1850 0 -1850 0 0 -705 0 -705 23 0 c13 0 318 22 678 49 360 27 741 52 847 56 l192 6 0 -384 0 -385 -347 -7 c-192 -4 -755 -8 -1253 -9 -952 -1 -970 0 -1138 45 -158 42 -247 111 -310 242 -47 95 -68 175 -82 307 -13 126 -13 1864 0 1990 32 305 153 474 390 544 151 45 182 46 1255 46 980 0 1473 -8 1935 -30 473 -23 914 -52 997 -65 l31 -6 156 631 c86 347 156 641 156 655 0 37 -51 71 -155 105 -197 62 -453 101 -805 120 -169 9 -4035 12 -4150 3z"/><path d="M31430 7786 c0 -13 23 -207 50 -430 l50 -406 0 -2575 0 -2575 995 0 995 0 0 981 0 982 248 -6 c752 -16 1179 -183 1732 -676 47 -42 254 -242 460 -446 206 -204 411 -399 455 -435 193 -153 431 -287 622 -349 112 -37 366 -92 563 -123 128 -20 182 -22 470 -23 215 0 357 4 420 13 140 20 390 61 430 72 l35 10 150 566 c83 312 151 572 153 579 2 8 -44 17 -155 28 -178 19 -289 41 -478 93 -350 97 -674 263 -1205 619 -124 83 -285 189 -357 234 l-133 84 97 34 c115 40 300 127 393 185 445 279 723 764 781 1363 17 178 6 624 -19 791 -41 262 -88 420 -179 595 -204 395 -600 669 -1117 774 -309 63 -125 59 -2913 62 l-2543 3 0 -24z m4491 -1422 c126 -39 207 -106 255 -208 39 -84 47 -145 42 -330 -6 -188 -20 -254 -81 -371 -86 -161 -252 -252 -522 -284 -342 -40 -1143 -49 -1717 -18 -174 9 -331 17 -348 17 l-30 0 0 610 0 611 1168 -3 c1147 -3 1168 -4 1233 -24z"/><path d="M9400 5219 l0 -2581 -50 -398 c-27 -219 -50 -408 -50 -419 l0 -21 2758 0 c1722 0 2828 4 2947 10 317 17 544 53 568 91 8 12 -59 161 -294 655 l-304 639 -1808 3 -1807 2 0 2300 0 2300 -980 0 -980 0 0 -2581z"/><path d="M14810 7794 c0 -3 668 -795 1485 -1761 l1485 -1755 0 -1239 0 -1239 990 0 990 0 0 1218 0 1217 1304 1473 1305 1473 191 295 c105 162 193 301 197 309 4 13 -149 15 -1228 14 l-1234 0 -494 -700 c-373 -529 -550 -789 -725 -1069 l-231 -370 -49 3 -48 2 -242 382 c-198 314 -329 503 -736 1067 l-495 686 -1232 0 c-678 0 -1233 -2 -1233 -6z"/><path d="M22810 7779 c0 -11 23 -200 50 -419 l50 -398 0 -2581 0 -2581 2438 0 c1506 0 2489 4 2572 10 599 44 1033 171 1388 406 115 77 311 272 384 384 154 234 246 494 294 836 15 105 18 256 21 1259 5 1345 1 1454 -76 1750 -213 829 -871 1264 -2031 1345 -91 6 -1060 10 -2617 10 l-2473 0 0 -21z m4733 -1406 c212 -60 336 -170 420 -369 57 -136 57 -127 57 -1191 0 -931 -1 -983 -20 -1073 -22 -110 -79 -231 -140 -302 -46 -53 -149 -124 -230 -158 -30 -12 -95 -32 -145 -43 -88 -20 -119 -21 -1337 -24 l-1248 -4 0 1596 0 1596 1283 -3 1282 -3 78 -22z"/></g></svg>
+          </div>
+        </div>
+        <div class="lc">
+          <div style="text-align:center;position:relative;z-index:1;">
+            <div style="font-family:var(--font-mono);font-size:8px;letter-spacing:.3em;text-transform:uppercase;color:var(--g-mid);margin-bottom:10px;">Analog Foot Controller</div>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4000 966" width="240" style="display:block;margin:0 auto;"><g transform="translate(0,966) scale(0.1,-0.1)" fill="#FFFFFF" stroke="none"><path d="M2500 7803 c-313 -24 -627 -103 -855 -213 -121 -58 -282 -164 -382 -252 -328 -287 -513 -722 -563 -1323 -8 -100 -10 -487 -8 -1345 4 -1086 6 -1217 22 -1325 69 -469 204 -793 430 -1032 249 -264 605 -418 1131 -490 121 -17 274 -18 2315 -18 2255 0 2350 1 2715 41 144 16 355 53 436 78 69 21 127 53 133 74 4 12 -13 61 -44 127 l-50 107 0 1534 0 1534 -1850 0 -1850 0 0 -705 0 -705 23 0 c13 0 318 22 678 49 360 27 741 52 847 56 l192 6 0 -384 0 -385 -347 -7 c-192 -4 -755 -8 -1253 -9 -952 -1 -970 0 -1138 45 -158 42 -247 111 -310 242 -47 95 -68 175 -82 307 -13 126 -13 1864 0 1990 32 305 153 474 390 544 151 45 182 46 1255 46 980 0 1473 -8 1935 -30 473 -23 914 -52 997 -65 l31 -6 156 631 c86 347 156 641 156 655 0 37 -51 71 -155 105 -197 62 -453 101 -805 120 -169 9 -4035 12 -4150 3z"/><path d="M31430 7786 c0 -13 23 -207 50 -430 l50 -406 0 -2575 0 -2575 995 0 995 0 0 981 0 982 248 -6 c752 -16 1179 -183 1732 -676 47 -42 254 -242 460 -446 206 -204 411 -399 455 -435 193 -153 431 -287 622 -349 112 -37 366 -92 563 -123 128 -20 182 -22 470 -23 215 0 357 4 420 13 140 20 390 61 430 72 l35 10 150 566 c83 312 151 572 153 579 2 8 -44 17 -155 28 -178 19 -289 41 -478 93 -350 97 -674 263 -1205 619 -124 83 -285 189 -357 234 l-133 84 97 34 c115 40 300 127 393 185 445 279 723 764 781 1363 17 178 6 624 -19 791 -41 262 -88 420 -179 595 -204 395 -600 669 -1117 774 -309 63 -125 59 -2913 62 l-2543 3 0 -24z m4491 -1422 c126 -39 207 -106 255 -208 39 -84 47 -145 42 -330 -6 -188 -20 -254 -81 -371 -86 -161 -252 -252 -522 -284 -342 -40 -1143 -49 -1717 -18 -174 9 -331 17 -348 17 l-30 0 0 610 0 611 1168 -3 c1147 -3 1168 -4 1233 -24z"/><path d="M9400 5219 l0 -2581 -50 -398 c-27 -219 -50 -408 -50 -419 l0 -21 2758 0 c1722 0 2828 4 2947 10 317 17 544 53 568 91 8 12 -59 161 -294 655 l-304 639 -1808 3 -1807 2 0 2300 0 2300 -980 0 -980 0 0 -2581z"/><path d="M14810 7794 c0 -3 668 -795 1485 -1761 l1485 -1755 0 -1239 0 -1239 990 0 990 0 0 1218 0 1217 1304 1473 1305 1473 191 295 c105 162 193 301 197 309 4 13 -149 15 -1228 14 l-1234 0 -494 -700 c-373 -529 -550 -789 -725 -1069 l-231 -370 -49 3 -48 2 -242 382 c-198 314 -329 503 -736 1067 l-495 686 -1232 0 c-678 0 -1233 -2 -1233 -6z"/><path d="M22810 7779 c0 -11 23 -200 50 -419 l50 -398 0 -2581 0 -2581 2438 0 c1506 0 2489 4 2572 10 599 44 1033 171 1388 406 115 77 311 272 384 384 154 234 246 494 294 836 15 105 18 256 21 1259 5 1345 1 1454 -76 1750 -213 829 -871 1264 -2031 1345 -91 6 -1060 10 -2617 10 l-2473 0 0 -21z m4733 -1406 c212 -60 336 -170 420 -369 57 -136 57 -127 57 -1191 0 -931 -1 -983 -20 -1073 -22 -110 -79 -231 -140 -302 -46 -53 -149 -124 -230 -158 -30 -12 -95 -32 -145 -43 -88 -20 -119 -21 -1337 -24 l-1248 -4 0 1596 0 1596 1283 -3 1282 -3 78 -22z"/></g></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sub">
+      <div class="sub-title">Color & Light Variants</div>
+      <div class="g3">
+        <div class="lc lt"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4000 966" width="200" style="display:block;"><g transform="translate(0,966) scale(0.1,-0.1)" fill="#060608" stroke="none"><path d="M2500 7803 c-313 -24 -627 -103 -855 -213 -121 -58 -282 -164 -382 -252 -328 -287 -513 -722 -563 -1323 -8 -100 -10 -487 -8 -1345 4 -1086 6 -1217 22 -1325 69 -469 204 -793 430 -1032 249 -264 605 -418 1131 -490 121 -17 274 -18 2315 -18 2255 0 2350 1 2715 41 144 16 355 53 436 78 69 21 127 53 133 74 4 12 -13 61 -44 127 l-50 107 0 1534 0 1534 -1850 0 -1850 0 0 -705 0 -705 23 0 c13 0 318 22 678 49 360 27 741 52 847 56 l192 6 0 -384 0 -385 -347 -7 c-192 -4 -755 -8 -1253 -9 -952 -1 -970 0 -1138 45 -158 42 -247 111 -310 242 -47 95 -68 175 -82 307 -13 126 -13 1864 0 1990 32 305 153 474 390 544 151 45 182 46 1255 46 980 0 1473 -8 1935 -30 473 -23 914 -52 997 -65 l31 -6 156 631 c86 347 156 641 156 655 0 37 -51 71 -155 105 -197 62 -453 101 -805 120 -169 9 -4035 12 -4150 3z"/><path d="M31430 7786 c0 -13 23 -207 50 -430 l50 -406 0 -2575 0 -2575 995 0 995 0 0 981 0 982 248 -6 c752 -16 1179 -183 1732 -676 47 -42 254 -242 460 -446 206 -204 411 -399 455 -435 193 -153 431 -287 622 -349 112 -37 366 -92 563 -123 128 -20 182 -22 470 -23 215 0 357 4 420 13 140 20 390 61 430 72 l35 10 150 566 c83 312 151 572 153 579 2 8 -44 17 -155 28 -178 19 -289 41 -478 93 -350 97 -674 263 -1205 619 -124 83 -285 189 -357 234 l-133 84 97 34 c115 40 300 127 393 185 445 279 723 764 781 1363 17 178 6 624 -19 791 -41 262 -88 420 -179 595 -204 395 -600 669 -1117 774 -309 63 -125 59 -2913 62 l-2543 3 0 -24z m4491 -1422 c126 -39 207 -106 255 -208 39 -84 47 -145 42 -330 -6 -188 -20 -254 -81 -371 -86 -161 -252 -252 -522 -284 -342 -40 -1143 -49 -1717 -18 -174 9 -331 17 -348 17 l-30 0 0 610 0 611 1168 -3 c1147 -3 1168 -4 1233 -24z"/><path d="M9400 5219 l0 -2581 -50 -398 c-27 -219 -50 -408 -50 -419 l0 -21 2758 0 c1722 0 2828 4 2947 10 317 17 544 53 568 91 8 12 -59 161 -294 655 l-304 639 -1808 3 -1807 2 0 2300 0 2300 -980 0 -980 0 0 -2581z"/><path d="M14810 7794 c0 -3 668 -795 1485 -1761 l1485 -1755 0 -1239 0 -1239 990 0 990 0 0 1218 0 1217 1304 1473 1305 1473 191 295 c105 162 193 301 197 309 4 13 -149 15 -1228 14 l-1234 0 -494 -700 c-373 -529 -550 -789 -725 -1069 l-231 -370 -49 3 -48 2 -242 382 c-198 314 -329 503 -736 1067 l-495 686 -1232 0 c-678 0 -1233 -2 -1233 -6z"/><path d="M22810 7779 c0 -11 23 -200 50 -419 l50 -398 0 -2581 0 -2581 2438 0 c1506 0 2489 4 2572 10 599 44 1033 171 1388 406 115 77 311 272 384 384 154 234 246 494 294 836 15 105 18 256 21 1259 5 1345 1 1454 -76 1750 -213 829 -871 1264 -2031 1345 -91 6 -1060 10 -2617 10 l-2473 0 0 -21z m4733 -1406 c212 -60 336 -170 420 -369 57 -136 57 -127 57 -1191 0 -931 -1 -983 -20 -1073 -22 -110 -79 -231 -140 -302 -46 -53 -149 -124 -230 -158 -30 -12 -95 -32 -145 -43 -88 -20 -119 -21 -1337 -24 l-1248 -4 0 1596 0 1596 1283 -3 1282 -3 78 -22z"/></g></svg></div>
+        <div class="lc cy"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4000 966" width="200" style="display:block;"><g transform="translate(0,966) scale(0.1,-0.1)" fill="#060608" stroke="none"><path d="M2500 7803 c-313 -24 -627 -103 -855 -213 -121 -58 -282 -164 -382 -252 -328 -287 -513 -722 -563 -1323 -8 -100 -10 -487 -8 -1345 4 -1086 6 -1217 22 -1325 69 -469 204 -793 430 -1032 249 -264 605 -418 1131 -490 121 -17 274 -18 2315 -18 2255 0 2350 1 2715 41 144 16 355 53 436 78 69 21 127 53 133 74 4 12 -13 61 -44 127 l-50 107 0 1534 0 1534 -1850 0 -1850 0 0 -705 0 -705 23 0 c13 0 318 22 678 49 360 27 741 52 847 56 l192 6 0 -384 0 -385 -347 -7 c-192 -4 -755 -8 -1253 -9 -952 -1 -970 0 -1138 45 -158 42 -247 111 -310 242 -47 95 -68 175 -82 307 -13 126 -13 1864 0 1990 32 305 153 474 390 544 151 45 182 46 1255 46 980 0 1473 -8 1935 -30 473 -23 914 -52 997 -65 l31 -6 156 631 c86 347 156 641 156 655 0 37 -51 71 -155 105 -197 62 -453 101 -805 120 -169 9 -4035 12 -4150 3z"/><path d="M31430 7786 c0 -13 23 -207 50 -430 l50 -406 0 -2575 0 -2575 995 0 995 0 0 981 0 982 248 -6 c752 -16 1179 -183 1732 -676 47 -42 254 -242 460 -446 206 -204 411 -399 455 -435 193 -153 431 -287 622 -349 112 -37 366 -92 563 -123 128 -20 182 -22 470 -23 215 0 357 4 420 13 140 20 390 61 430 72 l35 10 150 566 c83 312 151 572 153 579 2 8 -44 17 -155 28 -178 19 -289 41 -478 93 -350 97 -674 263 -1205 619 -124 83 -285 189 -357 234 l-133 84 97 34 c115 40 300 127 393 185 445 279 723 764 781 1363 17 178 6 624 -19 791 -41 262 -88 420 -179 595 -204 395 -600 669 -1117 774 -309 63 -125 59 -2913 62 l-2543 3 0 -24z m4491 -1422 c126 -39 207 -106 255 -208 39 -84 47 -145 42 -330 -6 -188 -20 -254 -81 -371 -86 -161 -252 -252 -522 -284 -342 -40 -1143 -49 -1717 -18 -174 9 -331 17 -348 17 l-30 0 0 610 0 611 1168 -3 c1147 -3 1168 -4 1233 -24z"/><path d="M9400 5219 l0 -2581 -50 -398 c-27 -219 -50 -408 -50 -419 l0 -21 2758 0 c1722 0 2828 4 2947 10 317 17 544 53 568 91 8 12 -59 161 -294 655 l-304 639 -1808 3 -1807 2 0 2300 0 2300 -980 0 -980 0 0 -2581z"/><path d="M14810 7794 c0 -3 668 -795 1485 -1761 l1485 -1755 0 -1239 0 -1239 990 0 990 0 0 1218 0 1217 1304 1473 1305 1473 191 295 c105 162 193 301 197 309 4 13 -149 15 -1228 14 l-1234 0 -494 -700 c-373 -529 -550 -789 -725 -1069 l-231 -370 -49 3 -48 2 -242 382 c-198 314 -329 503 -736 1067 l-495 686 -1232 0 c-678 0 -1233 -2 -1233 -6z"/><path d="M22810 7779 c0 -11 23 -200 50 -419 l50 -398 0 -2581 0 -2581 2438 0 c1506 0 2489 4 2572 10 599 44 1033 171 1388 406 115 77 311 272 384 384 154 234 246 494 294 836 15 105 18 256 21 1259 5 1345 1 1454 -76 1750 -213 829 -871 1264 -2031 1345 -91 6 -1060 10 -2617 10 l-2473 0 0 -21z m4733 -1406 c212 -60 336 -170 420 -369 57 -136 57 -127 57 -1191 0 -931 -1 -983 -20 -1073 -22 -110 -79 -231 -140 -302 -46 -53 -149 -124 -230 -158 -30 -12 -95 -32 -145 -43 -88 -20 -119 -21 -1337 -24 l-1248 -4 0 1596 0 1596 1283 -3 1282 -3 78 -22z"/></g></svg></div>
+        <div class="lc blk"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4000 966" width="220" style="display:block;margin:0 auto;"><g transform="translate(0,966) scale(0.1,-0.1)" fill="#FFFFFF" stroke="none"><path d="M2500 7803 c-313 -24 -627 -103 -855 -213 -121 -58 -282 -164 -382 -252 -328 -287 -513 -722 -563 -1323 -8 -100 -10 -487 -8 -1345 4 -1086 6 -1217 22 -1325 69 -469 204 -793 430 -1032 249 -264 605 -418 1131 -490 121 -17 274 -18 2315 -18 2255 0 2350 1 2715 41 144 16 355 53 436 78 69 21 127 53 133 74 4 12 -13 61 -44 127 l-50 107 0 1534 0 1534 -1850 0 -1850 0 0 -705 0 -705 23 0 c13 0 318 22 678 49 360 27 741 52 847 56 l192 6 0 -384 0 -385 -347 -7 c-192 -4 -755 -8 -1253 -9 -952 -1 -970 0 -1138 45 -158 42 -247 111 -310 242 -47 95 -68 175 -82 307 -13 126 -13 1864 0 1990 32 305 153 474 390 544 151 45 182 46 1255 46 980 0 1473 -8 1935 -30 473 -23 914 -52 997 -65 l31 -6 156 631 c86 347 156 641 156 655 0 37 -51 71 -155 105 -197 62 -453 101 -805 120 -169 9 -4035 12 -4150 3z"/><path d="M31430 7786 c0 -13 23 -207 50 -430 l50 -406 0 -2575 0 -2575 995 0 995 0 0 981 0 982 248 -6 c752 -16 1179 -183 1732 -676 47 -42 254 -242 460 -446 206 -204 411 -399 455 -435 193 -153 431 -287 622 -349 112 -37 366 -92 563 -123 128 -20 182 -22 470 -23 215 0 357 4 420 13 140 20 390 61 430 72 l35 10 150 566 c83 312 151 572 153 579 2 8 -44 17 -155 28 -178 19 -289 41 -478 93 -350 97 -674 263 -1205 619 -124 83 -285 189 -357 234 l-133 84 97 34 c115 40 300 127 393 185 445 279 723 764 781 1363 17 178 6 624 -19 791 -41 262 -88 420 -179 595 -204 395 -600 669 -1117 774 -309 63 -125 59 -2913 62 l-2543 3 0 -24z m4491 -1422 c126 -39 207 -106 255 -208 39 -84 47 -145 42 -330 -6 -188 -20 -254 -81 -371 -86 -161 -252 -252 -522 -284 -342 -40 -1143 -49 -1717 -18 -174 9 -331 17 -348 17 l-30 0 0 610 0 611 1168 -3 c1147 -3 1168 -4 1233 -24z"/><path d="M9400 5219 l0 -2581 -50 -398 c-27 -219 -50 -408 -50 -419 l0 -21 2758 0 c1722 0 2828 4 2947 10 317 17 544 53 568 91 8 12 -59 161 -294 655 l-304 639 -1808 3 -1807 2 0 2300 0 2300 -980 0 -980 0 0 -2581z"/><path d="M14810 7794 c0 -3 668 -795 1485 -1761 l1485 -1755 0 -1239 0 -1239 990 0 990 0 0 1218 0 1217 1304 1473 1305 1473 191 295 c105 162 193 301 197 309 4 13 -149 15 -1228 14 l-1234 0 -494 -700 c-373 -529 -550 -789 -725 -1069 l-231 -370 -49 3 -48 2 -242 382 c-198 314 -329 503 -736 1067 l-495 686 -1232 0 c-678 0 -1233 -2 -1233 -6z"/><path d="M22810 7779 c0 -11 23 -200 50 -419 l50 -398 0 -2581 0 -2581 2438 0 c1506 0 2489 4 2572 10 599 44 1033 171 1388 406 115 77 311 272 384 384 154 234 246 494 294 836 15 105 18 256 21 1259 5 1345 1 1454 -76 1750 -213 829 -871 1264 -2031 1345 -91 6 -1060 10 -2617 10 l-2473 0 0 -21z m4733 -1406 c212 -60 336 -170 420 -369 57 -136 57 -127 57 -1191 0 -931 -1 -983 -20 -1073 -22 -110 -79 -231 -140 -302 -46 -53 -149 -124 -230 -158 -30 -12 -95 -32 -145 -43 -88 -20 -119 -21 -1337 -24 l-1248 -4 0 1596 0 1596 1283 -3 1282 -3 78 -22z"/></g></svg></div>
+      </div>
+    </div>
+    <div class="sub">
+      <div class="sub-title">Logo Mark</div>
+      <div class="g4">
+        <div class="lc blk" style="min-height:110px;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="72" height="72" viewBox="0 0 80 80" fill="none" style="position:relative;z-index:1;">
+            <rect x="1" y="1" width="78" height="78" rx="12" stroke="#2A2D3E" stroke-width="1.5"/>
+            <path d="M50 28H38C32.477 28 28 32.477 28 38V42C28 47.523 32.477 52 38 52H46V44H40V38H52V42C52 47.523 47.523 52 42 52" stroke="#00E5FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M44 44H52" stroke="#AAFF00" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="lc cy" style="min-height:110px;border:none;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="72" height="72" viewBox="0 0 80 80" fill="none" style="position:relative;z-index:1;">
+            <path d="M50 28H38C32.477 28 28 32.477 28 38V42C28 47.523 32.477 52 38 52H46V44H40V38H52V42C52 47.523 47.523 52 42 52" stroke="#050608" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M44 44H52" stroke="#050608" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="lc lt" style="min-height:110px;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="72" height="72" viewBox="0 0 80 80" fill="none" style="position:relative;z-index:1;">
+            <rect x="1" y="1" width="78" height="78" rx="12" stroke="#DDDFF0" stroke-width="1.5"/>
+            <path d="M50 28H38C32.477 28 28 32.477 28 38V42C28 47.523 32.477 52 38 52H46V44H40V38H52V42C52 47.523 47.523 52 42 52" stroke="#0A9CAF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M44 44H52" stroke="#5A7A00" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="lc blk" style="min-height:110px;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 80 80" fill="none" style="position:relative;z-index:1;">
+            <path d="M50 28H38C32.477 28 28 32.477 28 38V42C28 47.523 32.477 52 38 52H46V44H40V38H52V42C52 47.523 47.523 52 42 52" stroke="#00E5FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M44 44H52" stroke="#AAFF00" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <div class="sub">
+      <div class="sub-title">Usage Rules</div>
+      <div class="g2">
+        <div class="ud"><div class="uh">✓ Do</div><ul class="ut" style="padding-left:1.2em;line-height:2.1;"><li>Use Barlow Condensed 900 only</li><li>Maintain 0.5× height clearance on all sides</li><li>Use cyan Y-accent on dark / surface BGs</li><li>Ghost/outline variant for large display only</li></ul></div>
+        <div class="ux"><div class="uh">✗ Don't</div><ul class="ut" style="padding-left:1.2em;line-height:2.1;"><li>Never stretch, skew, or rotate the mark</li><li>Never use cyan accent on light backgrounds</li><li>Never add drop shadows or filters</li><li>Never place on busy photos without a scrim</li></ul></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COLOR -->
+<section id="color" class="pg">
+  <div class="sec-hdr">
+    <div class="eyebrow">Foundation</div>
+    <div class="sec-title">Color System</div>
+    <div class="sec-desc">Built for dark environments. Electric Cyan is the primary action color. Plasma Volt surfaces data and achievements. Ember is reserved strictly for buy CTAs and urgency states.</div>
+  </div>
+  <div class="sec-body">
+    <div class="sub">
+      <div class="sub-title">Brand Colors</div>
+      <div class="g3">
+        <div class="swatch glow-c"><div class="sw-color" style="background:var(--g-cyan)"><div class="sw-aa dk">Aa</div></div><div class="sw-info"><div class="sw-name">Electric Cyan</div><div class="sw-hex">#00E5FF</div><div class="sw-role">Primary action, links, focus</div></div></div>
+        <div class="swatch glow-v"><div class="sw-color" style="background:var(--g-volt)"><div class="sw-aa dk">Aa</div></div><div class="sw-info"><div class="sw-name">Plasma Volt</div><div class="sw-hex">#AAFF00</div><div class="sw-role">Stats, achievements, success</div></div></div>
+        <div class="swatch glow-e"><div class="sw-color" style="background:var(--g-ember)"><div class="sw-aa">Aa</div></div><div class="sw-info"><div class="sw-name">Ember</div><div class="sw-hex">#FF4D1C</div><div class="sw-role">Buy CTA, urgency, errors</div></div></div>
+      </div>
+    </div>
+    <div class="sub">
+      <div class="sub-title">Background Scale</div>
+      <div class="g5">
+        <div class="swatch"><div class="sw-color" style="background:var(--g-black);border-bottom:1px solid var(--g-border)"><div class="sw-aa">Aa</div></div><div class="sw-info"><div class="sw-name">Void</div><div class="sw-hex">#050608</div><div class="sw-role">Page bg</div></div></div>
+        <div class="swatch"><div class="sw-color" style="background:var(--g-void)"><div class="sw-aa">Aa</div></div><div class="sw-info"><div class="sw-name">Dark</div><div class="sw-hex">#0C0D13</div><div class="sw-role">Sidebar</div></div></div>
+        <div class="swatch"><div class="sw-color" style="background:var(--g-surface)"><div class="sw-aa">Aa</div></div><div class="sw-info"><div class="sw-name">Surface</div><div class="sw-hex">#181923</div><div class="sw-role">Cards</div></div></div>
+        <div class="swatch"><div class="sw-color" style="background:var(--g-panel)"><div class="sw-aa">Aa</div></div><div class="sw-info"><div class="sw-name">Panel</div><div class="sw-hex">#1E2030</div><div class="sw-role">Inputs</div></div></div>
+        <div class="swatch"><div class="sw-color" style="background:var(--g-border)"><div class="sw-aa">Aa</div></div><div class="sw-info"><div class="sw-name">Border</div><div class="sw-hex">#2A2D3E</div><div class="sw-role">Dividers</div></div></div>
+      </div>
+    </div>
+    <div class="sub">
+      <div class="sub-title">Text Scale</div>
+      <div class="g4">
+        <div class="swatch"><div class="sw-color" style="background:#FFF"><div class="sw-aa dk">Aa</div></div><div class="sw-info"><div class="sw-name">White</div><div class="sw-hex">#FFFFFF</div><div class="sw-role">Headlines</div></div></div>
+        <div class="swatch"><div class="sw-color" style="background:var(--g-offwhite)"><div class="sw-aa dk">Aa</div></div><div class="sw-info"><div class="sw-name">Off-White</div><div class="sw-hex">#E8EAFF</div><div class="sw-role">Body text</div></div></div>
+        <div class="swatch"><div class="sw-color" style="background:var(--g-light)"><div class="sw-aa dk">Aa</div></div><div class="sw-info"><div class="sw-name">Light</div><div class="sw-hex">#A8ADCB</div><div class="sw-role">Secondary text</div></div></div>
+        <div class="swatch"><div class="sw-color" style="background:var(--g-mid)"><div class="sw-aa">Aa</div></div><div class="sw-info"><div class="sw-name">Mid</div><div class="sw-hex">#6B708C</div><div class="sw-role">Captions / meta</div></div></div>
+      </div>
+    </div>
+    <div class="sub">
+      <div class="sub-title">Gradients</div>
+      <div class="g4">
+        <div class="gt-tile" style="background:var(--g-gradient-primary)"><span class="gt-lbl">Primary</span></div>
+        <div class="gt-tile" style="background:var(--g-gradient-accent)"><span class="gt-lbl">Accent</span></div>
+        <div class="gt-tile" style="background:var(--g-gradient-ember)"><span class="gt-lbl">Ember</span></div>
+        <div class="gt-tile" style="background:var(--g-gradient-dark)"><span class="gt-lbl" style="color:var(--g-mid)">Dark</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TYPOGRAPHY -->
+<section id="type" class="pg">
+  <div class="sec-hdr">
+    <div class="eyebrow">Foundation</div>
+    <div class="sec-title">Typography</div>
+    <div class="sec-desc">Three fonts. Barlow Condensed for display power. Barlow for readable body. Share Tech Mono for data, labels, and HUD elements throughout the UI.</div>
+  </div>
+  <div class="sec-body">
+    <div class="sub">
+      <div class="sub-title">Display — Barlow Condensed</div>
+      <div class="ts"><div class="ts-meta"><div class="ts-lbl">Hero / 900</div><div class="ts-vals"><span>clamp(60–120px)</span><span>Weight 900</span><span>Tracking -0.01em</span></div></div><div class="ts-body"><div style="font-family:var(--font-display);font-size:clamp(52px,8vw,100px);font-weight:900;letter-spacing:-.01em;line-height:.9;color:var(--g-white);text-transform:uppercase;">UNLOCK YOUR<br><span style="color:var(--g-cyan)">FULL GAME</span></div></div></div>
+      <div class="ts"><div class="ts-meta"><div class="ts-lbl">H1 / 900</div><div class="ts-vals"><span>48–72px</span><span>Weight 900</span></div></div><div class="ts-body"><div style="font-family:var(--font-display);font-size:clamp(34px,4vw,58px);font-weight:900;letter-spacing:.02em;text-transform:uppercase;line-height:1;color:var(--g-white);">THE FOOT CONTROLLER REDEFINED</div></div></div>
+      <div class="ts"><div class="ts-meta"><div class="ts-lbl">H2 / 800</div><div class="ts-vals"><span>32–48px</span><span>Weight 800</span></div></div><div class="ts-body"><div style="font-family:var(--font-display);font-size:clamp(26px,3vw,42px);font-weight:800;letter-spacing:.03em;text-transform:uppercase;color:var(--g-white);">16 Actions. Analog Precision.</div></div></div>
+      <div class="ts"><div class="ts-meta"><div class="ts-lbl">H3 / 700</div><div class="ts-vals"><span>20–30px</span><span>Weight 700</span></div></div><div class="ts-body"><div style="font-family:var(--font-display);font-size:clamp(18px,2.2vw,28px);font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--g-white);">Compatible with Your Entire Library</div></div></div>
+    </div>
+    <div class="sub">
+      <div class="sub-title">Body — Barlow</div>
+      <div class="ts"><div class="ts-meta"><div class="ts-lbl">Body Large / 400</div><div class="ts-vals"><span>17px</span><span>Line-height 1.75</span></div></div><div class="ts-body"><div style="font-family:var(--font-body);font-size:17px;line-height:1.75;color:var(--g-light);max-width:580px;">GLYDR is the first analog dual foot controller built for gamers, VR users, and creators. It gives you up to 16 additional actions, letting your hands focus on precision while your feet handle movement, emotes, and utility keys.</div></div></div>
+      <div class="ts"><div class="ts-meta"><div class="ts-lbl">Body / 400</div><div class="ts-vals"><span>15px</span><span>Line-height 1.65</span></div></div><div class="ts-body"><div style="font-family:var(--font-body);font-size:15px;line-height:1.65;color:var(--g-mid);max-width:580px;">Made from metal and high-quality plastic, GLYDR is engineered to withstand years of daily use. The ergonomic form factor keeps your feet in a natural resting position, reducing fatigue across long sessions.</div></div></div>
+    </div>
+    <div class="sub">
+      <div class="sub-title">Mono — Share Tech Mono</div>
+      <div class="ts"><div class="ts-meta"><div class="ts-lbl">Labels / HUD / Data</div><div class="ts-vals"><span>9–12px</span><span>Letter-spacing 0.2em</span></div></div><div class="ts-body" style="display:flex;flex-direction:column;gap:10px;"><div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:var(--g-cyan);">// SYS.STATUS — DEVICE CONNECTED</div><div style="font-family:var(--font-mono);font-size:11px;letter-spacing:.15em;color:var(--g-mid);">PROFILE_ACTIVE: WARZONE.CFG</div><div style="font-family:var(--font-mono);font-size:20px;color:var(--g-volt);">16.00 ms</div><div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.2em;color:var(--g-muted);">VERSION 2.4.1 — BUILD 20250317</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SPACING -->
+<section id="spacing" class="pg">
+  <div class="sec-hdr">
+    <div class="eyebrow">Foundation</div>
+    <div class="sec-title">Spacing & Grid</div>
+    <div class="sec-desc">An 8-point base grid drives all spacing. Named tokens ensure consistency across components. Section padding scales from 32px (mobile) to 64px (desktop).</div>
+  </div>
+  <div class="sec-body">
+    <div class="sub">
+      <div class="sub-title">Spacing Scale</div>
+      <div class="sp-row"><div class="sp-lbl">--sp-2</div><div class="sp-bar-wrap"><div class="sp-bar" style="width:2px"></div></div><div class="sp-px">2px</div></div>
+      <div class="sp-row"><div class="sp-lbl">--sp-4</div><div class="sp-bar-wrap"><div class="sp-bar" style="width:4px"></div></div><div class="sp-px">4px</div></div>
+      <div class="sp-row"><div class="sp-lbl">--sp-8</div><div class="sp-bar-wrap"><div class="sp-bar" style="width:8px"></div></div><div class="sp-px">8px</div></div>
+      <div class="sp-row"><div class="sp-lbl">--sp-12</div><div class="sp-bar-wrap"><div class="sp-bar" style="width:12px"></div></div><div class="sp-px">12px</div></div>
+      <div class="sp-row"><div class="sp-lbl">--sp-16</div><div class="sp-bar-wrap"><div class="sp-bar" style="width:16px"></div></div><div class="sp-px">16px</div></div>
+      <div class="sp-row"><div class="sp-lbl">--sp-24</div><div class="sp-bar-wrap"><div class="sp-bar" style="width:24px"></div></div><div class="sp-px">24px</div></div>
+      <div class="sp-row"><div class="sp-lbl">--sp-32</div><div class="sp-bar-wrap"><div class="sp-bar" style="width:32px"></div></div><div class="sp-px">32px</div></div>
+      <div class="sp-row"><div class="sp-lbl">--sp-48</div><div class="sp-bar-wrap"><div class="sp-bar" style="width:48px"></div></div><div class="sp-px">48px</div></div>
+      <div class="sp-row"><div class="sp-lbl">--sp-64</div><div class="sp-bar-wrap"><div class="sp-bar" style="width:64px"></div></div><div class="sp-px">64px</div></div>
+      <div class="sp-row"><div class="sp-lbl">--sp-96</div><div class="sp-bar-wrap"><div class="sp-bar" style="width:96px"></div></div><div class="sp-px">96px</div></div>
+      <div class="sp-row"><div class="sp-lbl">--sp-128</div><div class="sp-bar-wrap"><div class="sp-bar" style="width:128px"></div></div><div class="sp-px">128px</div></div>
+    </div>
+    <div class="sub">
+      <div class="sub-title">Layout Grid</div>
+      <div style="background:var(--g-surface);border:1px solid var(--g-border);border-radius:8px;overflow:hidden;">
+        <table class="gt"><thead><tr><th>Context</th><th>Columns</th><th>Gutter</th><th>Margin</th><th>Max Width</th></tr></thead><tbody>
+          <tr><td>Mobile</td><td>4</td><td>16px</td><td>16px</td><td>—</td></tr>
+          <tr><td>Tablet</td><td>8</td><td>24px</td><td>32px</td><td>—</td></tr>
+          <tr><td>Desktop</td><td>12</td><td>32px</td><td>64px</td><td>1280px</td></tr>
+          <tr><td>Wide</td><td>12</td><td>40px</td><td>80px</td><td>1440px</td></tr>
+        </tbody></table>
+      </div>
+    </div>
+    <div class="sub">
+      <div class="sub-title">Border Radius</div>
+      <div class="g5">
+        <div style="background:var(--g-surface);border:1px solid var(--g-border);border-radius:2px;padding:20px;text-align:center;"><div style="font-family:var(--font-mono);font-size:9px;color:var(--g-mid);margin-bottom:3px">--r-sm</div><div style="font-family:var(--font-mono);font-size:11px;color:var(--g-cyan)">2px</div></div>
+        <div style="background:var(--g-surface);border:1px solid var(--g-border);border-radius:4px;padding:20px;text-align:center;"><div style="font-family:var(--font-mono);font-size:9px;color:var(--g-mid);margin-bottom:3px">--r-md</div><div style="font-family:var(--font-mono);font-size:11px;color:var(--g-cyan)">4px</div></div>
+        <div style="background:var(--g-surface);border:1px solid var(--g-border);border-radius:8px;padding:20px;text-align:center;"><div style="font-family:var(--font-mono);font-size:9px;color:var(--g-mid);margin-bottom:3px">--r-lg</div><div style="font-family:var(--font-mono);font-size:11px;color:var(--g-cyan)">8px</div></div>
+        <div style="background:var(--g-surface);border:1px solid var(--g-border);border-radius:12px;padding:20px;text-align:center;"><div style="font-family:var(--font-mono);font-size:9px;color:var(--g-mid);margin-bottom:3px">--r-xl</div><div style="font-family:var(--font-mono);font-size:11px;color:var(--g-cyan)">12px</div></div>
+        <div style="background:var(--g-surface);border:1px solid var(--g-border);border-radius:9999px;padding:20px;text-align:center;"><div style="font-family:var(--font-mono);font-size:9px;color:var(--g-mid);margin-bottom:3px">--r-pill</div><div style="font-family:var(--font-mono);font-size:11px;color:var(--g-cyan)">9999px</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MOTION -->
+<section id="motion" class="pg">
+  <div class="sec-hdr">
+    <div class="eyebrow">Foundation</div>
+    <div class="sec-title">Motion & Animation</div>
+    <div class="sec-desc">Motion feels decisive, mechanical, and quick — HUD aesthetic, game UI overlays, tactical feedback. Fast in, fast out.</div>
+  </div>
+  <div class="sec-body">
+    <div class="sub">
+      <div class="sub-title">Duration & Easing</div>
+      <div class="mc"><div class="mp"><div class="mpf"></div></div><div><div class="mn">--dur-fast · 150ms · ease</div><div class="mv">Hover states, focus rings, microinteractions</div></div></div>
+      <div class="mc"><div class="mp"><div class="mpf"></div></div><div><div class="mn">--dur-mid · 300ms · ease-out-expo</div><div class="mv">Card reveals, button lifts, dropdown opens</div></div></div>
+      <div class="mc"><div class="mp"><div class="mpf"></div></div><div><div class="mn">--dur-slow · 600ms · ease-out-expo</div><div class="mv">Page transitions, hero reveals, stat counters</div></div></div>
+    </div>
+    <div class="sub">
+      <div class="sub-title">Animation Patterns</div>
+      <div class="g3">
+        <div class="ad"><div class="pulse-dot"></div><div class="ad-lbl">Pulse Ring — Status / Live</div></div>
+        <div class="ad"><div class="scan-c" style="width:100%;height:70px;"><div class="scan-l"></div></div><div class="ad-lbl">Scan Line — Loading</div></div>
+        <div class="ad"><div class="glt" data-text="GLYDR">GLYDR</div><div class="ad-lbl">Glitch Shift — Error / Alert</div></div>
+      </div>
+    </div>
+    <div class="sub">
+      <div class="sub-title">Progress Bars</div>
+      <div style="background:var(--g-surface);border:1px solid var(--g-border);border-radius:10px;padding:28px;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:7px;"><span style="font-family:var(--font-mono);font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--g-mid);">Response time</span><span style="font-family:var(--font-mono);font-size:9px;color:var(--g-cyan);">12ms avg</span></div>
+        <div class="gp"><div class="gpb gpc" style="width:78%"></div></div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:7px;"><span style="font-family:var(--font-mono);font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--g-mid);">Actions mapped</span><span style="font-family:var(--font-mono);font-size:9px;color:var(--g-volt);">14 / 16</span></div>
+        <div class="gp"><div class="gpb gpv" style="width:87%"></div></div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:7px;"><span style="font-family:var(--font-mono);font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--g-mid);">Battery</span><span style="font-family:var(--font-mono);font-size:9px;color:var(--g-ember);">23%</span></div>
+        <div class="gp"><div class="gpb gpe" style="width:23%"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BUTTONS -->
+<section id="buttons" class="pg">
+  <div class="sec-hdr">
+    <div class="eyebrow">Components</div>
+    <div class="sec-title">Buttons</div>
+    <div class="sec-desc">All buttons use Barlow Condensed Bold, uppercase, tracked wide. Primary = cyan. Accent = volt. Destructive = ember. Ghost variants for secondary actions.</div>
+  </div>
+  <div class="sec-body">
+    <div class="sub">
+      <div class="sub-title">Solid Variants</div>
+      <div class="br">
+        <button class="btn btn-xl bp">Order Now</button>
+        <button class="btn btn-xl bv">Get Started</button>
+        <button class="btn btn-xl be">Limited Drop</button>
+      </div>
+      <div class="br">
+        <button class="btn btn-lg bp">Buy Now</button>
+        <button class="btn btn-lg bv">Download App</button>
+        <button class="btn btn-lg be">Flash Sale</button>
+      </div>
+      <div class="br">
+        <button class="btn btn-md bp">Add to Cart</button>
+        <button class="btn btn-md bv">Learn More</button>
+        <button class="btn btn-md be">Notify Me</button>
+      </div>
+      <div class="br">
+        <button class="btn btn-sm bp">Shop</button>
+        <button class="btn btn-sm bv">Docs</button>
+        <button class="btn btn-sm be">Sale</button>
+      </div>
+    </div>
+    <div class="sub">
+      <div class="sub-title">Ghost / Outline Variants</div>
+      <div class="br">
+        <button class="btn btn-lg bg">Join Discord</button>
+        <button class="btn btn-lg bgv">Watch Demo</button>
+        <button class="btn btn-lg bo">View Patents</button>
+        <button class="btn btn-lg bs">Downloads</button>
+      </div>
+    </div>
+    <div class="sub">
+      <div class="sub-title">Icon Buttons</div>
+      <div class="br">
+        <button class="btn btn-icon btn-lg">→</button>
+        <button class="btn btn-icon btn-lg" style="color:var(--g-volt);border-color:var(--g-volt);">↓</button>
+        <button class="btn btn-icon btn-lg" style="color:var(--g-ember);border-color:var(--g-ember);">✕</button>
+        <button class="btn btn-icon btn-lg">☰</button>
+        <button class="btn btn-icon btn-lg">⚙</button>
+      </div>
+    </div>
+    <div class="sub">
+      <div class="sub-title">Disabled State</div>
+      <div class="br">
+        <button class="btn btn-lg bp" disabled style="opacity:.3;cursor:not-allowed;">Out of Stock</button>
+        <button class="btn btn-lg bg" disabled style="opacity:.3;cursor:not-allowed;">Coming Soon</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BADGES -->
+<section id="badges" class="pg">
+  <div class="sec-hdr">
+    <div class="eyebrow">Components</div>
+    <div class="sec-title">Badges & Tags</div>
+    <div class="sec-desc">Share Tech Mono, all-caps, tracked tight. Badges communicate status and category. Tags are interactive filters.</div>
+  </div>
+  <div class="sec-body">
+    <div class="sub">
+      <div class="sub-title">Status Badges</div>
+      <div class="badge-row">
+        <span class="badge bc"><span class="dot-i"></span>Now Shipping</span>
+        <span class="badge bc"><span class="dot-i"></span>In Stock</span>
+        <span class="badge bdc"><span class="dot-i"></span>New Feature</span>
+        <span class="badge bde"><span class="dot-i"></span>Limited</span>
+        <span class="badge bdm">PC Only</span>
+        <span class="badge bdw">Beta</span>
+        <span class="badge bdg">Award Winner</span>
+      </div>
+    </div>
+    <div class="sub">
+      <div class="sub-title">Game Genre Tags</div>
+      <div class="badge-row">
+        <span class="badge bde">FPS</span>
+        <span class="badge bc">MMO</span>
+        <span class="badge bdc">Racing</span>
+        <span class="badge bdm">VR</span>
+        <span class="badge bdm">Strategy</span>
+        <span class="badge bc">Streaming</span>
+        <span class="badge bdm">Flight Sim</span>
+        <span class="badge bde">Battle Royale</span>
+      </div>
+    </div>
+    <div class="sub">
+      <div class="sub-title">Platform Compatibility</div>
+      <div class="badge-row">
+        <span class="badge bdc"><span class="dot-i"></span>Windows</span>
+        <span class="badge bdc"><span class="dot-i"></span>macOS</span>
+        <span class="badge bc">Linux Beta</span>
+        <span class="badge bdm">iOS Coming</span>
+        <span class="badge bdm">Android Coming</span>
+      </div>
+    </div>
+    <div class="sub">
+      <div class="sub-title">Interactive Filter Tags</div>
+      <div style="background:var(--g-surface);border:1px solid var(--g-border);border-radius:10px;padding:24px;">
+        <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--g-muted);margin-bottom:14px;">Filter by genre</div>
+        <div class="badge-row" id="tag-row">
+          <span class="badge bc" style="cursor:pointer;" onclick="toggleTag(this)"><span class="dot-i"></span>All</span>
+          <span class="badge bdm" style="cursor:pointer;" onclick="toggleTag(this)">FPS</span>
+          <span class="badge bdm" style="cursor:pointer;" onclick="toggleTag(this)">MMO</span>
+          <span class="badge bdm" style="cursor:pointer;" onclick="toggleTag(this)">VR</span>
+          <span class="badge bdm" style="cursor:pointer;" onclick="toggleTag(this)">Racing</span>
+          <span class="badge bdm" style="cursor:pointer;" onclick="toggleTag(this)">Streaming</span>
+          <span class="badge bdm" style="cursor:pointer;" onclick="toggleTag(this)">Productivity</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CARDS -->
+<section id="cards" class="pg">
+  <div class="sec-hdr">
+    <div class="eyebrow">Components</div>
+    <div class="sec-title">Cards</div>
+    <div class="sec-desc">Dark surface cards with subtle border-top gradient on hover. Stat cards use large Barlow Condensed numerals. Feature cards use icon + title + body pattern.</div>
+  </div>
+  <div class="sec-body">
+    <div class="sub">
+      <div class="sub-title">Feature Cards</div>
+      <div class="g4">
+        <div class="fc"><div class="fi">⚡</div><div class="ft">16 Actions</div><div class="fd">Map up to 16 actions to your feet. Crouch, sprint, emote, loot — anything.</div></div>
+        <div class="fc"><div class="fi" style="background:var(--g-volt-ghost);border-color:rgba(170,255,0,.15);color:var(--g-volt);">🎯</div><div class="ft">Analog Precision</div><div class="fd">12-bit ADC sensors with per-pedal dead zone and sensitivity config.</div></div>
+        <div class="fc"><div class="fi">📡</div><div class="ft">Wireless + Wired</div><div class="fd">Bluetooth 5.0 for the couch. USB-C for zero-latency ranked play.</div></div>
+        <div class="fc"><div class="fi" style="background:var(--g-ember-ghost);border-color:rgba(255,77,28,.15);color:var(--g-ember);">🔧</div><div class="ft">Endless Config</div><div class="fd">Per-game profiles, haptic feedback, sensitivity sliders. Your exact setup.</div></div>
+      </div>
+    </div>
+    <div class="sub">
+      <div class="sub-title">Stat Cards</div>
+      <div class="g4">
+        <div class="sc"><div class="sl">Kickstarter raised</div><div class="sv">$83K</div><div class="sc-ch">↑ 166% of goal</div></div>
+        <div class="sc"><div class="sl">Backers</div><div class="sv" style="color:var(--g-volt);">454</div><div class="sc-ch" style="color:var(--g-volt);">Funded in 40 min</div></div>
+        <div class="sc"><div class="sl">Mappable actions</div><div class="sv">16</div><div class="sc-ch">Per foot profile</div></div>
+        <div class="sc"><div class="sl">Latency</div><div class="sv" style="color:var(--g-ember);">12ms</div><div class="sc-ch">USB-C wired mode</div></div>
+      </div>
+    </div>
+    <div class="sub">
+      <div class="sub-title">Product Card</div>
+      <div style="max-width:320px;">
+        <div style="background:var(--g-surface);border:1px solid var(--g-border);border-radius:12px;overflow:hidden;">
+          <div style="background:var(--g-panel);height:180px;display:flex;align-items:center;justify-content:center;position:relative;">
+            <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:.15em;color:var(--g-muted);">[ Product Image ]</div>
+            <span class="badge bc" style="position:absolute;top:12px;left:12px;"><span class="dot-i"></span>In Stock</span>
+          </div>
+          <div style="padding:20px 22px 24px;">
+            <div style="font-family:var(--font-mono);font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:var(--g-cyan);margin-bottom:6px;">Analog Foot Controller</div>
+            <div style="font-family:var(--font-display);font-size:22px;font-weight:900;text-transform:uppercase;letter-spacing:.03em;color:var(--g-white);margin-bottom:8px;">GLYDR</div>
+            <div style="font-size:12px;color:var(--g-mid);margin-bottom:16px;line-height:1.6;">The world's most versatile foot controller for PC gaming &amp; VR.</div>
+            <div style="display:flex;align-items:center;justify-content:space-between;">
+              <div style="font-family:var(--font-display);font-size:26px;font-weight:900;color:var(--g-white);">$299</div>
+              <button class="btn btn-md bp">Buy Now</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FORMS -->
+<section id="forms" class="pg">
+  <div class="sec-hdr">
+    <div class="eyebrow">Components</div>
+    <div class="sec-title">Forms & Inputs</div>
+    <div class="sec-desc">Dark panel inputs with cyan focus rings. Labels in Share Tech Mono all-caps. Error states use ember red. Select uses custom SVG caret.</div>
+  </div>
+  <div class="sec-body">
+    <div class="sub">
+      <div class="sub-title">Text Inputs</div>
+      <div class="g2">
+        <div>
+          <div class="ig"><label class="il">Email Address</label><input class="gi" type="email" placeholder="you@email.com"></div>
+          <div class="ig"><label class="il">Full Name</label><input class="gi" type="text" placeholder="Rick Tett"></div>
+          <div class="ig"><label class="il">Discord Handle</label><input class="gi" type="text" placeholder="user#0000" value="GlydrPlayer#7749"></div>
+        </div>
+        <div>
+          <div class="ig"><label class="il">Error State</label><input class="gi err" type="text" value="invalid@"><div style="font-family:var(--font-mono);font-size:9px;color:var(--g-ember);margin-top:5px;">✕ Invalid email address</div></div>
+          <div class="ig"><label class="il">Disabled</label><input class="gi" type="text" placeholder="Not available" disabled style="opacity:.35;cursor:not-allowed;"></div>
+          <div class="ig"><label class="il">Textarea</label><textarea class="gi" rows="3" placeholder="Describe your setup..."></textarea></div>
+        </div>
+      </div>
+    </div>
+    <div class="sub">
+      <div class="sub-title">Select & Range</div>
+      <div class="g2">
+        <div>
+          <div class="ig"><label class="il">Primary Game Genre</label>
+          <select class="gi gsel">
+            <option>First-Person Shooter</option>
+            <option>MMO / RPG</option>
+            <option>VR / Simulation</option>
+            <option>Racing / Flight</option>
+            <option>Strategy / RTS</option>
+          </select></div>
+          <div class="ig"><label class="il">Platform</label>
+          <select class="gi gsel">
+            <option>Windows PC</option>
+            <option>macOS</option>
+            <option>Linux</option>
+          </select></div>
+        </div>
+        <div>
+          <div class="ig"><label class="il" style="display:flex;justify-content:space-between;"><span>Sensitivity</span><span id="sens-val" style="color:var(--g-cyan);">75%</span></label>
+          <input type="range" class="gi" style="padding:6px 0;border:none;background:transparent;" min="0" max="100" value="75" oninput="document.getElementById('sens-val').textContent=this.value+'%'"></div>
+          <div class="ig"><label class="il" style="display:flex;justify-content:space-between;"><span>Dead Zone</span><span id="dz-val" style="color:var(--g-volt);">10%</span></label>
+          <input type="range" class="gi" style="padding:6px 0;border:none;background:transparent;" min="0" max="50" value="10" oninput="document.getElementById('dz-val').textContent=this.value+'%'"></div>
+          <div class="ig"><label class="il">Toggle — Haptic Feedback</label>
+          <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
+            <div style="width:42px;height:24px;border-radius:9999px;background:var(--g-cyan);position:relative;transition:background .2s;" id="tog1" onclick="toggleSwitch('tog1','tthumb1')">
+              <div id="tthumb1" style="position:absolute;top:3px;left:21px;width:18px;height:18px;border-radius:50%;background:var(--g-black);transition:left .2s;"></div>
+            </div>
+            <span style="font-family:var(--font-mono);font-size:10px;color:var(--g-mid);">Enabled</span>
+          </label></div>
+        </div>
+      </div>
+    </div>
+    <div class="sub">
+      <div class="sub-title">Search Input</div>
+      <div style="max-width:420px;position:relative;">
+        <input class="gi" type="text" placeholder="Search game profiles..." style="padding-left:38px;">
+        <span style="position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--g-muted);font-size:13px;">⌕</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEEDBACK -->
+<section id="feedback" class="pg">
+  <div class="sec-hdr">
+    <div class="eyebrow">Components</div>
+    <div class="sec-title">Feedback & Alerts</div>
+    <div class="sec-desc">Alerts use left-border accent with matching ghost background. Keep copy short — Glydr users are here to play, not read system messages.</div>
+  </div>
+  <div class="sec-body">
+    <div class="sub">
+      <div class="sub-title">Alert Variants</div>
+      <div style="max-width:600px;">
+        <div class="al al-c"><div class="al-ic">ℹ</div><div><div class="al-t">MacOS Support Live</div><div class="al-d">Update to v1.2.0 to enable full macOS and Linux support including haptic profiles.</div></div></div>
+        <div class="al al-v"><div class="al-ic">✓</div><div><div class="al-t">Profile Saved</div><div class="al-d">Your "Apex — Movement Build" profile synced to your Glydr device.</div></div></div>
+        <div class="al" style="background:rgba(255,200,0,.06);border-left:3px solid #FFD700;color:#FFD700;"><div class="al-ic">⚠</div><div><div class="al-t">Anti-Cheat Warning</div><div class="al-d" style="color:var(--g-light);">Some games with Easy Anti-Cheat may block Glydr in ranked modes. Casual play unaffected.</div></div></div>
+        <div class="al al-e"><div class="al-ic">✕</div><div><div class="al-t">Connection Lost</div><div class="al-d">Glydr disconnected. Check USB-C or move within Bluetooth range.</div></div></div>
+        <div class="al al-m"><div class="al-ic">→</div><div><div class="al-t">Firmware Update Available</div><div class="al-d">Version 1.3.1 includes improved sensitivity curves and new profile presets.</div></div></div>
+      </div>
+    </div>
+    <div class="sub">
+      <div class="sub-title">Toast Notifications</div>
+      <div style="display:flex;flex-direction:column;gap:8px;max-width:340px;">
+        <div style="background:var(--g-panel);border:1px solid var(--g-border);border-radius:8px;padding:12px 16px;display:flex;align-items:center;gap:10px;border-left:3px solid var(--g-cyan);">
+          <span style="color:var(--g-cyan);font-size:14px;">⚡</span>
+          <div style="flex:1;"><div style="font-family:var(--font-display);font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--g-white);">Action Triggered</div><div style="font-size:10px;color:var(--g-mid);">Crouch — Left pedal press</div></div>
+          <span style="color:var(--g-muted);font-size:11px;cursor:pointer;">✕</span>
+        </div>
+        <div style="background:var(--g-panel);border:1px solid var(--g-border);border-radius:8px;padding:12px 16px;display:flex;align-items:center;gap:10px;border-left:3px solid var(--g-volt);">
+          <span style="color:var(--g-volt);font-size:14px;">✓</span>
+          <div style="flex:1;"><div style="font-family:var(--font-display);font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--g-white);">Order Confirmed</div><div style="font-size:10px;color:var(--g-mid);">Ships in 1–2 business days</div></div>
+          <span style="color:var(--g-muted);font-size:11px;cursor:pointer;">✕</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HERO -->
+<section id="hero" class="pg">
+  <div class="sec-hdr">
+    <div class="eyebrow">Patterns</div>
+    <div class="sec-title">Hero Pattern</div>
+    <div class="sec-desc">The website hero uses a fullscreen video background (muted autoplay), a radial cyan glow at right, and a subtle grid overlay. CTA is always cyan primary + volt ghost.</div>
+  </div>
+  <div class="sec-body">
+    <div class="sub">
+      <div class="sub-title">Hero Composition Preview</div>
+      <div class="hero-prev">
+        <div class="hp-grid"></div>
+        <div class="hp-ct">
+          <div class="hero-badge"><div class="hb-dot"></div>Now Shipping · Dallas, TX</div>
+          <div class="h1x">Unlock<br><span class="hl">Your Feet.</span></div>
+          <div class="h-sub">The world's first analog dual foot controller for PC gaming and VR. 16 additional actions. Zero extra fingers required.</div>
+          <div class="h-act">
+            <button class="btn btn-xl bp">Order Now — $299</button>
+            <button class="btn btn-xl bgv">Watch Demo</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sub">
+      <div class="sub-title">Ticker / Marquee</div>
+      <div style="background:var(--g-cyan);overflow:hidden;padding:10px 0;white-space:nowrap;">
+        <div style="display:inline-flex;animation:ticker 18s linear infinite;gap:0;">
+          <span style="font-family:var(--font-display);font-size:12px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--g-black);padding:0 28px;">Now Shipping</span>
+          <span style="color:var(--g-black);opacity:.4;">✦</span>
+          <span style="font-family:var(--font-display);font-size:12px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--g-black);padding:0 28px;">Assembled in Texas</span>
+          <span style="color:var(--g-black);opacity:.4;">✦</span>
+          <span style="font-family:var(--font-display);font-size:12px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--g-black);padding:0 28px;">16 Mappable Actions</span>
+          <span style="color:var(--g-black);opacity:.4;">✦</span>
+          <span style="font-family:var(--font-display);font-size:12px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--g-black);padding:0 28px;">USB-C + Bluetooth</span>
+          <span style="color:var(--g-black);opacity:.4;">✦</span>
+          <span style="font-family:var(--font-display);font-size:12px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--g-black);padding:0 28px;">Now Shipping</span>
+          <span style="color:var(--g-black);opacity:.4;">✦</span>
+          <span style="font-family:var(--font-display);font-size:12px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--g-black);padding:0 28px;">Assembled in Texas</span>
+          <span style="color:var(--g-black);opacity:.4;">✦</span>
+          <span style="font-family:var(--font-display);font-size:12px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--g-black);padding:0 28px;">16 Mappable Actions</span>
+          <span style="color:var(--g-black);opacity:.4;">✦</span>
+          <span style="font-family:var(--font-display);font-size:12px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--g-black);padding:0 28px;">USB-C + Bluetooth</span>
+        </div>
+      </div>
+      <style>@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}</style>
+    </div>
+  </div>
+</section>
+
+<!-- TOKENS -->
+<section id="tokens" class="pg">
+  <div class="sec-hdr">
+    <div class="eyebrow">Patterns</div>
+    <div class="sec-title">Design Tokens</div>
+    <div class="sec-desc">All tokens as CSS custom properties. Import once at :root. Single source of truth for every color, spacing value, radius, and easing curve in the system.</div>
+  </div>
+  <div class="sec-body">
+    <div class="sub">
+      <div class="sub-title">Color Tokens</div>
+      <div class="cb">
+<span class="cm">/* Backgrounds */</span>
+<span class="kw">--g-black</span>: <span class="vl">#050608</span>;   <span class="kw">--g-void</span>: <span class="vl">#0C0D13</span>;   <span class="kw">--g-dark</span>: <span class="vl">#11121A</span>;
+<span class="kw">--g-surface</span>: <span class="vl">#181923</span>;  <span class="kw">--g-panel</span>: <span class="vl">#1E2030</span>;   <span class="kw">--g-border</span>: <span class="vl">#2A2D3E</span>;
+<span class="cm">/* Text */</span>
+<span class="kw">--g-muted</span>: <span class="vl">#3D4160</span>;    <span class="kw">--g-mid</span>: <span class="vl">#6B708C</span>;     <span class="kw">--g-light</span>: <span class="vl">#A8ADCB</span>;
+<span class="kw">--g-offwhite</span>: <span class="vl">#E8EAFF</span>;  <span class="kw">--g-white</span>: <span class="vl">#FFFFFF</span>;
+<span class="cm">/* Brand */</span>
+<span class="kw">--g-cyan</span>: <span class="vl">#00E5FF</span>;       <span class="kw">--g-volt</span>: <span class="vl">#AAFF00</span>;      <span class="kw">--g-ember</span>: <span class="vl">#FF4D1C</span>;
+<span class="cm">/* Gradients */</span>
+<span class="kw">--g-gradient-primary</span>: <span class="st">linear-gradient(135deg,#00E5FF 0%,#0077FF 100%)</span>;
+<span class="kw">--g-gradient-accent</span>:  <span class="st">linear-gradient(135deg,#AAFF00 0%,#00E5FF 100%)</span>;
+<span class="kw">--g-gradient-ember</span>:   <span class="st">linear-gradient(135deg,#FF4D1C 0%,#FF8C00 100%)</span>;</div>
+    </div>
+    <div class="sub">
+      <div class="sub-title">Typography Tokens</div>
+      <div class="cb">
+<span class="kw">--font-display</span>: <span class="st">'Barlow Condensed', sans-serif</span>;  <span class="cm">/* Headers, buttons, labels */</span>
+<span class="kw">--font-body</span>:    <span class="st">'Barlow', sans-serif</span>;              <span class="cm">/* Body copy, UI text */</span>
+<span class="kw">--font-mono</span>:    <span class="st">'Share Tech Mono', monospace</span>;      <span class="cm">/* Specs, code, eyebrows */</span></div>
+    </div>
+    <div class="sub">
+      <div class="sub-title">Spacing Tokens</div>
+      <div class="cb">
+<span class="kw">--sp-4</span>: <span class="vl">4px</span>;    <span class="kw">--sp-8</span>: <span class="vl">8px</span>;    <span class="kw">--sp-12</span>: <span class="vl">12px</span>;   <span class="kw">--sp-16</span>: <span class="vl">16px</span>;
+<span class="kw">--sp-24</span>: <span class="vl">24px</span>;  <span class="kw">--sp-32</span>: <span class="vl">32px</span>;  <span class="kw">--sp-48</span>: <span class="vl">48px</span>;   <span class="kw">--sp-64</span>: <span class="vl">64px</span>;
+<span class="kw">--sp-96</span>: <span class="vl">96px</span>;  <span class="kw">--sp-128</span>: <span class="vl">128px</span>;</div>
+    </div>
+    <div class="sub">
+      <div class="sub-title">Motion Tokens</div>
+      <div class="cb">
+<span class="kw">--dur-fast</span>: <span class="vl">150ms</span>;   <span class="kw">--dur-mid</span>: <span class="vl">300ms</span>;   <span class="kw">--dur-slow</span>: <span class="vl">600ms</span>;
+<span class="kw">--ease-expo</span>: <span class="st">cubic-bezier(0.16, 1, 0.3, 1)</span>;
+<span class="kw">--ease-out</span>:  <span class="st">cubic-bezier(0.0, 0.0, 0.2, 1)</span>;
+<span class="kw">--ease-snap</span>: <span class="st">cubic-bezier(0.25, 0, 0, 1)</span>;</div>
+    </div>
+  </div>
+</section>
+
+<!-- VOICE -->
+<section id="voice" class="pg">
+  <div class="sec-hdr">
+    <div class="eyebrow">Patterns</div>
+    <div class="sec-title">Voice & Tone</div>
+    <div class="sec-desc">Glydr sounds like the best player in the lobby who genuinely wants you to win. Confident without arrogance. Technical without nerd-gating. Always moving forward.</div>
+  </div>
+  <div class="sec-body">
+    <div class="sub">
+      <div class="sub-title">Brand Voice Attributes</div>
+      <div class="g2">
+        <div>
+          <div class="ud"><div class="uh">✓ Confident — not cocky</div><div class="ut">"Glydr gives you 16 more actions. That's 16 more ways to win."</div></div>
+          <div class="ux"><div class="uh">✕ Avoid</div><div class="ut">"We think our product might be a game-changer for some players who want to try something new."</div></div>
+        </div>
+        <div>
+          <div class="ud"><div class="uh">✓ Technical — not alienating</div><div class="ut">"12-bit sensors, configurable dead zones, 16ms latency. Your feet, precision-engineered."</div></div>
+          <div class="ux"><div class="uh">✕ Avoid</div><div class="ut">"Our advanced analog-to-digital conversion system leverages high-resolution bipedal input optimization."</div></div>
+        </div>
+        <div>
+          <div class="ud"><div class="uh">✓ Inclusive — not preachy</div><div class="ut">"Whether you're a Paralympian, a streamer, or just tired of hand cramps — Glydr's for you."</div></div>
+          <div class="ux"><div class="uh">✕ Avoid</div><div class="ut">"As a company committed to diversity and inclusion, we are proud to serve all types of players."</div></div>
+        </div>
+        <div>
+          <div class="ud"><div class="uh">✓ Playful — not silly</div><div class="ut">"Your hands have been doing all the work. Time to give them a break."</div></div>
+          <div class="ux"><div class="uh">✕ Avoid</div><div class="ut">"LOL feet go brrr!!! 🦶🦶🦶 #gaming #gamer #footcontroller"</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="sub">
+      <div class="sub-title">Approved Headline Examples</div>
+      <div class="g2">
+        <div style="background:var(--g-surface);border:1px solid var(--g-border);border-radius:10px;padding:24px;">
+          <div style="font-family:var(--font-display);font-weight:900;font-size:26px;text-transform:uppercase;letter-spacing:.03em;color:var(--g-white);margin-bottom:6px;">Unlock Your Entire Body</div>
+          <div style="font-family:var(--font-mono);font-size:9px;color:var(--g-muted);">// Hero — body-first, bold</div>
+        </div>
+        <div style="background:var(--g-surface);border:1px solid var(--g-border);border-radius:10px;padding:24px;">
+          <div style="font-family:var(--font-display);font-weight:900;font-size:26px;text-transform:uppercase;letter-spacing:.03em;color:var(--g-white);margin-bottom:6px;">Your Hands Are Maxed Out.</div>
+          <div style="font-family:var(--font-mono);font-size:9px;color:var(--g-muted);">// Problem-first framing</div>
+        </div>
+        <div style="background:var(--g-surface);border:1px solid var(--g-border);border-radius:10px;padding:24px;">
+          <div style="font-family:var(--font-display);font-weight:900;font-size:26px;text-transform:uppercase;letter-spacing:.03em;color:var(--g-white);margin-bottom:6px;">16 Actions. Zero Extra Fingers.</div>
+          <div style="font-family:var(--font-mono);font-size:9px;color:var(--g-muted);">// Witty, spec-forward</div>
+        </div>
+        <div style="background:var(--g-surface);border:1px solid var(--g-border);border-radius:10px;padding:24px;">
+          <div style="font-family:var(--font-display);font-weight:900;font-size:26px;text-transform:uppercase;letter-spacing:.03em;color:var(--g-white);margin-bottom:6px;">Built in Texas. Played Everywhere.</div>
+          <div style="font-family:var(--font-mono);font-size:9px;color:var(--g-muted);">// Pride of origin + global</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<script>
+function show(id, btn) {
+  document.querySelectorAll('.pg').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+function toggleTag(el) {
+  el.classList.toggle('bc');
+  el.classList.toggle('bdm');
+}
+function toggleSwitch(trackId, thumbId) {
+  const track = document.getElementById(trackId);
+  const thumb = document.getElementById(thumbId);
+  const on = thumb.style.left === '21px';
+  thumb.style.left = on ? '3px' : '21px';
+  track.style.background = on ? 'var(--g-border)' : 'var(--g-cyan)';
+}
+</script>
+</body>
+</html>
