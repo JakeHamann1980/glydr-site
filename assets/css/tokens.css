@@ -185,6 +185,7 @@ a:hover {
   border: none;
   cursor: pointer;
   padding: var(--sp-8);
+  margin-left: auto;
 }
 
 .nav-toggle span {
@@ -1271,23 +1272,23 @@ a:hover {
     display: block;
   }
 
+  .site-nav.open {
+    flex-wrap: wrap;
+  }
+
   .site-nav.open .nav-links,
   .site-nav.open .nav-actions {
     display: flex;
     flex-direction: column;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
+    width: 100%;
     background: rgba(12, 13, 19, 0.95);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    padding: var(--sp-24);
+    padding: var(--sp-16) var(--sp-16);
     gap: var(--sp-16);
   }
 
   .site-nav.open .nav-actions {
-    top: auto;
     padding-top: 0;
   }
 
