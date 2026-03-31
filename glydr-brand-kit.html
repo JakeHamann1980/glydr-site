@@ -241,6 +241,30 @@
   .glt{font-family:var(--font-display);font-size:30px;font-weight:900;text-transform:uppercase;color:var(--g-white);position:relative}
   .glt::before{content:attr(data-text);position:absolute;left:0;top:0;color:var(--g-cyan);animation:glitch-1 3s infinite}
 
+  /* BANNER ADS */
+  .ban{position:relative;overflow:hidden;border:1px solid var(--g-border);border-radius:10px;background:var(--g-black)}
+  .ban-label{position:absolute;top:8px;right:8px;font-family:var(--font-mono);font-size:7px;letter-spacing:.15em;text-transform:uppercase;color:var(--g-muted);background:rgba(5,6,8,.7);padding:2px 6px;border-radius:3px;z-index:10}
+  .ban-inner{position:relative;width:100%;height:100%;overflow:hidden}
+
+  /* Shared animation keyframes */
+  @keyframes ban-fade-up{0%{opacity:0;transform:translateY(16px)}100%{opacity:1;transform:translateY(0)}}
+  @keyframes ban-fade-in{0%{opacity:0}100%{opacity:1}}
+  @keyframes ban-slide-r{0%{transform:translateX(-100%)}100%{transform:translateX(0)}}
+  @keyframes ban-slide-l{0%{transform:translateX(100%)}100%{transform:translateX(0)}}
+  @keyframes ban-scale-in{0%{opacity:0;transform:scale(.85)}100%{opacity:1;transform:scale(1)}}
+  @keyframes ban-glow-pulse{0%,100%{opacity:.4}50%{opacity:1}}
+  @keyframes ban-scan-v{0%{top:-2px}100%{top:calc(100% + 2px)}}
+  @keyframes ban-type{from{width:0}to{width:100%}}
+  @keyframes ban-cursor{0%,100%{border-right-color:var(--g-cyan)}50%{border-right-color:transparent}}
+  @keyframes ban-shimmer{0%{left:-100%}100%{left:200%}}
+  @keyframes ban-drift{0%{transform:translate(0,0)}50%{transform:translate(-8px,4px)}100%{transform:translate(0,0)}}
+  @keyframes ban-count{0%{content:'0'}10%{content:'2'}20%{content:'4'}30%{content:'6'}40%{content:'8'}50%{content:'10'}60%{content:'12'}70%{content:'14'}80%{content:'15'}100%{content:'16'}}
+
+  /* Banner grid */
+  .ban-grid{display:grid;gap:24px;margin-bottom:32px}
+  .ban-grid-2{grid-template-columns:auto auto;justify-content:start}
+  .ban-grid-1{grid-template-columns:1fr}
+
   /* ══════ MOBILE ══════ */
   @media (max-width: 768px) {
     .sidebar {
@@ -303,6 +327,10 @@
     <button class="nav-btn" onclick="show('hero',this)">Hero Pattern</button>
     <button class="nav-btn" onclick="show('tokens',this)">Design Tokens</button>
     <button class="nav-btn" onclick="show('voice',this)">Voice & Tone</button>
+  </div>
+  <div class="nav-grp">
+    <div class="nav-grp-lbl">Marketing</div>
+    <button class="nav-btn" onclick="show('banners',this)">Banner Ads</button>
   </div>
 </nav>
 
@@ -963,9 +991,851 @@
   </div>
 </section>
 
+<!-- BANNER ADS -->
+<section id="banners" class="pg">
+  <div class="sec-hdr">
+    <div class="eyebrow">Marketing</div>
+    <div class="sec-title">Banner Ad Templates</div>
+    <div class="sec-desc">Production-ready animated banner concepts using the GLYDR design system. Each template uses brand tokens, approved copy, and CSS-only animation. Hover any banner to replay its animation.</div>
+  </div>
+  <div class="sec-body">
+
+    <!-- ═══ 1. HERO LEADERBOARD — "Unlock Your Feet" ═══ -->
+    <div class="sub">
+      <div class="sub-title">1. Hero Leaderboard — 728 x 90</div>
+      <div class="ban" style="width:728px;height:90px;max-width:100%;" onmouseenter="replayBanner(this)">
+        <div class="ban-label">728 x 90</div>
+        <div class="ban-inner" style="display:flex;align-items:center;padding:0 28px;background:radial-gradient(ellipse at 80% 50%,rgba(0,229,255,.08) 0%,transparent 60%);">
+          <img src="assets/img/product-detail.jpg" alt="" style="position:absolute;right:0;top:50%;transform:translateY(-50%);height:160%;opacity:.35;mask-image:linear-gradient(90deg,transparent 0%,black 30%,black 70%,transparent 100%);-webkit-mask-image:linear-gradient(90deg,transparent 0%,black 30%,black 70%,transparent 100%);">
+          <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(0,229,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,255,.03) 1px,transparent 1px);background-size:30px 30px;opacity:.5;"></div>
+          <div style="position:relative;z-index:1;display:flex;align-items:center;width:100%;gap:20px;">
+            <img src="assets/svg/glydr-logo-white.svg" alt="GLYDR" height="20" style="flex-shrink:0;animation:ban-scale-in .4s var(--ease-expo) both;">
+            <div style="flex:1;animation:ban-fade-up .5s var(--ease-expo) .15s both;">
+              <div style="font-family:var(--font-display);font-weight:900;font-size:22px;text-transform:uppercase;letter-spacing:.03em;color:var(--g-white);line-height:1;">Unlock Your Feet.</div>
+              <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.12em;color:var(--g-mid);">16 ACTIONS. ZERO EXTRA FINGERS.</div>
+            </div>
+            <div style="animation:ban-fade-in .4s ease .4s both;">
+              <div style="display:inline-flex;align-items:center;gap:6px;background:var(--g-cyan);color:var(--g-black);font-family:var(--font-display);font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase;padding:8px 18px;border-radius:4px;cursor:pointer;">Order Now &mdash; $299</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ 1b. LEADERBOARD — Volt Accent ═══ -->
+    <div class="sub">
+      <div class="sub-title">1b. Hero Leaderboard — Volt Accent — 728 x 90</div>
+      <div class="ban" style="width:728px;height:90px;max-width:100%;" onmouseenter="replayBanner(this)">
+        <div class="ban-label">728 x 90</div>
+        <div class="ban-inner" style="display:flex;align-items:center;padding:0 28px;background:linear-gradient(90deg,var(--g-black) 0%,var(--g-dark) 50%,var(--g-black) 100%);">
+          <img src="assets/img/product-detail.jpg" alt="" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);height:200%;opacity:.2;mask-image:radial-gradient(ellipse at center,black 20%,transparent 60%);-webkit-mask-image:radial-gradient(ellipse at center,black 20%,transparent 60%);">
+          <div style="position:relative;z-index:1;display:flex;align-items:center;width:100%;gap:20px;">
+            <img src="assets/svg/glydr-logo-white.svg" alt="GLYDR" height="20" style="flex-shrink:0;animation:ban-scale-in .4s var(--ease-expo) both;">
+            <div style="width:1px;height:40px;background:var(--g-border);flex-shrink:0;animation:ban-fade-in .3s ease .1s both;"></div>
+            <div style="flex:1;animation:ban-fade-up .5s var(--ease-expo) .15s both;">
+              <div style="font-family:var(--font-display);font-weight:900;font-size:20px;text-transform:uppercase;letter-spacing:.03em;color:var(--g-white);line-height:1;">Your Hands Are Maxed Out.</div>
+              <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.12em;color:var(--g-volt);">ANALOG FOOT CONTROLLER &bull; ASSEMBLED IN TEXAS</div>
+            </div>
+            <div style="animation:ban-fade-in .4s ease .4s both;">
+              <div style="display:inline-flex;background:var(--g-volt);color:var(--g-black);font-family:var(--font-display);font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase;padding:8px 18px;border-radius:4px;cursor:pointer;">Shop Now</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ 1c. LEADERBOARD — Spec Strip ═══ -->
+    <div class="sub">
+      <div class="sub-title">1c. Hero Leaderboard — Spec Strip — 728 x 90</div>
+      <div class="ban" style="width:728px;height:90px;max-width:100%;" onmouseenter="replayBanner(this)">
+        <div class="ban-label">728 x 90</div>
+        <div class="ban-inner" style="display:flex;align-items:center;padding:0 28px;background:var(--g-black);border-top:2px solid var(--g-cyan);">
+          <div style="position:relative;z-index:1;display:flex;align-items:center;width:100%;gap:24px;">
+            <img src="assets/svg/glydr-logo-cyan.svg" alt="GLYDR" height="18" style="flex-shrink:0;animation:ban-scale-in .4s var(--ease-expo) both;">
+            <div style="display:flex;gap:20px;flex:1;animation:ban-fade-in .4s ease .15s both;">
+              <div><span style="font-family:var(--font-display);font-weight:900;font-size:22px;color:var(--g-cyan);">16</span><span style="font-family:var(--font-mono);font-size:8px;letter-spacing:.1em;color:var(--g-mid);margin-left:4px;">ACTIONS</span></div>
+              <div><span style="font-family:var(--font-display);font-weight:900;font-size:22px;color:var(--g-volt);">12ms</span><span style="font-family:var(--font-mono);font-size:8px;letter-spacing:.1em;color:var(--g-mid);margin-left:4px;">LATENCY</span></div>
+              <div><span style="font-family:var(--font-display);font-weight:900;font-size:22px;color:var(--g-offwhite);">USB-C</span><span style="font-family:var(--font-mono);font-size:8px;letter-spacing:.1em;color:var(--g-mid);margin-left:4px;">+ BT</span></div>
+            </div>
+            <div style="animation:ban-fade-in .4s ease .4s both;">
+              <div style="display:inline-flex;background:var(--g-cyan);color:var(--g-black);font-family:var(--font-display);font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase;padding:8px 18px;border-radius:4px;cursor:pointer;">Order &mdash; $299</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ 2. MEDIUM RECTANGLE — Stat Counter ═══ -->
+    <div class="sub">
+      <div class="sub-title">2. Medium Rectangle — Stat Counter — 300 x 250</div>
+      <div class="ban-grid ban-grid-2">
+        <div class="ban" style="width:300px;height:250px;" onmouseenter="replayBanner(this)">
+          <div class="ban-label">300 x 250</div>
+          <div class="ban-inner" style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;background:radial-gradient(circle at 50% 40%,rgba(0,229,255,.06) 0%,transparent 60%);">
+            <img src="assets/img/product-detail.jpg" alt="" style="position:absolute;bottom:-20px;right:-30px;width:180px;opacity:.3;mask-image:radial-gradient(ellipse at center,black 30%,transparent 75%);-webkit-mask-image:radial-gradient(ellipse at center,black 30%,transparent 75%);">
+            <div style="position:absolute;inset:0;overflow:hidden;">
+              <div style="position:absolute;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--g-cyan),transparent);top:-2px;animation:ban-scan-v 3s linear infinite;opacity:.4;"></div>
+            </div>
+            <div style="position:relative;z-index:1;">
+              <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--g-mid);margin-bottom:2px;animation:ban-fade-in .4s ease both;">MAPPABLE ACTIONS</div>
+              <div style="font-family:var(--font-display);font-weight:900;font-size:72px;color:var(--g-cyan);line-height:1;text-shadow:0 0 40px rgba(0,229,255,.3);animation:ban-scale-in .5s var(--ease-expo) .1s both;">16</div>
+              <div style="font-family:var(--font-display);font-weight:800;font-size:16px;text-transform:uppercase;letter-spacing:.05em;color:var(--g-white);margin-top:4px;animation:ban-fade-up .5s var(--ease-expo) .25s both;">Your Hands Are Maxed Out.</div>
+              <div style="font-family:var(--font-body);font-size:11px;color:var(--g-mid);margin-top:3px;margin-bottom:10px;animation:ban-fade-up .5s var(--ease-expo) .35s both;">Analog foot controller for PC & VR</div>
+              <div style="animation:ban-fade-in .4s ease .5s both;">
+                <div style="display:inline-flex;background:var(--g-cyan);color:var(--g-black);font-family:var(--font-display);font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:8px 20px;border-radius:4px;cursor:pointer;">Shop Now</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ═══ 3. MEDIUM RECTANGLE — Problem/Solution ═══ -->
+        <div class="ban" style="width:300px;height:250px;" onmouseenter="replayBanner(this)">
+          <div class="ban-label">300 x 250</div>
+          <div class="ban-inner" style="display:flex;flex-direction:column;justify-content:center;padding:28px;background:linear-gradient(135deg,var(--g-dark) 0%,var(--g-black) 100%);">
+            <img src="assets/img/product-detail.jpg" alt="" style="position:absolute;top:50%;right:-20px;transform:translateY(-50%);width:200px;opacity:.3;mask-image:linear-gradient(270deg,transparent 0%,black 40%,transparent 100%);-webkit-mask-image:linear-gradient(270deg,transparent 0%,black 40%,transparent 100%);">
+            <div style="position:relative;z-index:1;">
+              <div style="font-family:var(--font-display);font-weight:900;font-size:24px;text-transform:uppercase;color:var(--g-white);line-height:1.05;margin-bottom:4px;animation:ban-fade-up .5s var(--ease-expo) both;">
+                Your Hands<br>Are Maxed Out.
+              </div>
+              <div style="width:40px;height:2px;background:var(--g-gradient-primary);margin:12px 0;animation:ban-slide-r .5s var(--ease-expo) .2s both;"></div>
+              <div style="font-family:var(--font-body);font-size:13px;color:var(--g-light);line-height:1.5;margin-bottom:16px;animation:ban-fade-up .5s var(--ease-expo) .3s both;">
+                GLYDR gives your feet analog control. 16 actions. 12ms latency. Assembled in Texas.
+              </div>
+              <div style="display:flex;gap:8px;animation:ban-fade-in .4s ease .5s both;">
+                <div style="display:inline-flex;background:var(--g-cyan);color:var(--g-black);font-family:var(--font-display);font-weight:700;font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:7px 14px;border-radius:4px;cursor:pointer;">Order &mdash; $299</div>
+                <div style="display:inline-flex;background:transparent;color:var(--g-volt);border:1px solid var(--g-volt);font-family:var(--font-display);font-weight:700;font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:7px 14px;border-radius:4px;cursor:pointer;">Watch Demo</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ 2c/3c. MEDIUM RECTANGLE — Additional Variants ═══ -->
+    <div class="sub">
+      <div class="sub-title">2c/3c. Medium Rectangle — Additional Variants — 300 x 250</div>
+      <div class="ban-grid ban-grid-2">
+        <!-- Video Background -->
+        <div class="ban" style="width:300px;height:250px;" onmouseenter="replayBanner(this)">
+          <div class="ban-label">300 x 250 — Video</div>
+          <div class="ban-inner" style="display:flex;flex-direction:column;justify-content:flex-end;padding:24px;background:var(--g-black);">
+            <video autoplay muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.3;"></video>
+            <img src="assets/img/product-detail.jpg" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.25;">
+            <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,6,8,.3) 0%,rgba(5,6,8,.85) 70%);z-index:1;"></div>
+            <div style="position:relative;z-index:2;">
+              <img src="assets/svg/glydr-logo-white.svg" alt="GLYDR" height="18" style="margin-bottom:10px;animation:ban-fade-in .4s ease both;">
+              <div style="font-family:var(--font-display);font-weight:900;font-size:22px;text-transform:uppercase;color:var(--g-white);line-height:1;margin-bottom:4px;animation:ban-fade-up .5s var(--ease-expo) .15s both;">Engage Your Feet.</div>
+              <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.12em;color:var(--g-mid);margin-bottom:12px;animation:ban-fade-in .3s ease .25s both;">16 ACTIONS &bull; 12MS &bull; $299</div>
+              <div style="animation:ban-fade-in .4s ease .4s both;">
+                <div style="display:inline-flex;background:var(--g-cyan);color:var(--g-black);font-family:var(--font-display);font-weight:700;font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:8px 18px;border-radius:4px;cursor:pointer;">Order Now</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Volt Accent -->
+        <div class="ban" style="width:300px;height:250px;" onmouseenter="replayBanner(this)">
+          <div class="ban-label">300 x 250 — Volt</div>
+          <div class="ban-inner" style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;background:radial-gradient(circle at 50% 60%,rgba(170,255,0,.06) 0%,transparent 60%),var(--g-black);">
+            <img src="assets/img/product-detail.jpg" alt="" style="position:absolute;top:-20px;left:50%;transform:translateX(-50%);width:240px;opacity:.2;mask-image:linear-gradient(180deg,black 0%,transparent 70%);-webkit-mask-image:linear-gradient(180deg,black 0%,transparent 70%);">
+            <div style="position:relative;z-index:1;">
+              <img src="assets/svg/glydr-logo-white.svg" alt="GLYDR" height="16" style="margin-bottom:12px;animation:ban-fade-in .3s ease both;">
+              <div style="font-family:var(--font-display);font-weight:900;font-size:28px;text-transform:uppercase;color:var(--g-white);line-height:1;margin-bottom:4px;animation:ban-fade-up .5s var(--ease-expo) .1s both;">Built in Texas.</div>
+              <div style="font-family:var(--font-display);font-weight:900;font-size:28px;text-transform:uppercase;color:var(--g-volt);line-height:1;margin-bottom:10px;animation:ban-fade-up .5s var(--ease-expo) .2s both;">Played Everywhere.</div>
+              <div style="font-family:var(--font-body);font-size:12px;color:var(--g-mid);margin-bottom:14px;animation:ban-fade-in .3s ease .35s both;">Analog foot controller &bull; USB-C + Bluetooth</div>
+              <div style="display:flex;gap:8px;justify-content:center;animation:ban-fade-in .4s ease .45s both;">
+                <div style="display:inline-flex;background:var(--g-volt);color:var(--g-black);font-family:var(--font-display);font-weight:700;font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:8px 16px;border-radius:4px;cursor:pointer;">Shop &mdash; $299</div>
+                <div style="display:inline-flex;background:transparent;color:var(--g-cyan);border:1px solid rgba(0,229,255,.3);font-family:var(--font-display);font-weight:700;font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:7px 16px;border-radius:4px;cursor:pointer;">Demo</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ 4. WIDE SKYSCRAPER — Vertical Specs ═══ -->
+    <div class="sub">
+      <div class="sub-title">4. Wide Skyscraper — Vertical Specs — 160 x 600</div>
+      <div class="ban-grid ban-grid-2">
+        <div class="ban" style="width:160px;height:600px;" onmouseenter="replayBanner(this)">
+          <div class="ban-label">160 x 600</div>
+          <div class="ban-inner" style="display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:24px 16px;text-align:center;background:linear-gradient(180deg,rgba(0,229,255,.06) 0%,transparent 40%,transparent 60%,rgba(170,255,0,.04) 100%);">
+            <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(0,229,255,.02) 1px,transparent 1px);background-size:100% 40px;"></div>
+            <div style="position:relative;z-index:1;animation:ban-fade-up .5s var(--ease-expo) both;">
+              <img src="assets/svg/glydr-logo-white.svg" alt="GLYDR" height="16">
+            </div>
+            <div style="position:relative;z-index:1;">
+              <div style="font-family:var(--font-display);font-weight:900;font-size:18px;text-transform:uppercase;color:var(--g-white);line-height:1.1;margin-bottom:14px;animation:ban-fade-up .5s var(--ease-expo) .15s both;">Unlock<br>Your<br>Feet.</div>
+              <div style="margin-bottom:10px;">
+                <div style="font-family:var(--font-display);font-weight:900;font-size:32px;color:var(--g-cyan);line-height:1;animation:ban-scale-in .4s var(--ease-expo) .3s both;">16</div>
+                <div style="font-family:var(--font-mono);font-size:8px;letter-spacing:.15em;color:var(--g-mid);animation:ban-fade-in .3s ease .4s both;">ACTIONS</div>
+              </div>
+              <div style="margin-bottom:10px;">
+                <div style="font-family:var(--font-display);font-weight:900;font-size:32px;color:var(--g-volt);line-height:1;animation:ban-scale-in .4s var(--ease-expo) .5s both;">12<span style="font-size:14px;">ms</span></div>
+                <div style="font-family:var(--font-mono);font-size:8px;letter-spacing:.15em;color:var(--g-mid);animation:ban-fade-in .3s ease .6s both;">LATENCY</div>
+              </div>
+              <div style="margin-bottom:10px;">
+                <div style="font-family:var(--font-display);font-weight:900;font-size:18px;color:var(--g-offwhite);line-height:1;animation:ban-scale-in .4s var(--ease-expo) .7s both;">USB-C</div>
+                <div style="font-family:var(--font-mono);font-size:8px;letter-spacing:.15em;color:var(--g-mid);animation:ban-fade-in .3s ease .8s both;">+ BLUETOOTH</div>
+              </div>
+            </div>
+            <div style="position:relative;z-index:1;animation:ban-fade-in .4s ease .9s both;">
+              <div style="display:inline-flex;background:var(--g-cyan);color:var(--g-black);font-family:var(--font-display);font-weight:700;font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:8px 16px;border-radius:4px;cursor:pointer;">Order $299</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ═══ 5. WIDE SKYSCRAPER — Testimonial ═══ -->
+        <div class="ban" style="width:160px;height:600px;" onmouseenter="replayBanner(this)">
+          <div class="ban-label">160 x 600</div>
+          <div class="ban-inner" style="display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:24px 16px;text-align:center;background:var(--g-black);">
+            <div style="position:relative;z-index:1;animation:ban-fade-in .4s ease both;">
+              <img src="assets/svg/glydr-logo-white.svg" alt="GLYDR" height="14">
+            </div>
+            <div style="position:relative;z-index:1;">
+              <div style="font-size:28px;color:var(--g-cyan);opacity:.3;margin-bottom:8px;animation:ban-scale-in .4s var(--ease-expo) .2s both;">&ldquo;</div>
+              <div style="font-family:var(--font-body);font-size:12px;font-style:italic;color:var(--g-light);line-height:1.6;margin-bottom:12px;animation:ban-fade-up .5s var(--ease-expo) .3s both;">
+                It's like having two extra hands. My squad can't believe the difference.
+              </div>
+              <div style="width:24px;height:1px;background:var(--g-border);margin:0 auto 10px;animation:ban-slide-r .4s var(--ease-expo) .5s both;"></div>
+              <div style="font-family:var(--font-mono);font-size:8px;letter-spacing:.15em;color:var(--g-mid);text-transform:uppercase;animation:ban-fade-in .3s ease .55s both;">GLYDR User</div>
+            </div>
+            <div style="position:relative;z-index:1;">
+              <div style="font-family:var(--font-display);font-weight:900;font-size:15px;text-transform:uppercase;color:var(--g-white);margin-bottom:12px;animation:ban-fade-up .5s var(--ease-expo) .6s both;">Join the<br>Community</div>
+              <div style="display:flex;flex-direction:column;gap:6px;animation:ban-fade-in .4s ease .75s both;">
+                <div style="display:inline-flex;justify-content:center;background:var(--g-cyan);color:var(--g-black);font-family:var(--font-display);font-weight:700;font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:7px 14px;border-radius:4px;cursor:pointer;">Shop Now</div>
+                <div style="display:inline-flex;justify-content:center;background:transparent;color:var(--g-cyan);border:1px solid rgba(0,229,255,.3);font-family:var(--font-display);font-weight:700;font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:6px 14px;border-radius:4px;cursor:pointer;">Discord</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ 6. HALF PAGE — Cinematic Hero ═══ -->
+    <div class="sub">
+      <div class="sub-title">6. Half Page — Cinematic Hero — 300 x 600</div>
+      <div class="ban" style="width:300px;height:600px;" onmouseenter="replayBanner(this)">
+        <div class="ban-label">300 x 600</div>
+        <div class="ban-inner" style="display:flex;flex-direction:column;justify-content:space-between;align-items:center;padding:0;background:var(--g-black);">
+          <!-- Background video -->
+          <video autoplay muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.35;">
+            <source src="assets/video/hero-h264.mp4" type="video/mp4">
+          </video>
+          <!-- Dark overlay gradient -->
+          <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,6,8,.4) 0%,rgba(5,6,8,.2) 30%,rgba(5,6,8,.6) 60%,rgba(5,6,8,.95) 85%);z-index:1;"></div>
+
+          <!-- Centered logo -->
+          <div style="position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;padding-top:40px;animation:ban-scale-in .5s var(--ease-expo) .1s both;">
+            <img src="assets/svg/glydr-logo-white.svg" alt="GLYDR" height="26" style="margin-bottom:12px;">
+            <div style="display:inline-flex;align-items:center;gap:5px;background:rgba(0,229,255,.08);border:1px solid rgba(0,229,255,.2);border-radius:9999px;padding:3px 10px;font-family:var(--font-mono);font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:var(--g-cyan);animation:ban-fade-in .4s ease .3s both;">
+              <span style="width:5px;height:5px;border-radius:50%;background:var(--g-cyan);box-shadow:0 0 6px var(--g-cyan);"></span>Now Shipping
+            </div>
+          </div>
+
+          <!-- Bottom content -->
+          <div style="position:relative;z-index:2;padding:0 28px 28px;text-align:center;">
+            <div style="font-family:var(--font-display);font-weight:900;font-size:34px;text-transform:uppercase;color:var(--g-white);line-height:.95;margin-bottom:12px;animation:ban-fade-up .6s var(--ease-expo) .3s both;">
+              Engage the<br>Agility of<br><span style="color:var(--g-cyan);text-shadow:0 0 30px rgba(0,229,255,.4);">Your Feet.</span>
+            </div>
+            <div style="font-family:var(--font-body);font-size:13px;color:var(--g-mid);line-height:1.5;margin-bottom:16px;animation:ban-fade-up .5s var(--ease-expo) .45s both;">
+              The world's first analog dual foot controller for PC gaming and VR.
+            </div>
+            <div style="animation:ban-fade-in .4s ease .6s both;">
+              <div style="display:inline-flex;background:var(--g-cyan);color:var(--g-black);font-family:var(--font-display);font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:10px 20px;border-radius:4px;cursor:pointer;">Order Now &mdash; $299</div>
+            </div>
+            <div style="display:flex;justify-content:center;gap:16px;margin-top:16px;animation:ban-fade-in .3s ease .75s both;">
+              <div><span style="font-family:var(--font-display);font-weight:900;font-size:20px;color:var(--g-cyan);">16</span><br><span style="font-family:var(--font-mono);font-size:7px;letter-spacing:.15em;color:var(--g-muted);">ACTIONS</span></div>
+              <div><span style="font-family:var(--font-display);font-weight:900;font-size:20px;color:var(--g-volt);">12ms</span><br><span style="font-family:var(--font-mono);font-size:7px;letter-spacing:.15em;color:var(--g-muted);">LATENCY</span></div>
+              <div><span style="font-family:var(--font-display);font-weight:900;font-size:20px;color:var(--g-offwhite);">USB-C</span><br><span style="font-family:var(--font-mono);font-size:7px;letter-spacing:.15em;color:var(--g-muted);">+ BT</span></div>
+            </div>
+            <!-- Small G icon closing -->
+            <div style="margin-top:14px;animation:ban-fade-in .3s ease .85s both;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 80 80" fill="none" style="opacity:.3;">
+                <path d="M50 28H38C32.477 28 28 32.477 28 38V42C28 47.523 32.477 52 38 52H46V44H40V38H52V42C52 47.523 47.523 52 42 52" stroke="#00E5FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M44 44H52" stroke="#AAFF00" stroke-width="2.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ 4c/5c. SKYSCRAPER — Additional Variants ═══ -->
+    <div class="sub">
+      <div class="sub-title">4c/5c. Wide Skyscraper — Additional Variants — 160 x 600</div>
+      <div class="ban-grid ban-grid-2">
+        <!-- Product Focus -->
+        <div class="ban" style="width:160px;height:600px;" onmouseenter="replayBanner(this)">
+          <div class="ban-label">160 x 600 — Product</div>
+          <div class="ban-inner" style="display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:20px 14px;text-align:center;background:var(--g-black);">
+            <img src="assets/img/product-detail.jpg" alt="" style="position:absolute;top:30%;left:50%;transform:translate(-50%,-50%);width:200px;opacity:.3;mask-image:radial-gradient(ellipse at center,black 25%,transparent 65%);-webkit-mask-image:radial-gradient(ellipse at center,black 25%,transparent 65%);">
+            <div style="position:relative;z-index:1;animation:ban-fade-in .4s ease both;">
+              <img src="assets/svg/glydr-logo-white.svg" alt="GLYDR" height="14">
+            </div>
+            <div style="position:relative;z-index:1;text-align:center;">
+              <div style="font-family:var(--font-display);font-weight:900;font-size:16px;text-transform:uppercase;color:var(--g-white);line-height:1.1;margin-bottom:6px;animation:ban-fade-up .5s var(--ease-expo) .15s both;">Analog<br>Foot<br>Controller</div>
+              <div style="width:24px;height:2px;background:var(--g-gradient-accent);margin:8px auto;animation:ban-slide-r .4s var(--ease-expo) .3s both;"></div>
+              <div style="font-family:var(--font-body);font-size:11px;color:var(--g-light);line-height:1.5;margin-bottom:12px;animation:ban-fade-up .4s var(--ease-expo) .4s both;">Built for PC gamers,<br>VR users, and creators.</div>
+              <div style="font-family:var(--font-display);font-weight:900;font-size:28px;color:var(--g-cyan);animation:ban-scale-in .4s var(--ease-expo) .5s both;">$299</div>
+            </div>
+            <div style="position:relative;z-index:1;animation:ban-fade-in .4s ease .65s both;">
+              <div style="display:inline-flex;background:var(--g-cyan);color:var(--g-black);font-family:var(--font-display);font-weight:700;font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:8px 16px;border-radius:4px;cursor:pointer;">Shop Now</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ember Urgency -->
+        <div class="ban" style="width:160px;height:600px;" onmouseenter="replayBanner(this)">
+          <div class="ban-label">160 x 600 — Urgency</div>
+          <div class="ban-inner" style="display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:20px 14px;text-align:center;background:linear-gradient(180deg,var(--g-black) 0%,rgba(255,77,28,.04) 100%);">
+            <div style="position:relative;z-index:1;animation:ban-fade-in .4s ease both;">
+              <img src="assets/svg/glydr-logo-white.svg" alt="GLYDR" height="14">
+            </div>
+            <div style="position:relative;z-index:1;">
+              <div style="display:inline-flex;align-items:center;gap:4px;background:var(--g-ember-ghost);border:1px solid rgba(255,77,28,.25);border-radius:9999px;padding:3px 8px;font-family:var(--font-mono);font-size:7px;letter-spacing:.15em;text-transform:uppercase;color:var(--g-ember);margin-bottom:10px;animation:ban-fade-in .3s ease .15s both;">
+                <span style="width:4px;height:4px;border-radius:50%;background:var(--g-ember);animation:ban-glow-pulse 1.5s ease infinite;"></span>Selling Fast
+              </div>
+              <div style="font-family:var(--font-display);font-weight:900;font-size:42px;color:var(--g-ember);line-height:1;text-shadow:0 0 30px rgba(255,77,28,.2);margin-bottom:4px;animation:ban-scale-in .4s var(--ease-expo) .25s both;">$299</div>
+              <div style="font-family:var(--font-display);font-weight:900;font-size:15px;text-transform:uppercase;color:var(--g-white);line-height:1.1;margin-bottom:8px;animation:ban-fade-up .4s var(--ease-expo) .35s both;">Don't Miss<br>Your Edge</div>
+              <div style="font-family:var(--font-mono);font-size:8px;letter-spacing:.12em;color:var(--g-mid);animation:ban-fade-in .3s ease .45s both;">16 ACTIONS<br>12MS LATENCY<br>USB-C + BT</div>
+            </div>
+            <div style="position:relative;z-index:1;display:flex;flex-direction:column;gap:5px;animation:ban-fade-in .4s ease .6s both;">
+              <div style="display:inline-flex;justify-content:center;background:var(--g-gradient-ember);color:var(--g-white);font-family:var(--font-display);font-weight:700;font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:8px 14px;border-radius:4px;cursor:pointer;">Order Now</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ 6b/6c. HALF PAGE — Additional Variants ═══ -->
+    <div class="sub">
+      <div class="sub-title">6b/6c. Half Page — Additional Variants — 300 x 600</div>
+      <div class="ban-grid ban-grid-2">
+        <!-- Split Layout -->
+        <div class="ban" style="width:300px;height:600px;" onmouseenter="replayBanner(this)">
+          <div class="ban-label">300 x 600 — Split</div>
+          <div class="ban-inner" style="display:flex;flex-direction:column;padding:0;background:var(--g-black);">
+            <!-- Top: product image -->
+            <div style="position:relative;height:50%;overflow:hidden;">
+              <img src="assets/img/product-detail.jpg" alt="" style="width:100%;height:100%;object-fit:cover;opacity:.5;">
+              <div style="position:absolute;inset:0;background:linear-gradient(180deg,transparent 30%,var(--g-black) 100%);"></div>
+              <div style="position:absolute;top:20px;left:20px;z-index:1;animation:ban-fade-in .4s ease both;">
+                <img src="assets/svg/glydr-logo-white.svg" alt="GLYDR" height="18">
+              </div>
+            </div>
+            <!-- Bottom: content -->
+            <div style="padding:0 28px 28px;position:relative;z-index:1;margin-top:-40px;">
+              <div style="display:inline-flex;align-items:center;gap:5px;background:rgba(0,229,255,.08);border:1px solid rgba(0,229,255,.2);border-radius:9999px;padding:3px 10px;font-family:var(--font-mono);font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:var(--g-cyan);margin-bottom:12px;animation:ban-fade-in .4s ease .2s both;">
+                <span style="width:5px;height:5px;border-radius:50%;background:var(--g-cyan);box-shadow:0 0 6px var(--g-cyan);"></span>Now Shipping
+              </div>
+              <div style="font-family:var(--font-display);font-weight:900;font-size:32px;text-transform:uppercase;color:var(--g-white);line-height:.95;margin-bottom:10px;animation:ban-fade-up .6s var(--ease-expo) .3s both;">Unlock<br>Your <span style="color:var(--g-cyan);">Feet.</span></div>
+              <div style="font-family:var(--font-body);font-size:13px;color:var(--g-mid);line-height:1.5;margin-bottom:16px;animation:ban-fade-up .5s var(--ease-expo) .4s both;">16 mappable actions. 12ms latency. Assembled in Texas.</div>
+              <div style="display:flex;gap:8px;animation:ban-fade-in .4s ease .55s both;">
+                <div style="display:inline-flex;background:var(--g-cyan);color:var(--g-black);font-family:var(--font-display);font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:10px 20px;border-radius:4px;cursor:pointer;">Order &mdash; $299</div>
+                <div style="display:inline-flex;background:transparent;color:var(--g-volt);border:1px solid var(--g-volt);font-family:var(--font-display);font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:9px 20px;border-radius:4px;cursor:pointer;">Demo</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Minimal Dark -->
+        <div class="ban" style="width:300px;height:600px;" onmouseenter="replayBanner(this)">
+          <div class="ban-label">300 x 600 — Minimal</div>
+          <div class="ban-inner" style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:32px;background:var(--g-black);">
+            <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(0,229,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,255,.02) 1px,transparent 1px);background-size:50px 50px;mask-image:radial-gradient(ellipse at center,black 20%,transparent 65%);"></div>
+            <div style="position:relative;z-index:1;">
+              <img src="assets/svg/glydr-logo-cyan.svg" alt="GLYDR" height="24" style="margin-bottom:28px;animation:ban-scale-in .5s var(--ease-expo) both;">
+              <div style="font-family:var(--font-display);font-weight:900;font-size:48px;text-transform:uppercase;color:var(--g-white);line-height:.9;margin-bottom:16px;animation:ban-fade-up .6s var(--ease-expo) .15s both;">Your<br>Hands<br>Are<br><span style="color:var(--g-cyan);">Maxed<br>Out.</span></div>
+              <div style="width:40px;height:2px;background:var(--g-gradient-primary);margin:0 auto 16px;animation:ban-slide-r .4s var(--ease-expo) .35s both;"></div>
+              <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.15em;color:var(--g-mid);margin-bottom:20px;animation:ban-fade-in .3s ease .45s both;">16 ACTIONS &bull; 12MS &bull; USB-C</div>
+              <div style="animation:ban-fade-in .4s ease .55s both;">
+                <div style="display:inline-flex;background:var(--g-cyan);color:var(--g-black);font-family:var(--font-display);font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase;padding:12px 28px;border-radius:4px;cursor:pointer;">Order &mdash; $299</div>
+              </div>
+              <div style="margin-top:20px;animation:ban-fade-in .3s ease .7s both;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 80 80" fill="none" style="opacity:.3;">
+                  <path d="M50 28H38C32.477 28 28 32.477 28 38V42C28 47.523 32.477 52 38 52H46V44H40V38H52V42C52 47.523 47.523 52 42 52" stroke="#00E5FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M44 44H52" stroke="#AAFF00" stroke-width="2.5" stroke-linecap="round"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ 7. BILLBOARD — Full Width Gradient ═══ -->
+    <div class="sub">
+      <div class="sub-title">7. Billboard — Gradient Sweep — 970 x 250</div>
+      <div class="ban" style="width:100%;max-width:970px;height:250px;" onmouseenter="replayBanner(this)">
+        <div class="ban-label">970 x 250</div>
+        <div class="ban-inner" style="display:flex;align-items:center;padding:0 48px;background:linear-gradient(135deg,var(--g-black) 0%,var(--g-dark) 40%,var(--g-black) 100%);">
+          <img src="assets/img/product-detail.jpg" alt="" style="position:absolute;right:60px;top:50%;transform:translateY(-50%);height:220%;opacity:.3;mask-image:radial-gradient(ellipse at center,black 30%,transparent 70%);-webkit-mask-image:radial-gradient(ellipse at center,black 30%,transparent 70%);">
+          <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 75% 50%,rgba(0,229,255,.08) 0%,transparent 50%);"></div>
+          <div style="position:absolute;inset:0;overflow:hidden;">
+            <div style="position:absolute;top:0;bottom:0;width:200px;background:linear-gradient(90deg,transparent,rgba(0,229,255,.03),transparent);animation:ban-shimmer 4s ease infinite;"></div>
+          </div>
+          <div style="position:relative;z-index:1;display:flex;align-items:center;width:100%;gap:40px;">
+            <div style="flex:1;">
+              <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.2em;color:var(--g-cyan);margin-bottom:8px;animation:ban-fade-in .4s ease both;">
+                <span style="display:inline-block;width:16px;height:1px;background:var(--g-cyan);vertical-align:middle;margin-right:8px;"></span>ANALOG FOOT CONTROLLER
+              </div>
+              <div style="font-family:var(--font-display);font-weight:900;font-size:44px;text-transform:uppercase;color:var(--g-white);line-height:.95;margin-bottom:12px;animation:ban-fade-up .6s var(--ease-expo) .15s both;">
+                Unlock Your <span style="color:var(--g-cyan);">Feet.</span>
+              </div>
+              <div style="font-family:var(--font-body);font-size:14px;color:var(--g-mid);max-width:420px;animation:ban-fade-up .5s var(--ease-expo) .3s both;">
+                16 mappable actions. 12ms latency. USB-C + Bluetooth. Assembled in Texas.
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:flex-end;gap:12px;animation:ban-fade-in .4s ease .45s both;">
+              <div style="display:inline-flex;background:var(--g-cyan);color:var(--g-black);font-family:var(--font-display);font-weight:700;font-size:14px;letter-spacing:.1em;text-transform:uppercase;padding:12px 28px;border-radius:4px;cursor:pointer;">Order Now &mdash; $299</div>
+              <div style="display:inline-flex;background:transparent;color:var(--g-volt);border:1px solid var(--g-volt);font-family:var(--font-display);font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:8px 20px;border-radius:4px;cursor:pointer;">Watch Demo</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ 7b/7c. BILLBOARD — Additional Variants ═══ -->
+    <div class="sub">
+      <div class="sub-title">7b. Billboard — Product Showcase — 970 x 250</div>
+      <div class="ban" style="width:100%;max-width:970px;height:250px;" onmouseenter="replayBanner(this)">
+        <div class="ban-label">970 x 250 — Product</div>
+        <div class="ban-inner" style="display:flex;align-items:center;padding:0;background:var(--g-black);">
+          <img src="assets/img/product-detail.jpg" alt="" style="position:absolute;right:0;top:0;height:100%;width:50%;object-fit:cover;opacity:.35;mask-image:linear-gradient(90deg,transparent 0%,black 30%);-webkit-mask-image:linear-gradient(90deg,transparent 0%,black 30%);">
+          <div style="position:relative;z-index:1;padding:0 48px;width:100%;display:flex;align-items:center;gap:40px;">
+            <div style="flex:1;">
+              <img src="assets/svg/glydr-logo-white.svg" alt="GLYDR" height="20" style="margin-bottom:12px;animation:ban-fade-in .3s ease both;">
+              <div style="font-family:var(--font-display);font-weight:900;font-size:40px;text-transform:uppercase;color:var(--g-white);line-height:.95;margin-bottom:10px;animation:ban-fade-up .6s var(--ease-expo) .1s both;">Built in Texas.<br><span style="color:var(--g-volt);">Played Everywhere.</span></div>
+              <div style="font-family:var(--font-body);font-size:14px;color:var(--g-mid);margin-bottom:16px;animation:ban-fade-up .5s var(--ease-expo) .25s both;">The world's first analog dual foot controller. 16 actions. $299.</div>
+              <div style="display:flex;gap:10px;animation:ban-fade-in .4s ease .4s both;">
+                <div style="display:inline-flex;background:var(--g-cyan);color:var(--g-black);font-family:var(--font-display);font-weight:700;font-size:13px;letter-spacing:.1em;text-transform:uppercase;padding:11px 24px;border-radius:4px;cursor:pointer;">Order Now</div>
+                <div style="display:inline-flex;background:transparent;color:var(--g-volt);border:1px solid var(--g-volt);font-family:var(--font-display);font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:10px 20px;border-radius:4px;cursor:pointer;">Watch Demo</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub">
+      <div class="sub-title">7c. Billboard — Spec Bar — 970 x 250</div>
+      <div class="ban" style="width:100%;max-width:970px;height:250px;" onmouseenter="replayBanner(this)">
+        <div class="ban-label">970 x 250 — Specs</div>
+        <div class="ban-inner" style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:32px;background:radial-gradient(ellipse at 50% 50%,rgba(0,229,255,.05) 0%,transparent 50%),var(--g-black);">
+          <img src="assets/img/product-detail.jpg" alt="" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:500px;opacity:.12;mask-image:radial-gradient(ellipse at center,black 15%,transparent 55%);-webkit-mask-image:radial-gradient(ellipse at center,black 15%,transparent 55%);">
+          <div style="position:relative;z-index:1;">
+            <img src="assets/svg/glydr-logo-white.svg" alt="GLYDR" height="22" style="margin-bottom:16px;animation:ban-scale-in .4s var(--ease-expo) both;">
+            <div style="font-family:var(--font-display);font-weight:900;font-size:36px;text-transform:uppercase;color:var(--g-white);line-height:1;margin-bottom:16px;animation:ban-fade-up .5s var(--ease-expo) .1s both;">Engage the Agility of <span style="color:var(--g-cyan);">Your Feet.</span></div>
+            <div style="display:flex;justify-content:center;gap:32px;margin-bottom:18px;animation:ban-fade-in .4s ease .25s both;">
+              <div><span style="font-family:var(--font-display);font-weight:900;font-size:24px;color:var(--g-cyan);">16</span> <span style="font-family:var(--font-mono);font-size:9px;letter-spacing:.1em;color:var(--g-mid);">ACTIONS</span></div>
+              <div style="width:1px;background:var(--g-border);"></div>
+              <div><span style="font-family:var(--font-display);font-weight:900;font-size:24px;color:var(--g-volt);">12ms</span> <span style="font-family:var(--font-mono);font-size:9px;letter-spacing:.1em;color:var(--g-mid);">LATENCY</span></div>
+              <div style="width:1px;background:var(--g-border);"></div>
+              <div><span style="font-family:var(--font-display);font-weight:900;font-size:24px;color:var(--g-offwhite);">USB-C</span> <span style="font-family:var(--font-mono);font-size:9px;letter-spacing:.1em;color:var(--g-mid);">+ BLUETOOTH</span></div>
+            </div>
+            <div style="animation:ban-fade-in .4s ease .4s both;">
+              <div style="display:inline-flex;background:var(--g-cyan);color:var(--g-black);font-family:var(--font-display);font-weight:700;font-size:14px;letter-spacing:.1em;text-transform:uppercase;padding:12px 32px;border-radius:4px;cursor:pointer;">Order Now &mdash; $299</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ 8. SQUARE — Discord Community ═══ -->
+    <div class="sub">
+      <div class="sub-title">8. Square — Discord Community — 250 x 250</div>
+      <div class="ban-grid ban-grid-2">
+        <div class="ban" style="width:250px;height:250px;" onmouseenter="replayBanner(this)">
+          <div class="ban-label">250 x 250</div>
+          <div class="ban-inner" style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;background:radial-gradient(circle at 50% 50%,rgba(88,101,242,.1) 0%,transparent 60%),var(--g-black);">
+            <div style="position:relative;z-index:1;">
+              <div style="font-size:36px;margin-bottom:8px;animation:ban-scale-in .4s var(--ease-expo) both;">
+                <svg width="36" height="28" viewBox="0 0 71 55" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M60.1 4.9A58.5 58.5 0 0045.4.2a.2.2 0 00-.2.1 40.8 40.8 0 00-1.8 3.7 54 54 0 00-16.2 0A37.5 37.5 0 0025.4.3a.2.2 0 00-.2-.1A58.4 58.4 0 0010.5 4.9a.2.2 0 00-.1.1C1.5 18.7-.9 32.2.3 45.5v.1a58.7 58.7 0 0017.7 9a.2.2 0 00.3-.1 42 42 0 003.6-5.9.2.2 0 00-.1-.3 38.7 38.7 0 01-5.5-2.6.2.2 0 01 0-.4l1.1-.9a.2.2 0 01.2 0 41.8 41.8 0 0035.6 0 .2.2 0 01.2 0l1.1.9a.2.2 0 010 .3 36.4 36.4 0 01-5.5 2.6.2.2 0 00-.1.3 47.2 47.2 0 003.6 5.9.2.2 0 00.3.1A58.5 58.5 0 0070.5 45.6v-.1c1.4-15-2.3-28.4-9.8-40.1a.2.2 0 00-.1-.1zM23.7 37.3c-3.5 0-6.3-3.2-6.3-7.1 0-3.9 2.8-7.1 6.3-7.1 3.6 0 6.4 3.2 6.3 7.1 0 3.9-2.8 7.1-6.3 7.1zm23.2 0c-3.5 0-6.3-3.2-6.3-7.1 0-3.9 2.8-7.1 6.3-7.1 3.6 0 6.4 3.2 6.3 7.1 0 3.9-2.7 7.1-6.3 7.1z" fill="#5865F2"/></svg>
+              </div>
+              <div style="font-family:var(--font-display);font-weight:900;font-size:22px;text-transform:uppercase;color:var(--g-white);line-height:1.1;margin-bottom:4px;animation:ban-fade-up .5s var(--ease-expo) .15s both;">Join the<br>GLYDR Squad</div>
+              <div style="font-family:var(--font-body);font-size:11px;color:var(--g-mid);line-height:1.4;margin-bottom:10px;animation:ban-fade-up .5s var(--ease-expo) .3s both;">Share profiles. Get support.<br>Shape the roadmap.</div>
+              <div style="animation:ban-fade-in .4s ease .45s both;">
+                <div style="display:inline-flex;align-items:center;gap:6px;background:#5865F2;color:var(--g-white);font-family:var(--font-display);font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:9px 18px;border-radius:4px;cursor:pointer;">Join Discord</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ═══ 9. SQUARE — Ember Urgency ═══ -->
+        <div class="ban" style="width:250px;height:250px;" onmouseenter="replayBanner(this)">
+          <div class="ban-label">250 x 250</div>
+          <div class="ban-inner" style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;background:radial-gradient(circle at 50% 30%,rgba(255,77,28,.08) 0%,transparent 60%),var(--g-black);">
+            <img src="assets/img/product-detail.jpg" alt="" style="position:absolute;bottom:-10px;left:50%;transform:translateX(-50%);width:220px;opacity:.25;mask-image:radial-gradient(ellipse at center,black 25%,transparent 70%);-webkit-mask-image:radial-gradient(ellipse at center,black 25%,transparent 70%);">
+            <div style="position:relative;z-index:1;">
+              <div style="display:inline-flex;align-items:center;gap:5px;background:var(--g-ember-ghost);border:1px solid rgba(255,77,28,.25);border-radius:9999px;padding:3px 10px;font-family:var(--font-mono);font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:var(--g-ember);margin-bottom:12px;animation:ban-fade-in .3s ease both;">
+                <span style="width:5px;height:5px;border-radius:50%;background:var(--g-ember);animation:ban-glow-pulse 1.5s ease infinite;"></span>Limited Stock
+              </div>
+              <div style="font-family:var(--font-display);font-weight:900;font-size:22px;text-transform:uppercase;color:var(--g-white);line-height:1.1;margin-bottom:6px;animation:ban-fade-up .5s var(--ease-expo) .15s both;">Don't Miss<br>Your Edge</div>
+              <div style="font-family:var(--font-display);font-weight:900;font-size:36px;color:var(--g-ember);text-shadow:0 0 30px rgba(255,77,28,.3);animation:ban-scale-in .4s var(--ease-expo) .3s both;">$299</div>
+              <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.12em;color:var(--g-mid);margin-bottom:16px;animation:ban-fade-in .3s ease .4s both;">USB-C + BLUETOOTH</div>
+              <div style="animation:ban-fade-in .4s ease .5s both;">
+                <div style="display:inline-flex;background:var(--g-gradient-ember);color:var(--g-white);font-family:var(--font-display);font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:9px 20px;border-radius:4px;cursor:pointer;">Order Before It's Gone</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ 8c/9c. SQUARE — Additional Variants ═══ -->
+    <div class="sub">
+      <div class="sub-title">8c/9c. Square — Additional Variants — 250 x 250</div>
+      <div class="ban-grid ban-grid-2">
+        <!-- Product Hero -->
+        <div class="ban" style="width:250px;height:250px;" onmouseenter="replayBanner(this)">
+          <div class="ban-label">250 x 250 — Product</div>
+          <div class="ban-inner" style="display:flex;flex-direction:column;justify-content:flex-end;padding:20px;background:var(--g-black);">
+            <img src="assets/img/product-detail.jpg" alt="" style="position:absolute;top:-10px;left:50%;transform:translateX(-50%);width:260px;opacity:.35;mask-image:linear-gradient(180deg,black 20%,transparent 80%);-webkit-mask-image:linear-gradient(180deg,black 20%,transparent 80%);">
+            <div style="position:absolute;inset:0;background:linear-gradient(180deg,transparent 20%,var(--g-black) 75%);z-index:1;"></div>
+            <div style="position:relative;z-index:2;">
+              <img src="assets/svg/glydr-logo-white.svg" alt="GLYDR" height="16" style="margin-bottom:8px;animation:ban-fade-in .3s ease both;">
+              <div style="font-family:var(--font-display);font-weight:900;font-size:20px;text-transform:uppercase;color:var(--g-white);line-height:1;margin-bottom:4px;animation:ban-fade-up .5s var(--ease-expo) .1s both;">Unlock Your Feet.</div>
+              <div style="font-family:var(--font-mono);font-size:8px;letter-spacing:.12em;color:var(--g-mid);margin-bottom:10px;animation:ban-fade-in .3s ease .2s both;">16 ACTIONS &bull; $299</div>
+              <div style="animation:ban-fade-in .4s ease .35s both;">
+                <div style="display:inline-flex;background:var(--g-cyan);color:var(--g-black);font-family:var(--font-display);font-weight:700;font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:8px 16px;border-radius:4px;cursor:pointer;">Shop Now</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Volt Spec -->
+        <div class="ban" style="width:250px;height:250px;" onmouseenter="replayBanner(this)">
+          <div class="ban-label">250 x 250 — Specs</div>
+          <div class="ban-inner" style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px;background:radial-gradient(circle at 50% 50%,rgba(170,255,0,.05) 0%,transparent 60%),var(--g-black);">
+            <div style="position:relative;z-index:1;">
+              <img src="assets/svg/glydr-logo-white.svg" alt="GLYDR" height="14" style="margin-bottom:12px;animation:ban-fade-in .3s ease both;">
+              <div style="display:flex;justify-content:center;gap:16px;margin-bottom:12px;animation:ban-fade-in .4s ease .15s both;">
+                <div><span style="font-family:var(--font-display);font-weight:900;font-size:28px;color:var(--g-cyan);">16</span><br><span style="font-family:var(--font-mono);font-size:7px;letter-spacing:.12em;color:var(--g-muted);">ACTIONS</span></div>
+                <div><span style="font-family:var(--font-display);font-weight:900;font-size:28px;color:var(--g-volt);">12ms</span><br><span style="font-family:var(--font-mono);font-size:7px;letter-spacing:.12em;color:var(--g-muted);">LATENCY</span></div>
+              </div>
+              <div style="font-family:var(--font-display);font-weight:900;font-size:18px;text-transform:uppercase;color:var(--g-white);line-height:1.1;margin-bottom:4px;animation:ban-fade-up .5s var(--ease-expo) .25s both;">Analog Foot<br>Controller</div>
+              <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.12em;color:var(--g-mid);margin-bottom:12px;animation:ban-fade-in .3s ease .35s both;">USB-C + BLUETOOTH &bull; $299</div>
+              <div style="animation:ban-fade-in .4s ease .45s both;">
+                <div style="display:inline-flex;background:var(--g-volt);color:var(--g-black);font-family:var(--font-display);font-weight:700;font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:8px 16px;border-radius:4px;cursor:pointer;">Order Now</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ 10. MOBILE BANNER — Compact CTA ═══ -->
+    <div class="sub">
+      <div class="sub-title">10. Mobile Banner — Compact — 320 x 50</div>
+      <div class="ban" style="width:320px;height:50px;" onmouseenter="replayBanner(this)">
+        <div class="ban-label">320 x 50</div>
+        <div class="ban-inner" style="display:flex;align-items:center;padding:0 14px;background:linear-gradient(90deg,var(--g-black) 0%,var(--g-dark) 50%,var(--g-black) 100%);">
+          <div style="position:relative;z-index:1;display:flex;align-items:center;width:100%;gap:10px;">
+            <img src="assets/svg/glydr-logo-white.svg" alt="GLYDR" height="14" style="flex-shrink:0;animation:ban-scale-in .3s var(--ease-expo) both;">
+            <div style="flex:1;animation:ban-fade-up .4s var(--ease-expo) .1s both;">
+              <div style="font-family:var(--font-display);font-weight:800;font-size:13px;text-transform:uppercase;letter-spacing:.03em;color:var(--g-white);line-height:1;">Unlock Your Feet</div>
+              <div style="font-family:var(--font-mono);font-size:7px;letter-spacing:.1em;color:var(--g-mid);">16 ACTIONS &bull; 12MS &bull; USB-C</div>
+            </div>
+            <div style="animation:ban-fade-in .3s ease .25s both;">
+              <div style="display:inline-flex;background:var(--g-cyan);color:var(--g-black);font-family:var(--font-display);font-weight:700;font-size:9px;letter-spacing:.08em;text-transform:uppercase;padding:6px 12px;border-radius:3px;cursor:pointer;">Shop</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ 11. LARGE MOBILE — Full CTA ═══ -->
+    <div class="sub">
+      <div class="sub-title">11. Large Mobile Banner — 320 x 100</div>
+      <div class="ban" style="width:320px;height:100px;" onmouseenter="replayBanner(this)">
+        <div class="ban-label">320 x 100</div>
+        <div class="ban-inner" style="display:flex;align-items:center;padding:0 20px;background:radial-gradient(ellipse at 85% 50%,rgba(0,229,255,.08) 0%,transparent 50%),var(--g-black);">
+          <img src="assets/img/product-detail.jpg" alt="" style="position:absolute;right:-10px;top:50%;transform:translateY(-50%);height:180%;opacity:.3;mask-image:linear-gradient(90deg,transparent 0%,black 30%,transparent 90%);-webkit-mask-image:linear-gradient(90deg,transparent 0%,black 30%,transparent 90%);">
+          <div style="position:relative;z-index:1;display:flex;align-items:center;width:100%;gap:14px;">
+            <div style="flex:1;animation:ban-fade-up .5s var(--ease-expo) both;">
+              <div style="font-family:var(--font-display);font-weight:900;font-size:18px;text-transform:uppercase;color:var(--g-white);line-height:1.05;margin-bottom:4px;">Your Hands<br>Are Maxed Out.</div>
+              <div style="font-family:var(--font-mono);font-size:8px;letter-spacing:.12em;color:var(--g-mid);">ANALOG FOOT CONTROLLER &bull; $299</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:5px;animation:ban-fade-in .4s ease .3s both;">
+              <div style="display:inline-flex;justify-content:center;background:var(--g-cyan);color:var(--g-black);font-family:var(--font-display);font-weight:700;font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:7px 14px;border-radius:3px;cursor:pointer;">Order Now</div>
+              <div style="display:inline-flex;justify-content:center;background:transparent;color:var(--g-volt);border:1px solid rgba(170,255,0,.3);font-family:var(--font-display);font-weight:700;font-size:9px;letter-spacing:.08em;text-transform:uppercase;padding:5px 14px;border-radius:3px;cursor:pointer;">Demo</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ 10b/11b. MOBILE — Additional Variants ═══ -->
+    <div class="sub">
+      <div class="sub-title">10b/11b. Mobile — Additional Variants</div>
+      <div class="ban-grid" style="display:flex;flex-direction:column;gap:16px;align-items:flex-start;">
+        <!-- 320x50 Volt -->
+        <div class="ban" style="width:320px;height:50px;" onmouseenter="replayBanner(this)">
+          <div class="ban-label">320 x 50 — Volt</div>
+          <div class="ban-inner" style="display:flex;align-items:center;padding:0 14px;background:var(--g-black);border-top:2px solid var(--g-volt);">
+            <div style="position:relative;z-index:1;display:flex;align-items:center;width:100%;gap:10px;">
+              <img src="assets/svg/glydr-logo-white.svg" alt="GLYDR" height="12" style="flex-shrink:0;animation:ban-scale-in .3s var(--ease-expo) both;">
+              <div style="flex:1;animation:ban-fade-up .4s var(--ease-expo) .1s both;">
+                <div style="font-family:var(--font-display);font-weight:800;font-size:12px;text-transform:uppercase;letter-spacing:.03em;color:var(--g-white);line-height:1;">Built in Texas. Played Everywhere.</div>
+                <div style="font-family:var(--font-mono);font-size:7px;letter-spacing:.1em;color:var(--g-volt);">ANALOG FOOT CONTROLLER</div>
+              </div>
+              <div style="animation:ban-fade-in .3s ease .25s both;">
+                <div style="display:inline-flex;background:var(--g-volt);color:var(--g-black);font-family:var(--font-display);font-weight:700;font-size:9px;letter-spacing:.08em;text-transform:uppercase;padding:6px 12px;border-radius:3px;cursor:pointer;">$299</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 320x50 Ember Urgency -->
+        <div class="ban" style="width:320px;height:50px;" onmouseenter="replayBanner(this)">
+          <div class="ban-label">320 x 50 — Urgency</div>
+          <div class="ban-inner" style="display:flex;align-items:center;padding:0 14px;background:linear-gradient(90deg,var(--g-black) 0%,rgba(255,77,28,.06) 100%);">
+            <div style="position:relative;z-index:1;display:flex;align-items:center;width:100%;gap:10px;">
+              <span style="width:5px;height:5px;border-radius:50%;background:var(--g-ember);animation:ban-glow-pulse 1.5s ease infinite;flex-shrink:0;"></span>
+              <div style="flex:1;animation:ban-fade-up .4s var(--ease-expo) .1s both;">
+                <div style="font-family:var(--font-display);font-weight:800;font-size:13px;text-transform:uppercase;letter-spacing:.03em;color:var(--g-white);line-height:1;">Limited Stock &mdash; GLYDR</div>
+                <div style="font-family:var(--font-mono);font-size:7px;letter-spacing:.1em;color:var(--g-ember);">SELLING FAST &bull; ORDER NOW</div>
+              </div>
+              <div style="animation:ban-fade-in .3s ease .25s both;">
+                <div style="display:inline-flex;background:var(--g-gradient-ember);color:var(--g-white);font-family:var(--font-display);font-weight:700;font-size:9px;letter-spacing:.08em;text-transform:uppercase;padding:6px 12px;border-radius:3px;cursor:pointer;">$299</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 320x100 Product -->
+        <div class="ban" style="width:320px;height:100px;" onmouseenter="replayBanner(this)">
+          <div class="ban-label">320 x 100 — Product</div>
+          <div class="ban-inner" style="display:flex;align-items:center;padding:0;background:var(--g-black);">
+            <img src="assets/img/product-detail.jpg" alt="" style="position:absolute;right:0;top:0;height:100%;width:45%;object-fit:cover;opacity:.4;mask-image:linear-gradient(90deg,transparent 0%,black 40%);-webkit-mask-image:linear-gradient(90deg,transparent 0%,black 40%);">
+            <div style="position:relative;z-index:1;display:flex;align-items:center;width:100%;gap:14px;padding:0 20px;">
+              <div style="flex:1;animation:ban-fade-up .5s var(--ease-expo) both;">
+                <img src="assets/svg/glydr-logo-white.svg" alt="GLYDR" height="14" style="margin-bottom:6px;">
+                <div style="font-family:var(--font-display);font-weight:900;font-size:16px;text-transform:uppercase;color:var(--g-white);line-height:1.05;margin-bottom:4px;">Engage Your Feet.</div>
+                <div style="font-family:var(--font-mono);font-size:8px;letter-spacing:.12em;color:var(--g-cyan);">16 ACTIONS &bull; 12MS &bull; USB-C</div>
+              </div>
+              <div style="animation:ban-fade-in .4s ease .3s both;">
+                <div style="display:inline-flex;background:var(--g-cyan);color:var(--g-black);font-family:var(--font-display);font-weight:700;font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:8px 14px;border-radius:3px;cursor:pointer;">Order $299</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 320x100 Volt Dual CTA -->
+        <div class="ban" style="width:320px;height:100px;" onmouseenter="replayBanner(this)">
+          <div class="ban-label">320 x 100 — Volt</div>
+          <div class="ban-inner" style="display:flex;align-items:center;padding:0 20px;background:linear-gradient(90deg,var(--g-black) 0%,var(--g-dark) 100%);">
+            <div style="position:relative;z-index:1;display:flex;align-items:center;width:100%;gap:14px;">
+              <div style="flex:1;animation:ban-fade-up .5s var(--ease-expo) both;">
+                <img src="assets/svg/glydr-logo-white.svg" alt="GLYDR" height="14" style="margin-bottom:6px;">
+                <div style="font-family:var(--font-display);font-weight:900;font-size:16px;text-transform:uppercase;color:var(--g-white);line-height:1.05;">16 Actions.<br><span style="color:var(--g-volt);">Zero Extra Fingers.</span></div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:5px;animation:ban-fade-in .4s ease .3s both;">
+                <div style="display:inline-flex;justify-content:center;background:var(--g-volt);color:var(--g-black);font-family:var(--font-display);font-weight:700;font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:7px 14px;border-radius:3px;cursor:pointer;">Shop $299</div>
+                <div style="display:inline-flex;justify-content:center;background:transparent;color:var(--g-cyan);border:1px solid rgba(0,229,255,.3);font-family:var(--font-display);font-weight:700;font-size:9px;letter-spacing:.08em;text-transform:uppercase;padding:5px 14px;border-radius:3px;cursor:pointer;">Watch Demo</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ 12. SOCIAL — Instagram/Facebook Square ═══ -->
+    <div class="sub">
+      <div class="sub-title">12. Social Square — Instagram / Facebook — 1080 x 1080 (scaled)</div>
+      <div class="ban" style="width:400px;height:400px;" onmouseenter="replayBanner(this)">
+        <div class="ban-label">1080 x 1080</div>
+        <div class="ban-inner" style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px;background:radial-gradient(circle at 50% 40%,rgba(0,229,255,.08) 0%,transparent 50%),radial-gradient(circle at 80% 80%,rgba(170,255,0,.04) 0%,transparent 40%),var(--g-black);">
+          <img src="assets/img/product-detail.jpg" alt="" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:380px;opacity:.25;mask-image:radial-gradient(ellipse at center,black 30%,transparent 70%);-webkit-mask-image:radial-gradient(ellipse at center,black 30%,transparent 70%);">
+          <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(0,229,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,255,.025) 1px,transparent 1px);background-size:50px 50px;mask-image:radial-gradient(ellipse at center,black 20%,transparent 70%);"></div>
+          <div style="position:relative;z-index:1;">
+            <div style="animation:ban-scale-in .4s var(--ease-expo) both;margin-bottom:20px;">
+              <img src="assets/svg/glydr-logo-white.svg" alt="GLYDR" height="28">
+            </div>
+            <div style="font-family:var(--font-display);font-weight:900;font-size:42px;text-transform:uppercase;color:var(--g-white);line-height:.95;margin-bottom:16px;animation:ban-fade-up .6s var(--ease-expo) .15s both;">
+              Engage the<br>Agility of<br><span style="color:var(--g-cyan);text-shadow:0 0 40px rgba(0,229,255,.35);">Your Feet.</span>
+            </div>
+            <div style="display:flex;justify-content:center;gap:24px;margin-bottom:20px;animation:ban-fade-in .4s ease .35s both;">
+              <div><span style="font-family:var(--font-display);font-weight:900;font-size:28px;color:var(--g-cyan);">16</span><br><span style="font-family:var(--font-mono);font-size:8px;letter-spacing:.15em;color:var(--g-muted);">ACTIONS</span></div>
+              <div style="width:1px;background:var(--g-border);"></div>
+              <div><span style="font-family:var(--font-display);font-weight:900;font-size:28px;color:var(--g-volt);">12ms</span><br><span style="font-family:var(--font-mono);font-size:8px;letter-spacing:.15em;color:var(--g-muted);">LATENCY</span></div>
+              <div style="width:1px;background:var(--g-border);"></div>
+              <div><span style="font-family:var(--font-display);font-weight:900;font-size:28px;color:var(--g-offwhite);">$299</span><br><span style="font-family:var(--font-mono);font-size:8px;letter-spacing:.15em;color:var(--g-muted);">USD</span></div>
+            </div>
+            <div style="animation:ban-fade-in .4s ease .5s both;">
+              <div style="display:inline-flex;background:var(--g-cyan);color:var(--g-black);font-family:var(--font-display);font-weight:700;font-size:14px;letter-spacing:.1em;text-transform:uppercase;padding:12px 32px;border-radius:4px;cursor:pointer;">Shop Now</div>
+            </div>
+            <div style="margin-top:16px;animation:ban-fade-in .3s ease .65s both;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 80 80" fill="none" style="opacity:.4;">
+                <path d="M50 28H38C32.477 28 28 32.477 28 38V42C28 47.523 32.477 52 38 52H46V44H40V38H52V42C52 47.523 47.523 52 42 52" stroke="#00E5FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M44 44H52" stroke="#AAFF00" stroke-width="2.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ 12b/12c. SOCIAL SQUARE — Additional Variants ═══ -->
+    <div class="sub">
+      <div class="sub-title">12b/12c. Social Square — Additional Variants — 1080 x 1080 (scaled)</div>
+      <div class="ban-grid ban-grid-2">
+        <!-- Product Split -->
+        <div class="ban" style="width:400px;height:400px;" onmouseenter="replayBanner(this)">
+          <div class="ban-label">1080 x 1080 — Product</div>
+          <div class="ban-inner" style="display:flex;flex-direction:column;padding:0;background:var(--g-black);">
+            <div style="position:relative;height:55%;overflow:hidden;">
+              <img src="assets/img/product-detail.jpg" alt="" style="width:100%;height:100%;object-fit:cover;opacity:.6;">
+              <div style="position:absolute;inset:0;background:linear-gradient(180deg,transparent 20%,var(--g-black) 100%);"></div>
+              <div style="position:absolute;top:24px;left:24px;z-index:1;animation:ban-fade-in .4s ease both;">
+                <img src="assets/svg/glydr-logo-white.svg" alt="GLYDR" height="22">
+              </div>
+            </div>
+            <div style="padding:0 32px 32px;position:relative;z-index:1;margin-top:-48px;">
+              <div style="font-family:var(--font-display);font-weight:900;font-size:38px;text-transform:uppercase;color:var(--g-white);line-height:.95;margin-bottom:12px;animation:ban-fade-up .6s var(--ease-expo) .2s both;">Unlock<br>Your <span style="color:var(--g-cyan);">Feet.</span></div>
+              <div style="font-family:var(--font-body);font-size:14px;color:var(--g-mid);line-height:1.5;margin-bottom:16px;animation:ban-fade-up .5s var(--ease-expo) .35s both;">16 mappable actions. 12ms latency.<br>USB-C + Bluetooth. $299.</div>
+              <div style="display:flex;gap:10px;animation:ban-fade-in .4s ease .5s both;">
+                <div style="display:inline-flex;background:var(--g-cyan);color:var(--g-black);font-family:var(--font-display);font-weight:700;font-size:13px;letter-spacing:.1em;text-transform:uppercase;padding:11px 24px;border-radius:4px;cursor:pointer;">Shop Now</div>
+                <div style="display:inline-flex;background:transparent;color:var(--g-volt);border:1px solid var(--g-volt);font-family:var(--font-display);font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase;padding:10px 24px;border-radius:4px;cursor:pointer;">Demo</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Minimal Centered -->
+        <div class="ban" style="width:400px;height:400px;" onmouseenter="replayBanner(this)">
+          <div class="ban-label">1080 x 1080 — Minimal</div>
+          <div class="ban-inner" style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px;background:var(--g-black);">
+            <div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--g-gradient-primary);"></div>
+            <div style="position:relative;z-index:1;">
+              <img src="assets/svg/glydr-logo-cyan.svg" alt="GLYDR" height="26" style="margin-bottom:24px;animation:ban-scale-in .4s var(--ease-expo) both;">
+              <div style="font-family:var(--font-display);font-weight:900;font-size:52px;text-transform:uppercase;color:var(--g-white);line-height:.9;margin-bottom:16px;animation:ban-fade-up .6s var(--ease-expo) .15s both;">Your<br>Hands Are<br><span style="color:var(--g-volt);">Maxed Out.</span></div>
+              <div style="width:40px;height:2px;background:var(--g-gradient-accent);margin:0 auto 16px;animation:ban-slide-r .4s var(--ease-expo) .3s both;"></div>
+              <div style="font-family:var(--font-body);font-size:15px;color:var(--g-mid);line-height:1.5;max-width:300px;margin:0 auto 20px;animation:ban-fade-up .5s var(--ease-expo) .4s both;">The world's first analog dual foot controller for PC gaming and VR.</div>
+              <div style="animation:ban-fade-in .4s ease .55s both;">
+                <div style="display:inline-flex;background:var(--g-cyan);color:var(--g-black);font-family:var(--font-display);font-weight:700;font-size:14px;letter-spacing:.1em;text-transform:uppercase;padding:12px 32px;border-radius:4px;cursor:pointer;">Order &mdash; $299</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ 13. SOCIAL 4:5 — Instagram / Facebook Portrait ═══ -->
+    <div class="sub">
+      <div class="sub-title">13. Social 4:5 — Instagram / Facebook Portrait — 1080 x 1350 (scaled)</div>
+      <div class="ban-grid ban-grid-2">
+        <!-- Cinematic Video -->
+        <div class="ban" style="width:400px;height:500px;" onmouseenter="replayBanner(this)">
+          <div class="ban-label">1080 x 1350 — Cinematic</div>
+          <div class="ban-inner" style="display:flex;flex-direction:column;justify-content:space-between;padding:0;background:var(--g-black);">
+            <video autoplay muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.3;">
+              <source src="assets/video/hero-h264.mp4" type="video/mp4">
+            </video>
+            <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,6,8,.5) 0%,rgba(5,6,8,.2) 30%,rgba(5,6,8,.7) 60%,rgba(5,6,8,.95) 80%);z-index:1;"></div>
+            <!-- Top logo -->
+            <div style="position:relative;z-index:2;padding:28px 28px 0;animation:ban-fade-in .4s ease both;">
+              <img src="assets/svg/glydr-logo-white.svg" alt="GLYDR" height="22">
+            </div>
+            <!-- Bottom content -->
+            <div style="position:relative;z-index:2;padding:0 28px 28px;text-align:left;">
+              <div style="display:inline-flex;align-items:center;gap:5px;background:rgba(0,229,255,.08);border:1px solid rgba(0,229,255,.2);border-radius:9999px;padding:3px 10px;font-family:var(--font-mono);font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:var(--g-cyan);margin-bottom:14px;animation:ban-fade-in .4s ease .2s both;">
+                <span style="width:5px;height:5px;border-radius:50%;background:var(--g-cyan);box-shadow:0 0 6px var(--g-cyan);"></span>Now Shipping
+              </div>
+              <div style="font-family:var(--font-display);font-weight:900;font-size:38px;text-transform:uppercase;color:var(--g-white);line-height:.95;margin-bottom:12px;animation:ban-fade-up .6s var(--ease-expo) .3s both;">Engage the<br>Agility of<br><span style="color:var(--g-cyan);text-shadow:0 0 30px rgba(0,229,255,.35);">Your Feet.</span></div>
+              <div style="font-family:var(--font-body);font-size:14px;color:var(--g-mid);line-height:1.5;margin-bottom:16px;animation:ban-fade-up .5s var(--ease-expo) .4s both;">The world's first analog dual foot controller for PC gaming and VR.</div>
+              <div style="display:flex;gap:10px;margin-bottom:16px;animation:ban-fade-in .4s ease .55s both;">
+                <div style="display:inline-flex;background:var(--g-cyan);color:var(--g-black);font-family:var(--font-display);font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase;padding:10px 22px;border-radius:4px;cursor:pointer;">Order Now &mdash; $299</div>
+                <div style="display:inline-flex;background:transparent;color:var(--g-volt);border:1px solid var(--g-volt);font-family:var(--font-display);font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:9px 20px;border-radius:4px;cursor:pointer;">Watch Demo</div>
+              </div>
+              <div style="display:flex;gap:20px;animation:ban-fade-in .3s ease .7s both;">
+                <div><span style="font-family:var(--font-display);font-weight:900;font-size:22px;color:var(--g-cyan);">16</span><br><span style="font-family:var(--font-mono);font-size:7px;letter-spacing:.12em;color:var(--g-muted);">ACTIONS</span></div>
+                <div><span style="font-family:var(--font-display);font-weight:900;font-size:22px;color:var(--g-volt);">12ms</span><br><span style="font-family:var(--font-mono);font-size:7px;letter-spacing:.12em;color:var(--g-muted);">LATENCY</span></div>
+                <div><span style="font-family:var(--font-display);font-weight:900;font-size:22px;color:var(--g-offwhite);">USB-C</span><br><span style="font-family:var(--font-mono);font-size:7px;letter-spacing:.12em;color:var(--g-muted);">+ BT</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product Split -->
+        <div class="ban" style="width:400px;height:500px;" onmouseenter="replayBanner(this)">
+          <div class="ban-label">1080 x 1350 — Product Split</div>
+          <div class="ban-inner" style="display:flex;flex-direction:column;padding:0;background:var(--g-black);">
+            <!-- Top product image -->
+            <div style="position:relative;height:45%;overflow:hidden;">
+              <img src="assets/img/product-detail.jpg" alt="" style="width:100%;height:100%;object-fit:cover;opacity:.55;">
+              <div style="position:absolute;inset:0;background:linear-gradient(180deg,transparent 10%,var(--g-black) 100%);"></div>
+              <div style="position:absolute;top:24px;left:24px;z-index:1;animation:ban-fade-in .4s ease both;">
+                <img src="assets/svg/glydr-logo-white.svg" alt="GLYDR" height="20">
+              </div>
+              <div style="position:absolute;top:24px;right:24px;z-index:1;animation:ban-fade-in .4s ease .1s both;">
+                <div style="display:inline-flex;align-items:center;gap:4px;background:rgba(0,229,255,.1);border:1px solid rgba(0,229,255,.2);border-radius:9999px;padding:3px 8px;font-family:var(--font-mono);font-size:7px;letter-spacing:.15em;text-transform:uppercase;color:var(--g-cyan);">
+                  <span style="width:4px;height:4px;border-radius:50%;background:var(--g-cyan);box-shadow:0 0 4px var(--g-cyan);"></span>Now Shipping
+                </div>
+              </div>
+            </div>
+            <!-- Bottom content -->
+            <div style="padding:0 28px 28px;position:relative;z-index:1;margin-top:-32px;">
+              <div style="font-family:var(--font-display);font-weight:900;font-size:36px;text-transform:uppercase;color:var(--g-white);line-height:.95;margin-bottom:10px;animation:ban-fade-up .6s var(--ease-expo) .2s both;">Built in<br>Texas.<br><span style="color:var(--g-volt);">Played<br>Everywhere.</span></div>
+              <div style="font-family:var(--font-body);font-size:14px;color:var(--g-mid);line-height:1.5;margin-bottom:16px;animation:ban-fade-up .5s var(--ease-expo) .35s both;">16 mappable actions. 12ms latency. Analog foot controller for PC & VR.</div>
+              <div style="display:flex;gap:10px;margin-bottom:14px;animation:ban-fade-in .4s ease .5s both;">
+                <div style="display:inline-flex;background:var(--g-volt);color:var(--g-black);font-family:var(--font-display);font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase;padding:10px 24px;border-radius:4px;cursor:pointer;">Shop &mdash; $299</div>
+                <div style="display:inline-flex;background:transparent;color:var(--g-cyan);border:1px solid rgba(0,229,255,.3);font-family:var(--font-display);font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:9px 20px;border-radius:4px;cursor:pointer;">Learn More</div>
+              </div>
+              <div style="animation:ban-fade-in .3s ease .65s both;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 80 80" fill="none" style="opacity:.3;">
+                  <path d="M50 28H38C32.477 28 28 32.477 28 38V42C28 47.523 32.477 52 38 52H46V44H40V38H52V42C52 47.523 47.523 52 42 52" stroke="#00E5FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M44 44H52" stroke="#AAFF00" stroke-width="2.5" stroke-linecap="round"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ 13c. SOCIAL 4:5 — Ember Urgency ═══ -->
+    <div class="sub">
+      <div class="sub-title">13c. Social 4:5 — Ember Urgency — 1080 x 1350 (scaled)</div>
+      <div class="ban" style="width:400px;height:500px;" onmouseenter="replayBanner(this)">
+        <div class="ban-label">1080 x 1350 — Urgency</div>
+        <div class="ban-inner" style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:36px;background:radial-gradient(circle at 50% 40%,rgba(255,77,28,.06) 0%,transparent 50%),var(--g-black);">
+          <img src="assets/img/product-detail.jpg" alt="" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:400px;opacity:.15;mask-image:radial-gradient(ellipse at center,black 20%,transparent 60%);-webkit-mask-image:radial-gradient(ellipse at center,black 20%,transparent 60%);">
+          <div style="position:relative;z-index:1;">
+            <img src="assets/svg/glydr-logo-white.svg" alt="GLYDR" height="24" style="margin-bottom:20px;animation:ban-scale-in .4s var(--ease-expo) both;">
+            <div style="display:inline-flex;align-items:center;gap:5px;background:var(--g-ember-ghost);border:1px solid rgba(255,77,28,.25);border-radius:9999px;padding:4px 12px;font-family:var(--font-mono);font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:var(--g-ember);margin-bottom:20px;animation:ban-fade-in .3s ease .15s both;">
+              <span style="width:5px;height:5px;border-radius:50%;background:var(--g-ember);animation:ban-glow-pulse 1.5s ease infinite;"></span>Limited Stock
+            </div>
+            <div style="font-family:var(--font-display);font-weight:900;font-size:48px;text-transform:uppercase;color:var(--g-white);line-height:.9;margin-bottom:8px;animation:ban-fade-up .6s var(--ease-expo) .2s both;">Don't Miss<br>Your Edge.</div>
+            <div style="font-family:var(--font-display);font-weight:900;font-size:56px;color:var(--g-ember);text-shadow:0 0 40px rgba(255,77,28,.25);margin-bottom:12px;animation:ban-scale-in .4s var(--ease-expo) .35s both;">$299</div>
+            <div style="font-family:var(--font-body);font-size:14px;color:var(--g-mid);line-height:1.5;max-width:300px;margin:0 auto 20px;animation:ban-fade-up .5s var(--ease-expo) .45s both;">16 mappable actions. 12ms latency. USB-C + Bluetooth. Assembled in Texas.</div>
+            <div style="animation:ban-fade-in .4s ease .6s both;">
+              <div style="display:inline-flex;background:var(--g-gradient-ember);color:var(--g-white);font-family:var(--font-display);font-weight:700;font-size:14px;letter-spacing:.1em;text-transform:uppercase;padding:12px 32px;border-radius:4px;cursor:pointer;">Order Before It's Gone</div>
+            </div>
+            <div style="margin-top:20px;animation:ban-fade-in .3s ease .75s both;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 80 80" fill="none" style="opacity:.3;">
+                <path d="M50 28H38C32.477 28 28 32.477 28 38V42C28 47.523 32.477 52 38 52H46V44H40V38H52V42C52 47.523 47.523 52 42 52" stroke="#00E5FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M44 44H52" stroke="#AAFF00" stroke-width="2.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
 </main>
 
 <script>
+function replayBanner(el) {
+  const inner = el.querySelector('.ban-inner');
+  if (!inner) return;
+  const clone = inner.cloneNode(true);
+  inner.replaceWith(clone);
+}
 function show(id, btn) {
   document.querySelectorAll('.pg').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
