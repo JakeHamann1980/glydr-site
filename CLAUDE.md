@@ -248,7 +248,7 @@ Sections in order:
 
 1. **Hero** — fullscreen, video background (muted autoplay loop), radial cyan glow at right, subtle grid overlay, corner bracket decorators. Logo centered or left-aligned. H1 in Barlow Condensed 900. Two CTAs: primary + ghost volt.
 
-2. **Marquee ticker** — `--g-cyan` background, black text, `Barlow Condensed 800`, scrolling product claims. ("Now Shipping ✦ Assembled in Texas ✦ 16 Mappable Actions ✦ USB-C + Bluetooth")
+2. **Marquee ticker** — `--g-cyan` background, black text, `Barlow Condensed 800`, scrolling product claims. ("Now Shipping ✦ Assembled in Texas ✦ 16 Mappable Actions ✦ USB-C Wired")
 
 3. **Problem/Solution** — two-column. Left: "Your hands are maxed out." pain point copy. Right: stat callouts (16 actions, 12ms latency, etc.)
 
@@ -368,7 +368,7 @@ Base meta for all pages:
 ```html
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="GLYDR is the world's most versatile analog foot controller for PC gaming and VR. 16 mappable actions. USB-C + Bluetooth. Assembled in Texas.">
+<meta name="description" content="GLYDR is the world's most versatile analog foot controller for PC gaming and VR. 16 mappable actions. USB-C Wired. Assembled in Texas.">
 <meta property="og:title" content="GLYDR — Analog Foot Controller for Gaming & VR">
 <meta property="og:description" content="Unlock 16 new actions with your feet. GLYDR is the first analog dual foot controller built for PC gamers, VR users, and creators.">
 <meta property="og:image" content="assets/img/og-image.jpg">
@@ -389,7 +389,7 @@ Use these verbatim where appropriate:
 - **Product descriptor:** "Fully configurable analog foot controller for video games and virtual reality. Assembled in Texas."
 - **CTA primary:** "Order Now — $299"
 - **CTA secondary:** "Watch Demo" or "Join Discord"
-- **Ticker claims:** "Now Shipping" / "Assembled in Texas" / "16 Mappable Actions" / "USB-C + Bluetooth" / "Mac + Windows + Linux"
+- **Ticker claims:** "Now Shipping" / "Assembled in Texas" / "16 Mappable Actions" / "USB-C Wired" / "Mac + Windows + Linux"
 
 ---
 
