@@ -72,4 +72,36 @@
   style.textContent = '.revealed { opacity: 1 !important; transform: translateY(0) !important; }';
   document.head.appendChild(style);
 
+  // ── Feature flags (date-gated content) ──
+  // Elements with data-feature="feature-name" are hidden by default.
+  // They auto-show when the activateDate in features.json is today or past.
+  fetch('/api/features')
+    .catch(function () { return fetch('/features.json'); })
+    .then(function (res) { return res.json(); })
+    .then(function (config) {
+      var today = new Date().toISOString().split('T')[0];
+      var features = config.features || {};
+
+      Object.keys(features).forEach(function (key) {
+        var feature = features[key];
+        var isActive = feature.status === 'active' ||
+          (feature.activateDate && feature.activateDate <= today);
+
+        // Show/hide elements gated behind this feature
+        document.querySelectorAll('[data-feature="' + key + '"]').forEach(function (el) {
+          el.style.display = isActive ? '' : 'none';
+        });
+
+        // Also handle CSS class selectors
+        if (feature.affectedSelectors) {
+          feature.affectedSelectors.forEach(function (sel) {
+            document.querySelectorAll(sel).forEach(function (el) {
+              el.style.display = isActive ? '' : 'none';
+            });
+          });
+        }
+      });
+    })
+    .catch(function () { /* features.json not found — all content stays visible */ });
+
 })();

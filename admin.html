@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GLYDR — Admin Panel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600;700;800;900&family=Barlow:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/tokens.css">
+<style>
+  body { background: var(--g-black); color: var(--g-offwhite); font-family: var(--font-body); margin: 0; min-height: 100vh; }
+
+  /* Password gate */
+  .gate { display: flex; align-items: center; justify-content: center; min-height: 100vh; flex-direction: column; gap: 20px; }
+  .gate img { margin-bottom: 8px; }
+  .gate-label { font-family: var(--font-mono); font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--g-mid); }
+  .gate-input { background: var(--g-panel); border: 1px solid var(--g-border); border-radius: 4px; padding: 12px 16px; color: var(--g-offwhite); font-family: var(--font-body); font-size: 14px; width: 260px; outline: none; text-align: center; }
+  .gate-input:focus { border-color: var(--g-cyan); box-shadow: 0 0 0 3px rgba(0,229,255,.1); }
+  .gate-error { font-family: var(--font-mono); font-size: 10px; color: var(--g-ember); letter-spacing: .1em; }
+
+  /* Layout */
+  .admin { display: none; }
+  .admin.active { display: block; }
+  .admin-header { border-bottom: 1px solid var(--g-border); padding: 20px 40px; display: flex; align-items: center; justify-content: space-between; background: var(--g-void); position: sticky; top: 0; z-index: 100; }
+  .admin-title { font-family: var(--font-display); font-weight: 800; font-size: 16px; text-transform: uppercase; letter-spacing: .1em; color: var(--g-white); }
+  .admin-nav { display: flex; gap: 4px; }
+  .admin-tab { background: none; border: 1px solid var(--g-border); border-radius: 4px; padding: 8px 16px; font-family: var(--font-display); font-weight: 700; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--g-mid); cursor: pointer; transition: all 150ms ease; }
+  .admin-tab:hover { color: var(--g-offwhite); border-color: var(--g-mid); }
+  .admin-tab.active { color: var(--g-cyan); background: var(--g-cyan-ghost); border-color: rgba(0,229,255,.2); }
+  .admin-actions { display: flex; gap: 8px; align-items: center; }
+
+  /* Content */
+  .admin-body { max-width: 960px; margin: 0 auto; padding: 40px; }
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* Section headers */
+  .section-head { font-family: var(--font-display); font-weight: 800; font-size: 20px; text-transform: uppercase; letter-spacing: .05em; color: var(--g-white); margin-bottom: 24px; }
+  .section-desc { font-size: 13px; color: var(--g-mid); margin-bottom: 32px; line-height: 1.6; }
+
+  /* Tagline category */
+  .tag-category { background: var(--g-surface); border: 1px solid var(--g-border); border-radius: 8px; padding: 24px; margin-bottom: 20px; }
+  .tag-cat-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+  .tag-cat-name { font-family: var(--font-mono); font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--g-cyan); }
+  .tag-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: .15em; text-transform: uppercase; color: var(--g-muted); margin-bottom: 6px; }
+
+  /* Inputs */
+  .field { margin-bottom: 12px; }
+  .field-input { width: 100%; background: var(--g-panel); border: 1px solid var(--g-border); border-radius: 4px; padding: 10px 14px; color: var(--g-offwhite); font-family: var(--font-body); font-size: 14px; outline: none; box-sizing: border-box; transition: all 150ms ease; }
+  .field-input:focus { border-color: var(--g-cyan); box-shadow: 0 0 0 3px rgba(0,229,255,.1); background: var(--g-surface); }
+  .field-input::placeholder { color: var(--g-muted); }
+  textarea.field-input { resize: vertical; min-height: 60px; }
+
+  /* Alt list */
+  .alt-row { display: flex; gap: 8px; margin-bottom: 8px; align-items: center; }
+  .alt-row .field-input { flex: 1; }
+  .alt-remove { background: none; border: 1px solid var(--g-border); border-radius: 4px; width: 32px; height: 36px; color: var(--g-ember); cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: all 150ms ease; flex-shrink: 0; }
+  .alt-remove:hover { background: var(--g-ember-ghost); border-color: var(--g-ember); }
+  .alt-add { background: none; border: 1px dashed var(--g-border); border-radius: 4px; padding: 8px 14px; font-family: var(--font-mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--g-mid); cursor: pointer; transition: all 150ms ease; width: 100%; }
+  .alt-add:hover { border-color: var(--g-cyan); color: var(--g-cyan); background: var(--g-cyan-ghost); }
+
+  /* Ticker list */
+  .ticker-row { display: flex; gap: 8px; margin-bottom: 8px; align-items: center; }
+  .ticker-row .field-input { flex: 1; }
+
+  /* Feature card */
+  .feature-card { background: var(--g-surface); border: 1px solid var(--g-border); border-radius: 8px; padding: 24px; margin-bottom: 20px; position: relative; }
+  .feature-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+  .feature-name { font-family: var(--font-display); font-weight: 700; font-size: 16px; text-transform: uppercase; letter-spacing: .05em; color: var(--g-white); flex: 1; }
+  .feature-key { font-family: var(--font-mono); font-size: 10px; letter-spacing: .1em; color: var(--g-muted); }
+  .feature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .feature-remove { position: absolute; top: 12px; right: 12px; background: none; border: 1px solid var(--g-border); border-radius: 4px; width: 28px; height: 28px; color: var(--g-ember); cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; }
+  .feature-remove:hover { background: var(--g-ember-ghost); border-color: var(--g-ember); }
+
+  /* Status badge */
+  .status-select { background: var(--g-panel); border: 1px solid var(--g-border); border-radius: 4px; padding: 8px 12px; color: var(--g-offwhite); font-family: var(--font-mono); font-size: 11px; letter-spacing: .05em; outline: none; cursor: pointer; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%236B708C' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; padding-right: 28px; }
+  .status-select:focus { border-color: var(--g-cyan); }
+
+  /* Buttons */
+  .btn-save { display: inline-flex; align-items: center; gap: 8px; background: var(--g-cyan); color: var(--g-black); font-family: var(--font-display); font-weight: 700; font-size: 13px; letter-spacing: .1em; text-transform: uppercase; padding: 12px 28px; border-radius: 4px; border: none; cursor: pointer; transition: all 200ms ease; }
+  .btn-save:hover { background: #22EEFF; box-shadow: 0 0 20px rgba(0,229,255,.4); transform: translateY(-1px); }
+  .btn-save:disabled { opacity: .5; cursor: not-allowed; transform: none; box-shadow: none; }
+  .btn-add-feature { background: none; border: 1px dashed var(--g-border); border-radius: 8px; padding: 20px; font-family: var(--font-display); font-weight: 700; font-size: 13px; letter-spacing: .1em; text-transform: uppercase; color: var(--g-mid); cursor: pointer; transition: all 150ms ease; width: 100%; margin-bottom: 20px; }
+  .btn-add-feature:hover { border-color: var(--g-volt); color: var(--g-volt); background: var(--g-volt-ghost); }
+
+  /* Toast */
+  .toast { position: fixed; bottom: 24px; right: 24px; background: var(--g-surface); border: 1px solid var(--g-border); border-radius: 8px; padding: 14px 20px; font-family: var(--font-mono); font-size: 11px; letter-spacing: .1em; color: var(--g-offwhite); z-index: 1000; transform: translateY(100px); opacity: 0; transition: all 300ms cubic-bezier(0.16,1,0.3,1); }
+  .toast.show { transform: translateY(0); opacity: 1; }
+  .toast.success { border-color: var(--g-cyan); color: var(--g-cyan); }
+  .toast.error { border-color: var(--g-ember); color: var(--g-ember); }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .admin-header { padding: 16px 20px; flex-wrap: wrap; gap: 12px; }
+    .admin-body { padding: 20px; }
+    .feature-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- PASSWORD GATE -->
+<div class="gate" id="gate">
+  <img src="assets/svg/glydr-logo-white.svg" alt="GLYDR" height="28">
+  <div class="gate-label">Admin Access</div>
+  <input type="password" class="gate-input" id="gate-password" placeholder="Enter password" autofocus>
+  <div class="gate-error" id="gate-error"></div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div class="admin" id="admin">
+  <div class="admin-header">
+    <div style="display:flex;align-items:center;gap:16px;">
+      <img src="assets/svg/glydr-logo-white.svg" alt="GLYDR" height="20">
+      <div class="admin-title">Admin</div>
+    </div>
+    <div class="admin-nav">
+      <button class="admin-tab active" data-panel="taglines">Taglines</button>
+      <button class="admin-tab" data-panel="features">Features</button>
+    </div>
+    <div class="admin-actions">
+      <span id="save-status" style="font-family:var(--font-mono);font-size:9px;letter-spacing:.1em;color:var(--g-muted);"></span>
+      <button class="btn-save" id="save-btn" onclick="saveConfig()">Save Changes</button>
+    </div>
+  </div>
+
+  <div class="admin-body">
+
+    <!-- TAGLINES PANEL -->
+    <div class="panel active" id="panel-taglines">
+      <div class="section-head">Tagline Management</div>
+      <div class="section-desc">Edit approved taglines for each category. The primary tagline is used by default across the site. Alternatives are available for A/B tests and campaign variations.</div>
+      <div id="taglines-container"></div>
+
+      <!-- Ticker -->
+      <div class="tag-category">
+        <div class="tag-cat-header">
+          <div class="tag-cat-name">Ticker Messages</div>
+        </div>
+        <div class="tag-label">Scrolling items (shown in marquee bar)</div>
+        <div id="ticker-container"></div>
+        <button class="alt-add" onclick="addTicker()">+ Add Ticker Item</button>
+      </div>
+    </div>
+
+    <!-- FEATURES PANEL -->
+    <div class="panel" id="panel-features">
+      <div class="section-head">Feature Scheduling</div>
+      <div class="section-desc">Control which features are advertised on the site. Set activation dates to auto-launch features, or block features that aren't ready yet (e.g., Bluetooth licensing).</div>
+      <button class="btn-add-feature" onclick="addFeature()">+ Add New Feature</button>
+      <div id="features-container"></div>
+    </div>
+
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function() {
+  'use strict';
+
+  var config = null;
+  var API_URL = '/api/features';
+  var password = '';
+
+  // ── Password gate ──
+  var gateEl = document.getElementById('gate');
+  var adminEl = document.getElementById('admin');
+  var gateInput = document.getElementById('gate-password');
+  var gateError = document.getElementById('gate-error');
+
+  // Check session
+  var stored = sessionStorage.getItem('glydr-admin');
+  if (stored) {
+    password = stored;
+    unlock();
+  }
+
+  gateInput.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+      password = gateInput.value;
+      sessionStorage.setItem('glydr-admin', password);
+      unlock();
+    }
+  });
+
+  function unlock() {
+    gateEl.style.display = 'none';
+    adminEl.classList.add('active');
+    loadConfig();
+  }
+
+  // ── Tab switching ──
+  document.querySelectorAll('.admin-tab').forEach(function(tab) {
+    tab.addEventListener('click', function() {
+      document.querySelectorAll('.admin-tab').forEach(function(t) { t.classList.remove('active'); });
+      document.querySelectorAll('.panel').forEach(function(p) { p.classList.remove('active'); });
+      tab.classList.add('active');
+      document.getElementById('panel-' + tab.dataset.panel).classList.add('active');
+    });
+  });
+
+  // ── Load config ──
+  function loadConfig() {
+    fetch(API_URL)
+      .then(function(r) {
+        if (!r.ok) throw new Error('API returned ' + r.status);
+        return r.json();
+      })
+      .then(function(data) {
+        config = data;
+        renderTaglines();
+        renderFeatures();
+      })
+      .catch(function() {
+        // Fallback to static file (local dev)
+        fetch('/features.json')
+          .then(function(r) { return r.json(); })
+          .then(function(data) {
+            config = data;
+            renderTaglines();
+            renderFeatures();
+            showToast('Loaded from local file (API not available)', 'error');
+          });
+      });
+  }
+
+  // ── Render taglines ──
+  function renderTaglines() {
+    var container = document.getElementById('taglines-container');
+    container.innerHTML = '';
+    var taglines = config.taglines || {};
+
+    var categories = ['hero', 'sub', 'tagline', 'product', 'cta_primary', 'cta_secondary'];
+    var labels = {
+      hero: 'Hero Headline',
+      sub: 'Sub-headline',
+      tagline: 'Brand Tagline',
+      product: 'Product Descriptor',
+      cta_primary: 'Primary CTA',
+      cta_secondary: 'Secondary CTA'
+    };
+
+    categories.forEach(function(cat) {
+      var data = taglines[cat] || { primary: '', alternatives: [] };
+      var div = document.createElement('div');
+      div.className = 'tag-category';
+      div.innerHTML =
+        '<div class="tag-cat-header"><div class="tag-cat-name">' + (labels[cat] || cat) + '</div></div>' +
+        '<div class="field"><div class="tag-label">Primary</div>' +
+        '<input class="field-input" value="' + escHtml(data.primary || '') + '" onchange="updateTagPrimary(\'' + cat + '\', this.value)"></div>' +
+        '<div class="tag-label">Alternatives</div>' +
+        '<div id="alts-' + cat + '"></div>' +
+        '<button class="alt-add" onclick="addAlt(\'' + cat + '\')">+ Add Alternative</button>';
+      container.appendChild(div);
+
+      var altsContainer = div.querySelector('#alts-' + cat);
+      (data.alternatives || []).forEach(function(alt, i) {
+        altsContainer.appendChild(makeAltRow(cat, i, alt));
+      });
+    });
+
+    // Ticker
+    var tickerContainer = document.getElementById('ticker-container');
+    tickerContainer.innerHTML = '';
+    (taglines.ticker || []).forEach(function(item, i) {
+      var row = document.createElement('div');
+      row.className = 'ticker-row';
+      row.innerHTML =
+        '<input class="field-input" value="' + escHtml(item) + '" onchange="updateTicker(' + i + ', this.value)">' +
+        '<button class="alt-remove" onclick="removeTicker(' + i + ')">×</button>';
+      tickerContainer.appendChild(row);
+    });
+  }
+
+  function makeAltRow(cat, index, value) {
+    var row = document.createElement('div');
+    row.className = 'alt-row';
+    row.innerHTML =
+      '<input class="field-input" value="' + escHtml(value) + '" onchange="updateAlt(\'' + cat + '\', ' + index + ', this.value)">' +
+      '<button class="alt-remove" onclick="removeAlt(\'' + cat + '\', ' + index + ')">×</button>';
+    return row;
+  }
+
+  // ── Render features ──
+  function renderFeatures() {
+    var container = document.getElementById('features-container');
+    container.innerHTML = '';
+    var features = config.features || {};
+
+    Object.keys(features).forEach(function(key) {
+      var f = features[key];
+      var div = document.createElement('div');
+      div.className = 'feature-card';
+      div.innerHTML =
+        '<button class="feature-remove" onclick="removeFeature(\'' + key + '\')" title="Delete feature">×</button>' +
+        '<div class="feature-header">' +
+          '<div class="feature-name">' + escHtml(f.label || key) + '</div>' +
+          '<div class="feature-key">' + key + '</div>' +
+        '</div>' +
+        '<div class="feature-grid">' +
+          '<div class="field"><div class="tag-label">Label</div>' +
+            '<input class="field-input" value="' + escHtml(f.label || '') + '" onchange="updateFeature(\'' + key + '\', \'label\', this.value)"></div>' +
+          '<div class="field"><div class="tag-label">Status</div>' +
+            '<select class="status-select" onchange="updateFeature(\'' + key + '\', \'status\', this.value)">' +
+              '<option value="active"' + (f.status === 'active' ? ' selected' : '') + '>Active</option>' +
+              '<option value="scheduled"' + (f.status === 'scheduled' ? ' selected' : '') + '>Scheduled</option>' +
+              '<option value="planned"' + (f.status === 'planned' ? ' selected' : '') + '>Planned</option>' +
+              '<option value="blocked"' + (f.status === 'blocked' ? ' selected' : '') + '>Blocked</option>' +
+            '</select></div>' +
+          '<div class="field"><div class="tag-label">Activate Date</div>' +
+            '<input type="date" class="field-input" value="' + (f.activateDate || '') + '" onchange="updateFeature(\'' + key + '\', \'activateDate\', this.value || null)"></div>' +
+          '<div class="field"><div class="tag-label">CSS Selectors (comma-separated)</div>' +
+            '<input class="field-input" value="' + escHtml((f.affectedSelectors || []).join(', ')) + '" onchange="updateFeatureSelectors(\'' + key + '\', this.value)"></div>' +
+          '<div class="field" style="grid-column: span 2;"><div class="tag-label">Description</div>' +
+            '<textarea class="field-input" onchange="updateFeature(\'' + key + '\', \'description\', this.value)">' + escHtml(f.description || '') + '</textarea></div>' +
+          '<div class="field" style="grid-column: span 2;"><div class="tag-label">Notes</div>' +
+            '<textarea class="field-input" onchange="updateFeature(\'' + key + '\', \'notes\', this.value)">' + escHtml(f.notes || '') + '</textarea></div>' +
+        '</div>';
+      container.appendChild(div);
+    });
+  }
+
+  // ── Tagline mutations ──
+  window.updateTagPrimary = function(cat, val) {
+    config.taglines[cat].primary = val;
+  };
+
+  window.updateAlt = function(cat, index, val) {
+    config.taglines[cat].alternatives[index] = val;
+  };
+
+  window.addAlt = function(cat) {
+    if (!config.taglines[cat].alternatives) config.taglines[cat].alternatives = [];
+    config.taglines[cat].alternatives.push('');
+    renderTaglines();
+  };
+
+  window.removeAlt = function(cat, index) {
+    config.taglines[cat].alternatives.splice(index, 1);
+    renderTaglines();
+  };
+
+  window.updateTicker = function(index, val) {
+    config.taglines.ticker[index] = val;
+  };
+
+  window.addTicker = function() {
+    if (!config.taglines.ticker) config.taglines.ticker = [];
+    config.taglines.ticker.push('');
+    renderTaglines();
+  };
+
+  window.removeTicker = function(index) {
+    config.taglines.ticker.splice(index, 1);
+    renderTaglines();
+  };
+
+  // ── Feature mutations ──
+  window.updateFeature = function(key, field, val) {
+    config.features[key][field] = val;
+    if (field === 'label') {
+      renderFeatures(); // update display name in header
+    }
+  };
+
+  window.updateFeatureSelectors = function(key, val) {
+    config.features[key].affectedSelectors = val.split(',').map(function(s) { return s.trim(); }).filter(Boolean);
+  };
+
+  window.addFeature = function() {
+    var name = prompt('Feature key (lowercase, hyphens only):');
+    if (!name) return;
+    name = name.toLowerCase().replace(/[^a-z0-9-]/g, '-');
+    if (config.features[name]) {
+      showToast('Feature "' + name + '" already exists', 'error');
+      return;
+    }
+    config.features[name] = {
+      label: name.replace(/-/g, ' ').replace(/\b\w/g, function(c) { return c.toUpperCase(); }),
+      activateDate: null,
+      description: '',
+      affectedSelectors: ['.feature-' + name],
+      status: 'planned',
+      notes: ''
+    };
+    renderFeatures();
+  };
+
+  window.removeFeature = function(key) {
+    if (!confirm('Delete feature "' + key + '"?')) return;
+    delete config.features[key];
+    renderFeatures();
+  };
+
+  // ── Save ──
+  window.saveConfig = function() {
+    var btn = document.getElementById('save-btn');
+    var status = document.getElementById('save-status');
+    btn.disabled = true;
+    status.textContent = 'SAVING...';
+    status.style.color = 'var(--g-cyan)';
+
+    fetch(API_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-admin-key': password
+      },
+      body: JSON.stringify(config)
+    })
+    .then(function(r) {
+      if (r.status === 401) {
+        sessionStorage.removeItem('glydr-admin');
+        showToast('Invalid password. Reloading...', 'error');
+        setTimeout(function() { location.reload(); }, 1500);
+        throw new Error('Unauthorized');
+      }
+      if (!r.ok) throw new Error('Save failed: ' + r.status);
+      return r.json();
+    })
+    .then(function() {
+      btn.disabled = false;
+      status.textContent = 'SAVED';
+      status.style.color = 'var(--g-volt)';
+      showToast('Changes saved successfully', 'success');
+      setTimeout(function() { status.textContent = ''; }, 3000);
+    })
+    .catch(function(err) {
+      btn.disabled = false;
+      status.textContent = 'FAILED';
+      status.style.color = 'var(--g-ember)';
+      if (err.message !== 'Unauthorized') {
+        showToast('Save failed — ' + err.message, 'error');
+      }
+    });
+  };
+
+  // ── Toast ──
+  function showToast(msg, type) {
+    var toast = document.getElementById('toast');
+    toast.textContent = msg;
+    toast.className = 'toast ' + (type || '') + ' show';
+    setTimeout(function() { toast.classList.remove('show'); }, 3000);
+  }
+  window.showToast = showToast;
+
+  // ── Util ──
+  function escHtml(str) {
+    return String(str).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+})();
+</script>
+</body>
+</html>

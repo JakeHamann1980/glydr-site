@@ -1,0 +1,68 @@
+{
+  "features": {
+    "bluetooth": {
+      "label": "Bluetooth Connectivity",
+      "activateDate": null,
+      "description": "USB-C + Bluetooth dual connectivity. Requires Bluetooth Consortium licensing ($12k).",
+      "affectedSelectors": [".feature-bluetooth"],
+      "status": "blocked",
+      "notes": "Cannot advertise until licensing fee paid"
+    },
+    "custom-profiles": {
+      "label": "Custom Profiles",
+      "activateDate": null,
+      "description": "Community game profiles and sharing.",
+      "affectedSelectors": [".feature-profiles"],
+      "status": "planned",
+      "notes": "Coming soon — waiting on app development"
+    }
+  },
+  "taglines": {
+    "hero": {
+      "primary": "Unlock Your Feet.",
+      "alternatives": [
+        "Your Hands Are Maxed Out.",
+        "Engage the Agility of Your Feet."
+      ]
+    },
+    "sub": {
+      "primary": "The world's first analog dual foot controller for PC gaming and VR. 16 additional actions. Zero extra fingers required.",
+      "alternatives": []
+    },
+    "tagline": {
+      "primary": "Engage the agility of your feet.",
+      "alternatives": []
+    },
+    "product": {
+      "primary": "Fully configurable analog foot controller for video games and virtual reality. Assembled in Texas.",
+      "alternatives": []
+    },
+    "cta_primary": {
+      "primary": "Order Now — $299",
+      "alternatives": [
+        "Shop Now",
+        "Get GLYDR — $299"
+      ]
+    },
+    "cta_secondary": {
+      "primary": "Watch Demo",
+      "alternatives": [
+        "Join Discord",
+        "Learn More"
+      ]
+    },
+    "ticker": [
+      "Now Shipping",
+      "Assembled in Texas",
+      "16 Mappable Actions",
+      "USB-C Wired",
+      "Mac + Windows + Linux"
+    ]
+  },
+  "_instructions": {
+    "how_to_add_tagline": "Add new entries under taglines.<category>.alternatives. They'll be available for use across the site and brand kit.",
+    "how_to_schedule_feature": "Set activateDate to an ISO date string (e.g. '2025-08-01') and change status to 'scheduled'. The site JS will auto-show elements with the matching CSS selector on that date.",
+    "how_to_activate_now": "Set activateDate to today's date or earlier and status to 'active'.",
+    "statuses": "active = live now | scheduled = has future date | planned = no date yet | blocked = cannot activate (legal/tech/budget)"
+  }
+}

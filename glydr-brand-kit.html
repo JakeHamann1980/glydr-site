@@ -307,8 +307,12 @@
     <div class="sb-ver">Brand Kit v1.0 — 2025</div>
   </div>
   <div class="nav-grp">
+    <div class="nav-grp-lbl">Start Here</div>
+    <button class="nav-btn active" onclick="show('guide',this)">Getting Started</button>
+  </div>
+  <div class="nav-grp">
     <div class="nav-grp-lbl">Foundation</div>
-    <button class="nav-btn active" onclick="show('logo',this)">Logo System</button>
+    <button class="nav-btn" onclick="show('logo',this)">Logo System</button>
     <button class="nav-btn" onclick="show('color',this)">Color</button>
     <button class="nav-btn" onclick="show('type',this)">Typography</button>
     <button class="nav-btn" onclick="show('spacing',this)">Spacing & Grid</button>
@@ -337,8 +341,218 @@
 <!-- MAIN -->
 <main class="main">
 
+<!-- GETTING STARTED -->
+<section id="guide" class="pg active">
+  <div class="sec-hdr">
+    <div class="eyebrow">Start Here</div>
+    <div class="sec-title">Getting Started</div>
+    <div class="sec-desc">New to the brand kit? This guide explains what everything is, how to use it, and how to get assets ready for production.</div>
+  </div>
+  <div class="sec-body">
+
+    <!-- What is a Brand Kit? -->
+    <div class="sub">
+      <div class="sub-title">What Is a Brand Kit?</div>
+      <div class="g2">
+        <div>
+          <div style="font-family:var(--font-body);font-size:14px;color:var(--g-light);line-height:1.8;">
+            A brand kit is the single source of truth for how GLYDR looks, sounds, and feels across every touchpoint — website, ads, social media, packaging, and more. It ensures that no matter who creates content for GLYDR, the result is consistent and professional.<br><br>
+            Think of it as a recipe book: the ingredients (colors, fonts, logos) and instructions (rules, spacing, tone) that guarantee every dish tastes like GLYDR.
+          </div>
+        </div>
+        <div>
+          <div class="al al-c" style="margin-bottom:14px;"><div class="al-ic">&#9679;</div><div><div class="al-t">Why It Matters</div><div class="al-d">Consistent branding builds trust and recognition. When everything matches, customers remember you.</div></div></div>
+          <div class="al al-v" style="margin-bottom:14px;"><div class="al-ic">&#9679;</div><div><div class="al-t">Who Uses It</div><div class="al-d">Anyone creating content for GLYDR — designers, marketers, contractors, agencies, or even Claude.</div></div></div>
+          <div class="al al-m"><div class="al-ic">&#9679;</div><div><div class="al-t">Keep It Updated</div><div class="al-d">As the brand evolves, this kit should too. It's a living document, not a one-time deliverable.</div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- What's in Each Section -->
+    <div class="sub">
+      <div class="sub-title">What's in Each Section</div>
+      <div class="g2">
+        <div class="fc" style="cursor:pointer;" onclick="show('logo',document.querySelector('[onclick*=&quot;logo&quot;]'))">
+          <div class="ft" style="color:var(--g-cyan);">Logo System</div>
+          <div class="fd">The GLYDR wordmark and icon in all approved variations (dark, light, cyan backgrounds). Download SVGs here. Never recreate the logo in text.</div>
+        </div>
+        <div class="fc" style="cursor:pointer;" onclick="show('color',document.querySelector('[onclick*=&quot;color&quot;]'))">
+          <div class="ft" style="color:var(--g-cyan);">Color</div>
+          <div class="fd">Every approved color with hex codes, CSS variable names, and usage rules. Copy hex codes directly from the swatches. Cyan = primary, Volt = secondary, Ember = urgency only.</div>
+        </div>
+        <div class="fc" style="cursor:pointer;" onclick="show('type',document.querySelector('[onclick*=&quot;type&quot;]'))">
+          <div class="ft" style="color:var(--g-cyan);">Typography</div>
+          <div class="fd">The three font families (Barlow Condensed, Barlow, Share Tech Mono) with weight/size rules. Headings are always Condensed uppercase. Body is regular Barlow. Mono is for data and labels.</div>
+        </div>
+        <div class="fc" style="cursor:pointer;" onclick="show('buttons',document.querySelector('[onclick*=&quot;buttons&quot;]'))">
+          <div class="ft" style="color:var(--g-cyan);">Buttons & Components</div>
+          <div class="fd">Ready-made UI patterns — buttons, badges, cards, inputs. Each has size variants and hover states. Use these as templates when building new pages or ads.</div>
+        </div>
+        <div class="fc" style="cursor:pointer;" onclick="show('banners',document.querySelector('[onclick*=&quot;banners&quot;]'))">
+          <div class="ft" style="color:var(--g-cyan);">Banner Ads</div>
+          <div class="fd">30+ animated banner templates in every standard ad size. Hover to preview animations. Use approved copy and brand colors — don't invent new claims.</div>
+        </div>
+        <div class="fc" style="cursor:pointer;" onclick="show('voice',document.querySelector('[onclick*=&quot;voice&quot;]'))">
+          <div class="ft" style="color:var(--g-cyan);">Voice & Tone</div>
+          <div class="fd">How GLYDR sounds in writing. Approved headlines, do/don't examples, and the four voice attributes: Confident, Technical, Inclusive, Playful.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- How to Use Assets -->
+    <div class="sub">
+      <div class="sub-title">How to Review & Grab Assets</div>
+      <div style="font-family:var(--font-body);font-size:14px;color:var(--g-light);line-height:1.8;margin-bottom:20px;">
+        Follow these steps to find and use brand assets:
+      </div>
+      <div class="g2">
+        <div>
+          <div class="sc" style="margin-bottom:14px;text-align:center;">
+            <div class="sv" style="color:var(--g-cyan);">1</div>
+            <div class="sl">Navigate</div>
+            <div style="font-size:12px;color:var(--g-light);margin-top:8px;line-height:1.5;">Use the sidebar to jump to the section you need. Each section has labeled subsections.</div>
+          </div>
+          <div class="sc" style="margin-bottom:14px;text-align:center;">
+            <div class="sv" style="color:var(--g-cyan);">2</div>
+            <div class="sl">Inspect</div>
+            <div style="font-size:12px;color:var(--g-light);margin-top:8px;line-height:1.5;">Right-click any element and "Inspect" to see exact CSS values. Colors show hex codes below each swatch.</div>
+          </div>
+        </div>
+        <div>
+          <div class="sc" style="margin-bottom:14px;text-align:center;">
+            <div class="sv" style="color:var(--g-volt);">3</div>
+            <div class="sl">Copy</div>
+            <div style="font-size:12px;color:var(--g-light);margin-top:8px;line-height:1.5;">Hex codes, font names, and CSS variable names are visible on every component. Copy them directly into your design tool or code.</div>
+          </div>
+          <div class="sc" style="margin-bottom:14px;text-align:center;">
+            <div class="sv" style="color:var(--g-volt);">4</div>
+            <div class="sl">Download</div>
+            <div style="font-size:12px;color:var(--g-light);margin-top:8px;line-height:1.5;">SVG logos are in <span style="font-family:var(--font-mono);color:var(--g-cyan);font-size:11px;">assets/svg/</span>. Product photos in <span style="font-family:var(--font-mono);color:var(--g-cyan);font-size:11px;">assets/img/</span>. Video in <span style="font-family:var(--font-mono);color:var(--g-cyan);font-size:11px;">assets/video/</span>.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Staging for Production -->
+    <div class="sub">
+      <div class="sub-title">Staging Ads for Production</div>
+      <div class="g2">
+        <div>
+          <div class="ud" style="margin-bottom:12px;"><div class="uh">Step 1: Choose a Template</div><div class="ut">Go to the Banner Ads section and pick a template that matches your campaign goal (awareness, urgency, community, etc.) and required ad size.</div></div>
+          <div class="ud" style="margin-bottom:12px;"><div class="uh">Step 2: Customize Copy</div><div class="ut">Swap in approved taglines from the Voice & Tone section or from <span style="font-family:var(--font-mono);font-size:10px;">features.json</span> taglines. Never invent claims that aren't approved.</div></div>
+          <div class="ud" style="margin-bottom:12px;"><div class="uh">Step 3: Export</div><div class="ut">For static ads: screenshot at the banner's native dimensions. For animated: use a screen recorder or rebuild in your ad platform using the exact brand tokens.</div></div>
+          <div class="ud"><div class="uh">Step 4: Review Checklist</div><div class="ut">Run through the checklist below before shipping anything.</div></div>
+        </div>
+        <div>
+          <div class="ux" style="margin-bottom:12px;"><div class="uh">Don't</div><div class="ut">Use colors not in the palette (no purple, no rainbow RGB).</div></div>
+          <div class="ux" style="margin-bottom:12px;"><div class="uh">Don't</div><div class="ut">Recreate the logo with text — always use SVG files.</div></div>
+          <div class="ux" style="margin-bottom:12px;"><div class="uh">Don't</div><div class="ut">Invent product claims. Only use copy from this kit or glydr.gg.</div></div>
+          <div class="ux" style="margin-bottom:12px;"><div class="uh">Don't</div><div class="ut">Use emojis in professional ads or UI.</div></div>
+          <div class="ux"><div class="uh">Don't</div><div class="ut">Advertise features not yet activated in <span style="font-family:var(--font-mono);font-size:10px;">features.json</span> (e.g., Bluetooth).</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pre-Ship Checklist -->
+    <div class="sub">
+      <div class="sub-title">Pre-Ship Checklist</div>
+      <div style="background:var(--g-surface);border:1px solid var(--g-border);border-radius:10px;padding:28px;">
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <div style="display:flex;align-items:flex-start;gap:10px;">
+            <div style="width:20px;height:20px;border:2px solid var(--g-cyan);border-radius:4px;flex-shrink:0;margin-top:1px;"></div>
+            <div style="font-family:var(--font-body);font-size:13px;color:var(--g-light);line-height:1.5;"><strong style="color:var(--g-white);">Logo:</strong> Using official SVG files (not text recreation)</div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:10px;">
+            <div style="width:20px;height:20px;border:2px solid var(--g-cyan);border-radius:4px;flex-shrink:0;margin-top:1px;"></div>
+            <div style="font-family:var(--font-body);font-size:13px;color:var(--g-light);line-height:1.5;"><strong style="color:var(--g-white);">Colors:</strong> All colors match hex values from the Color section</div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:10px;">
+            <div style="width:20px;height:20px;border:2px solid var(--g-cyan);border-radius:4px;flex-shrink:0;margin-top:1px;"></div>
+            <div style="font-family:var(--font-body);font-size:13px;color:var(--g-light);line-height:1.5;"><strong style="color:var(--g-white);">Typography:</strong> Barlow Condensed for headings, Barlow for body, Share Tech Mono for labels</div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:10px;">
+            <div style="width:20px;height:20px;border:2px solid var(--g-cyan);border-radius:4px;flex-shrink:0;margin-top:1px;"></div>
+            <div style="font-family:var(--font-body);font-size:13px;color:var(--g-light);line-height:1.5;"><strong style="color:var(--g-white);">Copy:</strong> All text is approved copy from Voice & Tone or glydr.gg</div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:10px;">
+            <div style="width:20px;height:20px;border:2px solid var(--g-cyan);border-radius:4px;flex-shrink:0;margin-top:1px;"></div>
+            <div style="font-family:var(--font-body);font-size:13px;color:var(--g-light);line-height:1.5;"><strong style="color:var(--g-white);">Features:</strong> No blocked features advertised (check features.json)</div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:10px;">
+            <div style="width:20px;height:20px;border:2px solid var(--g-cyan);border-radius:4px;flex-shrink:0;margin-top:1px;"></div>
+            <div style="font-family:var(--font-body);font-size:13px;color:var(--g-light);line-height:1.5;"><strong style="color:var(--g-white);">Dimensions:</strong> Ad matches required platform size (check banner label)</div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:10px;">
+            <div style="width:20px;height:20px;border:2px solid var(--g-cyan);border-radius:4px;flex-shrink:0;margin-top:1px;"></div>
+            <div style="font-family:var(--font-body);font-size:13px;color:var(--g-light);line-height:1.5;"><strong style="color:var(--g-white);">CTA:</strong> Clear call-to-action button with correct price ($299)</div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:10px;">
+            <div style="width:20px;height:20px;border:2px solid var(--g-cyan);border-radius:4px;flex-shrink:0;margin-top:1px;"></div>
+            <div style="font-family:var(--font-body);font-size:13px;color:var(--g-light);line-height:1.5;"><strong style="color:var(--g-white);">Links:</strong> All URLs point to glydr.gg or approved social links</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Feature Scheduling -->
+    <div class="sub">
+      <div class="sub-title">Feature Scheduling (features.json)</div>
+      <div style="font-family:var(--font-body);font-size:14px;color:var(--g-light);line-height:1.8;margin-bottom:16px;">
+        GLYDR uses a <span style="font-family:var(--font-mono);color:var(--g-cyan);font-size:12px;">features.json</span> file to control which product features can be advertised. This prevents accidentally promoting capabilities that aren't ready or licensed yet.
+      </div>
+      <div class="g2">
+        <div>
+          <div class="al al-c" style="margin-bottom:10px;"><div class="al-ic">&#9679;</div><div><div class="al-t">Active</div><div class="al-d">Feature is live and can be advertised everywhere.</div></div></div>
+          <div class="al al-v" style="margin-bottom:10px;"><div class="al-ic">&#9679;</div><div><div class="al-t">Scheduled</div><div class="al-d">Has a future date. Content will auto-show on that date. Plan campaigns around it.</div></div></div>
+          <div class="al al-m" style="margin-bottom:10px;"><div class="al-ic">&#9679;</div><div><div class="al-t">Planned</div><div class="al-d">Coming eventually but no date set. Don't advertise yet.</div></div></div>
+          <div class="al al-e"><div class="al-ic">&#9679;</div><div><div class="al-t">Blocked</div><div class="al-d">Cannot activate (legal, budget, or tech). Example: Bluetooth licensing.</div></div></div>
+        </div>
+        <div>
+          <div class="cb" style="font-size:11px;line-height:1.6;">
+<span class="cm">// To schedule a feature:</span>
+<span class="cm">// 1. Open features.json</span>
+<span class="cm">// 2. Find the feature</span>
+<span class="cm">// 3. Set activateDate and status</span>
+
+<span class="st">"bluetooth"</span>: {
+  <span class="kw">"activateDate"</span>: <span class="vl">"2025-09-01"</span>,
+  <span class="kw">"status"</span>: <span class="st">"scheduled"</span>
+}
+
+<span class="cm">// Site content with</span>
+<span class="cm">// data-feature="bluetooth"</span>
+<span class="cm">// will auto-show on Sep 1</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Managing Taglines -->
+    <div class="sub">
+      <div class="sub-title">Managing Taglines</div>
+      <div style="font-family:var(--font-body);font-size:14px;color:var(--g-light);line-height:1.8;margin-bottom:16px;">
+        All approved taglines are stored in <span style="font-family:var(--font-mono);color:var(--g-cyan);font-size:12px;">features.json</span> under the <span style="font-family:var(--font-mono);color:var(--g-cyan);font-size:12px;">taglines</span> key. To add a new tagline:
+      </div>
+      <div class="cb" style="font-size:11px;line-height:1.6;">
+<span class="cm">// In features.json → taglines → hero:</span>
+
+<span class="st">"hero"</span>: {
+  <span class="kw">"primary"</span>: <span class="vl">"Unlock Your Feet."</span>,
+  <span class="kw">"alternatives"</span>: [
+    <span class="vl">"Your Hands Are Maxed Out."</span>,
+    <span class="vl">"Engage the Agility of Your Feet."</span>,
+    <span class="vl">"Add your new tagline here."</span>  <span class="cm">// ← just add to the array</span>
+  ]
+}</div>
+      <div style="font-family:var(--font-body);font-size:13px;color:var(--g-mid);margin-top:12px;line-height:1.6;">
+        Categories available: <span style="color:var(--g-light);">hero, sub, tagline, product, cta_primary, cta_secondary, ticker</span>. The primary is used by default; alternatives are available for A/B testing or campaign variations.
+      </div>
+    </div>
+
+  </div>
+</section>
+
 <!-- LOGO -->
-<section id="logo" class="pg active">
+<section id="logo" class="pg">
   <div class="sec-hdr">
     <div class="eyebrow">Foundation</div>
     <div class="sec-title">Logo System</div>
