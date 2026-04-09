@@ -89,6 +89,23 @@
   .toast.success { border-color: var(--g-cyan); color: var(--g-cyan); }
   .toast.error { border-color: var(--g-ember); color: var(--g-ember); }
 
+  /* Generator results */
+  .gen-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: var(--g-panel); border: 1px solid var(--g-border); border-radius: 6px; margin-bottom: 8px; transition: all 150ms ease; }
+  .gen-item:hover { border-color: var(--g-cyan-dark); }
+  .gen-item-text { flex: 1; font-family: var(--font-body); font-size: 14px; color: var(--g-offwhite); line-height: 1.4; }
+  .gen-item-actions { display: flex; gap: 6px; flex-shrink: 0; }
+  .gen-save-btn { background: none; border: 1px solid var(--g-volt); border-radius: 4px; padding: 6px 12px; font-family: var(--font-mono); font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: var(--g-volt); cursor: pointer; transition: all 150ms ease; }
+  .gen-save-btn:hover { background: var(--g-volt-ghost); }
+  .gen-save-btn.saved { background: var(--g-volt-ghost); border-color: var(--g-volt); color: var(--g-volt); pointer-events: none; }
+  .gen-primary-btn { background: none; border: 1px solid var(--g-cyan); border-radius: 4px; padding: 6px 12px; font-family: var(--font-mono); font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: var(--g-cyan); cursor: pointer; transition: all 150ms ease; }
+  .gen-primary-btn:hover { background: var(--g-cyan-ghost); }
+  .gen-loading { text-align: center; padding: 40px; }
+  .gen-spinner { display: inline-block; width: 24px; height: 24px; border: 2px solid var(--g-border); border-top-color: var(--g-cyan); border-radius: 50%; animation: gen-spin .6s linear infinite; }
+  @keyframes gen-spin { to { transform: rotate(360deg); } }
+  .gen-saved-item { padding: 8px 0; border-bottom: 1px solid var(--g-border); display: flex; align-items: center; gap: 8px; }
+  .gen-saved-item:last-child { border-bottom: none; }
+  .gen-saved-cat { font-family: var(--font-mono); font-size: 8px; letter-spacing: .15em; text-transform: uppercase; color: var(--g-cyan); background: var(--g-cyan-ghost); padding: 2px 6px; border-radius: 3px; flex-shrink: 0; }
+
   /* Responsive */
   @media (max-width: 768px) {
     .admin-header { padding: 16px 20px; flex-wrap: wrap; gap: 12px; }
@@ -116,6 +133,7 @@
     </div>
     <div class="admin-nav">
       <button class="admin-tab active" data-panel="taglines">Taglines</button>
+      <button class="admin-tab" data-panel="generate">AI Generator</button>
       <button class="admin-tab" data-panel="features">Features</button>
     </div>
     <div class="admin-actions">
@@ -140,6 +158,69 @@
         <div class="tag-label">Scrolling items (shown in marquee bar)</div>
         <div id="ticker-container"></div>
         <button class="alt-add" onclick="addTicker()">+ Add Ticker Item</button>
+      </div>
+    </div>
+
+    <!-- AI GENERATOR PANEL -->
+    <div class="panel" id="panel-generate">
+      <div class="section-head">AI Tagline Generator</div>
+      <div class="section-desc">Use Claude AI to brainstorm taglines. Pick a category, optionally describe what you're going for, and generate options. Save the ones you like directly to your tagline library.</div>
+
+      <div class="tag-category" style="margin-bottom:24px;">
+        <div class="tag-cat-header"><div class="tag-cat-name">Generate</div></div>
+        <div class="feature-grid">
+          <div class="field">
+            <div class="tag-label">Category</div>
+            <select class="status-select" id="gen-category" style="width:100%;">
+              <option value="hero">Hero Headline</option>
+              <option value="sub">Sub-headline</option>
+              <option value="tagline">Brand Tagline</option>
+              <option value="product">Product Descriptor</option>
+              <option value="cta_primary">Primary CTA</option>
+              <option value="cta_secondary">Secondary CTA</option>
+              <option value="ticker">Ticker Item</option>
+            </select>
+          </div>
+          <div class="field">
+            <div class="tag-label">How Many</div>
+            <select class="status-select" id="gen-count" style="width:100%;">
+              <option value="3">3 options</option>
+              <option value="5" selected>5 options</option>
+              <option value="8">8 options</option>
+              <option value="10">10 options</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <div class="tag-label">Direction (optional)</div>
+          <textarea class="field-input" id="gen-prompt" placeholder="e.g. Focus on the Texas angle, make it edgy, emphasize VR use case, target competitive FPS players..."></textarea>
+        </div>
+        <button class="btn-save" id="gen-btn" onclick="generateTaglines()" style="margin-top:8px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          Generate with Claude
+        </button>
+      </div>
+
+      <!-- Results -->
+      <div id="gen-results" style="display:none;">
+        <div class="tag-category">
+          <div class="tag-cat-header">
+            <div class="tag-cat-name">Results</div>
+            <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.1em;color:var(--g-mid);" id="gen-results-meta"></div>
+          </div>
+          <div id="gen-results-list"></div>
+        </div>
+      </div>
+
+      <!-- Saved this session -->
+      <div id="gen-saved" style="display:none;">
+        <div class="tag-category" style="border-color:var(--g-volt);border-style:dashed;">
+          <div class="tag-cat-header">
+            <div class="tag-cat-name" style="color:var(--g-volt);">Saved This Session</div>
+          </div>
+          <div id="gen-saved-list" style="font-family:var(--font-body);font-size:13px;color:var(--g-light);"></div>
+          <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.1em;color:var(--g-mid);margin-top:12px;">These have been added to your tagline library. Click "Save Changes" to persist to the cloud.</div>
+        </div>
       </div>
     </div>
 
@@ -436,6 +517,113 @@
       }
     });
   };
+
+  // ── AI Generator ──
+  var savedItems = [];
+
+  window.generateTaglines = function() {
+    var category = document.getElementById('gen-category').value;
+    var count = parseInt(document.getElementById('gen-count').value);
+    var prompt = document.getElementById('gen-prompt').value;
+    var btn = document.getElementById('gen-btn');
+    var results = document.getElementById('gen-results');
+    var list = document.getElementById('gen-results-list');
+    var meta = document.getElementById('gen-results-meta');
+
+    btn.disabled = true;
+    btn.textContent = 'Generating...';
+    results.style.display = 'block';
+    list.innerHTML = '<div class="gen-loading"><div class="gen-spinner"></div><div style="font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;color:var(--g-mid);margin-top:12px;">CLAUDE IS THINKING...</div></div>';
+
+    fetch('/api/generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-admin-key': password },
+      body: JSON.stringify({ category: category, count: count, prompt: prompt })
+    })
+    .then(function(r) {
+      if (!r.ok) throw new Error('API returned ' + r.status);
+      return r.json();
+    })
+    .then(function(data) {
+      btn.disabled = false;
+      btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg> Generate with Claude';
+      meta.textContent = data.suggestions.length + ' OPTIONS — ' + category.toUpperCase();
+
+      list.innerHTML = '';
+      data.suggestions.forEach(function(text, i) {
+        var item = document.createElement('div');
+        item.className = 'gen-item';
+        item.innerHTML =
+          '<div class="gen-item-text">' + escHtml(text) + '</div>' +
+          '<div class="gen-item-actions">' +
+            '<button class="gen-save-btn" onclick="saveGenerated(\'' + category + '\', this)" data-text="' + escHtml(text) + '">Save as Alt</button>' +
+            '<button class="gen-primary-btn" onclick="saveAsPrimary(\'' + category + '\', this)" data-text="' + escHtml(text) + '">Set Primary</button>' +
+          '</div>';
+        list.appendChild(item);
+      });
+    })
+    .catch(function(err) {
+      btn.disabled = false;
+      btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg> Generate with Claude';
+      list.innerHTML = '<div style="padding:20px;text-align:center;color:var(--g-ember);font-family:var(--font-mono);font-size:11px;">Error: ' + err.message + '</div>';
+      showToast('Generation failed — ' + err.message, 'error');
+    });
+  };
+
+  window.saveGenerated = function(category, btn) {
+    var text = btn.dataset.text;
+    if (category === 'ticker') {
+      if (!config.taglines.ticker) config.taglines.ticker = [];
+      config.taglines.ticker.push(text);
+    } else {
+      if (!config.taglines[category]) config.taglines[category] = { primary: '', alternatives: [] };
+      if (!config.taglines[category].alternatives) config.taglines[category].alternatives = [];
+      config.taglines[category].alternatives.push(text);
+    }
+    btn.textContent = 'Saved';
+    btn.classList.add('saved');
+    addToSavedList(category, text);
+    renderTaglines();
+    showToast('Added to ' + category + ' alternatives', 'success');
+  };
+
+  window.saveAsPrimary = function(category, btn) {
+    var text = btn.dataset.text;
+    if (category === 'ticker') {
+      // For ticker, just add it
+      if (!config.taglines.ticker) config.taglines.ticker = [];
+      config.taglines.ticker.push(text);
+    } else {
+      if (!config.taglines[category]) config.taglines[category] = { primary: '', alternatives: [] };
+      // Move current primary to alternatives
+      var old = config.taglines[category].primary;
+      if (old) {
+        if (!config.taglines[category].alternatives) config.taglines[category].alternatives = [];
+        config.taglines[category].alternatives.push(old);
+      }
+      config.taglines[category].primary = text;
+    }
+    btn.textContent = 'Set';
+    btn.style.pointerEvents = 'none';
+    btn.style.opacity = '.5';
+    // Also mark the save btn as done
+    var saveBtn = btn.parentElement.querySelector('.gen-save-btn');
+    if (saveBtn) { saveBtn.textContent = 'Saved'; saveBtn.classList.add('saved'); }
+    addToSavedList(category, text + ' (PRIMARY)');
+    renderTaglines();
+    showToast('Set as ' + category + ' primary', 'success');
+  };
+
+  function addToSavedList(category, text) {
+    savedItems.push({ category: category, text: text });
+    var container = document.getElementById('gen-saved');
+    var list = document.getElementById('gen-saved-list');
+    container.style.display = 'block';
+    var item = document.createElement('div');
+    item.className = 'gen-saved-item';
+    item.innerHTML = '<span class="gen-saved-cat">' + category + '</span> ' + escHtml(text);
+    list.appendChild(item);
+  }
 
   // ── Toast ──
   function showToast(msg, type) {
