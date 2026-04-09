@@ -22,26 +22,47 @@
       "primary": "Unlock Your Feet.",
       "alternatives": [
         "Your Hands Are Maxed Out.",
-        "Engage the Agility of Your Feet."
+        "Engage the Agility of Your Feet.",
+        "Your Hands Need Backup.",
+        "Stop Punishing Your Wrists.",
+        "Two More Limbs. Zero More Pain.",
+        "Play Longer. Hurt Less.",
+        "Your Feet Were Always in the Game.",
+        "Gaming Has No Prerequisites.",
+        "More Ways In.",
+        "Every Body Plays."
       ]
     },
     "sub": {
       "primary": "The world's first analog dual foot controller for PC gaming and VR. 16 additional actions. Zero extra fingers required.",
-      "alternatives": []
+      "alternatives": [
+        "36% of pro gamers suffer wrist pain. GLYDR redistributes the load — 16 analog actions, zero extra strain.",
+        "Your hands are overloaded. Your feet are untapped. GLYDR bridges the gap with analog precision."
+      ]
     },
     "tagline": {
       "primary": "Engage the agility of your feet.",
-      "alternatives": []
+      "alternatives": [
+        "Your hands aren't required.",
+        "Retire the strain. Not the player.",
+        "The input your rivals can't see.",
+        "Feet first into victory."
+      ]
     },
     "product": {
       "primary": "Fully configurable analog foot controller for video games and virtual reality. Assembled in Texas.",
-      "alternatives": []
+      "alternatives": [
+        "16 analog actions under your desk. Built for competitive gamers, VR users, and anyone who needs their hands back.",
+        "The accessibility-first foot controller that gives every body a competitive edge. USB-C wired. Assembled in Texas."
+      ]
     },
     "cta_primary": {
       "primary": "Order Now — $299",
       "alternatives": [
         "Shop Now",
-        "Get GLYDR — $299"
+        "Get GLYDR — $299",
+        "Free Your Hands — $299",
+        "Get the Edge — $299"
       ]
     },
     "cta_secondary": {
@@ -53,6 +74,12 @@
     },
     "ticker": [
       "Now Shipping",
+      "Play Without Pain",
+      "Designed for Every Body",
+      "16 Actions Your Opponents Don't Have",
+      "The Advantage Under Your Desk",
+      "Because Wrist Braces Aren't a Gaming Peripheral",
+      "Your Career Shouldn't End at Your Wrists",
       "Assembled in Texas",
       "16 Mappable Actions",
       "USB-C Wired",
