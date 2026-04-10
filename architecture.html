@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GLYDR — System Architecture</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600;700;800;900&family=Barlow:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --font-display: 'Barlow Condensed', sans-serif;
+    --font-body: 'Barlow', sans-serif;
+    --font-mono: 'Share Tech Mono', monospace;
+  }
+
+  /* Dark theme (default) */
+  :root {
+    --bg: #050608;
+    --bg-surface: #11121A;
+    --bg-panel: #181923;
+    --bg-card: #1E2030;
+    --border: #2A2D3E;
+    --border-accent: #3D4160;
+    --text-muted: #3D4160;
+    --text-mid: #6B708C;
+    --text-light: #A8ADCB;
+    --text-primary: #E8EAFF;
+    --text-white: #FFFFFF;
+    --cyan: #00E5FF;
+    --cyan-ghost: rgba(0,229,255,0.08);
+    --cyan-dim: #006B7A;
+    --volt: #AAFF00;
+    --volt-ghost: rgba(170,255,0,0.07);
+    --ember: #FF4D1C;
+    --ember-ghost: rgba(255,77,28,0.10);
+    --connector: rgba(0,229,255,0.3);
+    --connector-future: rgba(170,255,0,0.2);
+    --glow-cyan: 0 0 20px rgba(0,229,255,.15);
+    --glow-volt: 0 0 20px rgba(170,255,0,.15);
+  }
+
+  [data-theme="light"] {
+    --bg: #F4F5FA;
+    --bg-surface: #FFFFFF;
+    --bg-panel: #ECEEF8;
+    --bg-card: #FFFFFF;
+    --border: #D4D6E4;
+    --border-accent: #B8BBCE;
+    --text-muted: #9496A8;
+    --text-mid: #6B708C;
+    --text-light: #4A4D65;
+    --text-primary: #1A1C2E;
+    --text-white: #0C0D13;
+    --cyan: #0099BB;
+    --cyan-ghost: rgba(0,153,187,0.08);
+    --cyan-dim: #B3E8F0;
+    --volt: #5A8000;
+    --volt-ghost: rgba(90,128,0,0.07);
+    --ember: #CC3A10;
+    --ember-ghost: rgba(204,58,16,0.08);
+    --connector: rgba(0,153,187,0.3);
+    --connector-future: rgba(90,128,0,0.25);
+    --glow-cyan: 0 0 20px rgba(0,153,187,.08);
+    --glow-volt: 0 0 20px rgba(90,128,0,.08);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text-primary); font-family: var(--font-body); font-size: 14px; line-height: 1.6; transition: background .3s ease, color .3s ease; }
+
+  /* Header */
+  .arch-header { display: flex; align-items: center; justify-content: space-between; padding: 24px 40px; border-bottom: 1px solid var(--border); background: var(--bg-surface); }
+  .arch-header-left { display: flex; align-items: center; gap: 16px; }
+  .arch-title { font-family: var(--font-display); font-weight: 800; font-size: 18px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-white); }
+  .arch-subtitle { font-family: var(--font-mono); font-size: 10px; letter-spacing: .15em; color: var(--text-muted); text-transform: uppercase; }
+
+  /* Theme toggle */
+  .theme-toggle { display: flex; align-items: center; gap: 8px; }
+  .theme-toggle-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: .15em; text-transform: uppercase; color: var(--text-mid); }
+  .theme-toggle-btn { background: var(--bg-panel); border: 1px solid var(--border); border-radius: 20px; width: 48px; height: 26px; cursor: pointer; position: relative; transition: all .2s ease; }
+  .theme-toggle-btn::after { content: ''; position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 50%; background: var(--cyan); transition: all .2s ease; }
+  [data-theme="light"] .theme-toggle-btn::after { left: 25px; background: var(--volt); }
+
+  /* Canvas */
+  .arch-canvas { padding: 40px; max-width: 1400px; margin: 0 auto; }
+
+  /* Legend */
+  .legend { display: flex; gap: 24px; flex-wrap: wrap; margin-bottom: 32px; padding: 16px 20px; background: var(--bg-surface); border: 1px solid var(--border); border-radius: 8px; }
+  .legend-item { display: flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-mid); }
+  .legend-dot { width: 10px; height: 10px; border-radius: 3px; }
+  .legend-line { width: 24px; height: 2px; border-radius: 1px; }
+
+  /* Sections */
+  .arch-section { margin-bottom: 32px; }
+  .arch-section-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: .25em; text-transform: uppercase; color: var(--cyan); display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+  .arch-section-label::before { content: ''; width: 16px; height: 1px; background: var(--cyan); }
+
+  /* Node grid */
+  .node-grid { display: grid; gap: 16px; }
+  .node-grid-3 { grid-template-columns: repeat(3, 1fr); }
+  .node-grid-4 { grid-template-columns: repeat(4, 1fr); }
+  .node-grid-2 { grid-template-columns: repeat(2, 1fr); }
+
+  /* Node card */
+  .node { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 20px; position: relative; transition: all .2s ease; }
+  .node:hover { border-color: var(--border-accent); box-shadow: var(--glow-cyan); }
+  .node-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; margin-bottom: 12px; }
+  .node-icon-cyan { background: var(--cyan-ghost); color: var(--cyan); border: 1px solid rgba(0,229,255,.15); }
+  .node-icon-volt { background: var(--volt-ghost); color: var(--volt); border: 1px solid rgba(170,255,0,.15); }
+  .node-icon-ember { background: var(--ember-ghost); color: var(--ember); border: 1px solid rgba(255,77,28,.15); }
+  .node-name { font-family: var(--font-display); font-weight: 700; font-size: 14px; text-transform: uppercase; letter-spacing: .05em; color: var(--text-white); margin-bottom: 4px; }
+  .node-desc { font-size: 12px; color: var(--text-mid); line-height: 1.5; margin-bottom: 10px; }
+  .node-tech { font-family: var(--font-mono); font-size: 8px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-muted); }
+  .node-badge { position: absolute; top: 12px; right: 12px; font-family: var(--font-mono); font-size: 7px; letter-spacing: .15em; text-transform: uppercase; padding: 2px 7px; border-radius: 9999px; }
+  .node-badge-live { background: var(--cyan-ghost); color: var(--cyan); border: 1px solid rgba(0,229,255,.2); }
+  .node-badge-planned { background: var(--volt-ghost); color: var(--volt); border: 1px solid rgba(170,255,0,.2); }
+  .node-badge-external { background: var(--bg-panel); color: var(--text-mid); border: 1px solid var(--border); }
+
+  /* Connector row */
+  .connector-row { display: flex; align-items: center; justify-content: center; padding: 8px 0; gap: 12px; }
+  .connector-arrow { font-family: var(--font-mono); font-size: 16px; color: var(--connector); }
+  .connector-label { font-family: var(--font-mono); font-size: 8px; letter-spacing: .15em; text-transform: uppercase; color: var(--text-muted); background: var(--bg-surface); padding: 4px 10px; border: 1px solid var(--border); border-radius: 4px; }
+  .connector-future { border-style: dashed; color: var(--volt); border-color: rgba(170,255,0,.2); }
+
+  /* Flow diagram */
+  .flow-row { display: flex; align-items: stretch; gap: 16px; margin-bottom: 16px; }
+  .flow-col { flex: 1; display: flex; flex-direction: column; gap: 16px; }
+  .flow-divider { width: 1px; background: var(--border); position: relative; margin: 0 8px; flex-shrink: 0; }
+  .flow-divider-label { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%) rotate(-90deg); font-family: var(--font-mono); font-size: 7px; letter-spacing: .2em; text-transform: uppercase; color: var(--text-muted); white-space: nowrap; background: var(--bg); padding: 4px 8px; }
+
+  /* Difficulty badges */
+  .diff-badge { font-family: var(--font-mono); font-size: 8px; letter-spacing: .1em; text-transform: uppercase; padding: 2px 8px; border-radius: 3px; font-weight: 600; }
+  .diff-easy { background: rgba(170,255,0,.1); color: var(--volt); border: 1px solid rgba(170,255,0,.2); }
+  .diff-medium { background: rgba(0,229,255,.1); color: var(--cyan); border: 1px solid rgba(0,229,255,.2); }
+  .diff-hard { background: rgba(255,200,0,.1); color: #FFD700; border: 1px solid rgba(255,215,0,.2); }
+  .diff-complex { background: var(--ember-ghost); color: var(--ember); border: 1px solid rgba(255,77,28,.2); }
+  .node-difficulty { position: absolute; bottom: 12px; right: 12px; }
+
+  /* Relationship map (center) */
+  .rel-map { display: flex; align-items: center; justify-content: center; padding: 32px; background: var(--bg-surface); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 32px; position: relative; overflow: hidden; min-height: 400px; }
+  .rel-map::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(circle at 1px 1px, var(--border) 1px, transparent 0); background-size: 32px 32px; opacity: .3; }
+  .rel-center { position: relative; z-index: 1; width: 100%; }
+
+  /* Hub and spoke */
+  .hub { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; background: var(--bg-card); border: 2px solid var(--cyan); border-radius: 12px; padding: 20px 24px; box-shadow: var(--glow-cyan); width: 200px; margin: 0 auto; }
+  .hub-name { font-family: var(--font-display); font-weight: 900; font-size: 18px; text-transform: uppercase; letter-spacing: .05em; color: var(--cyan); margin-bottom: 4px; }
+  .hub-sub { font-family: var(--font-mono); font-size: 8px; letter-spacing: .15em; color: var(--text-muted); text-transform: uppercase; }
+
+  .spoke-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 32px; }
+  .spoke { position: relative; }
+  .spoke::before { content: ''; position: absolute; top: -20px; left: 50%; width: 1px; height: 20px; background: var(--connector); }
+  .spoke-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 16px; text-align: center; transition: all .2s ease; }
+  .spoke-card:hover { border-color: var(--cyan); box-shadow: var(--glow-cyan); }
+  .spoke-name { font-family: var(--font-display); font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--text-white); margin-bottom: 4px; }
+  .spoke-items { font-size: 11px; color: var(--text-mid); line-height: 1.6; }
+
+  /* Future section */
+  .future-section { border: 2px dashed rgba(170,255,0,.2); border-radius: 12px; padding: 24px; background: var(--volt-ghost); }
+  .future-label { font-family: var(--font-display); font-weight: 800; font-size: 14px; text-transform: uppercase; letter-spacing: .08em; color: var(--volt); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+  .future-label::before { content: ''; width: 8px; height: 8px; border-radius: 2px; background: var(--volt); }
+
+  /* Data flow */
+  .data-flow { display: flex; align-items: center; justify-content: center; gap: 12px; padding: 12px 0; }
+  .data-flow-arrow { width: 40px; height: 2px; background: var(--connector); position: relative; }
+  .data-flow-arrow::after { content: ''; position: absolute; right: -1px; top: -4px; border: 5px solid transparent; border-left: 6px solid var(--connector); }
+  .data-flow-arrow-bi::before { content: ''; position: absolute; left: -1px; top: -4px; border: 5px solid transparent; border-right: 6px solid var(--connector); }
+  .data-flow-label { font-family: var(--font-mono); font-size: 8px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-muted); }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .arch-header { padding: 16px 20px; flex-wrap: wrap; gap: 12px; }
+    .arch-canvas { padding: 20px; }
+    .node-grid-3, .node-grid-4 { grid-template-columns: 1fr; }
+    .spoke-grid { grid-template-columns: 1fr; }
+    .flow-row { flex-direction: column; }
+    .flow-divider { width: 100%; height: 1px; margin: 8px 0; }
+    .flow-divider-label { transform: translate(-50%,-50%) rotate(0deg); }
+    .legend { gap: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="arch-header">
+  <div class="arch-header-left">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4000 966" width="100" style="display:block;"><g transform="translate(0,966) scale(0.1,-0.1)" fill="currentColor" stroke="none"><path d="M2500 7803 c-313 -24 -627 -103 -855 -213 -121 -58 -282 -164 -382 -252 -328 -287 -513 -722 -563 -1323 -8 -100 -10 -487 -8 -1345 4 -1086 6 -1217 22 -1325 69 -469 204 -793 430 -1032 249 -264 605 -418 1131 -490 121 -17 274 -18 2315 -18 2255 0 2350 1 2715 41 144 16 355 53 436 78 69 21 127 53 133 74 4 12 -13 61 -44 127 l-50 107 0 1534 0 1534 -1850 0 -1850 0 0 -705 0 -705 23 0 c13 0 318 22 678 49 360 27 741 52 847 56 l192 6 0 -384 0 -385 -347 -7 c-192 -4 -755 -8 -1253 -9 -952 -1 -970 0 -1138 45 -158 42 -247 111 -310 242 -47 95 -68 175 -82 307 -13 126 -13 1864 0 1990 32 305 153 474 390 544 151 45 182 46 1255 46 980 0 1473 -8 1935 -30 473 -23 914 -52 997 -65 l31 -6 156 631 c86 347 156 641 156 655 0 37 -51 71 -155 105 -197 62 -453 101 -805 120 -169 9 -4035 12 -4150 3z"/><path d="M31430 7786 c0 -13 23 -207 50 -430 l50 -406 0 -2575 0 -2575 995 0 995 0 0 981 0 982 248 -6 c752 -16 1179 -183 1732 -676 47 -42 254 -242 460 -446 206 -204 411 -399 455 -435 193 -153 431 -287 622 -349 112 -37 366 -92 563 -123 128 -20 182 -22 470 -23 215 0 357 4 420 13 140 20 390 61 430 72 l35 10 150 566 c83 312 151 572 153 579 2 8 -44 17 -155 28 -178 19 -289 41 -478 93 -350 97 -674 263 -1205 619 -124 83 -285 189 -357 234 l-133 84 97 34 c115 40 300 127 393 185 445 279 723 764 781 1363 17 178 6 624 -19 791 -41 262 -88 420 -179 595 -204 395 -600 669 -1117 774 -309 63 -125 59 -2913 62 l-2543 3 0 -24z m4491 -1422 c126 -39 207 -106 255 -208 39 -84 47 -145 42 -330 -6 -188 -20 -254 -81 -371 -86 -161 -252 -252 -522 -284 -342 -40 -1143 -49 -1717 -18 -174 9 -331 17 -348 17 l-30 0 0 610 0 611 1168 -3 c1147 -3 1168 -4 1233 -24z"/><path d="M9400 5219 l0 -2581 -50 -398 c-27 -219 -50 -408 -50 -419 l0 -21 2758 0 c1722 0 2828 4 2947 10 317 17 544 53 568 91 8 12 -59 161 -294 655 l-304 639 -1808 3 -1807 2 0 2300 0 2300 -980 0 -980 0 0 -2581z"/><path d="M14810 7794 c0 -3 668 -795 1485 -1761 l1485 -1755 0 -1239 0 -1239 990 0 990 0 0 1218 0 1217 1304 1473 1305 1473 191 295 c105 162 193 301 197 309 4 13 -149 15 -1228 14 l-1234 0 -494 -700 c-373 -529 -550 -789 -725 -1069 l-231 -370 -49 3 -48 2 -242 382 c-198 314 -329 503 -736 1067 l-495 686 -1232 0 c-678 0 -1233 -2 -1233 -6z"/><path d="M22810 7779 c0 -11 23 -200 50 -419 l50 -398 0 -2581 0 -2581 2438 0 c1506 0 2489 4 2572 10 599 44 1033 171 1388 406 115 77 311 272 384 384 154 234 246 494 294 836 15 105 18 256 21 1259 5 1345 1 1454 -76 1750 -213 829 -871 1264 -2031 1345 -91 6 -1060 10 -2617 10 l-2473 0 0 -21z m4733 -1406 c212 -60 336 -170 420 -369 57 -136 57 -127 57 -1191 0 -931 -1 -983 -20 -1073 -22 -110 -79 -231 -140 -302 -46 -53 -149 -124 -230 -158 -30 -12 -95 -32 -145 -43 -88 -20 -119 -21 -1337 -24 l-1248 -4 0 1596 0 1596 1283 -3 1282 -3 78 -22z"/></g></svg>
+    <div>
+      <div class="arch-title">System Architecture</div>
+      <div class="arch-subtitle">Platform Overview &mdash; April 2026</div>
+    </div>
+  </div>
+  <div class="theme-toggle">
+    <span class="theme-toggle-label">Dark</span>
+    <button class="theme-toggle-btn" id="theme-btn" onclick="toggleTheme()"></button>
+    <span class="theme-toggle-label">Light</span>
+  </div>
+</div>
+
+<div class="arch-canvas">
+
+  <!-- Legend -->
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:var(--cyan);"></div> Live System</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--volt);"></div> Planned / Future</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--text-mid);"></div> External Service</div>
+    <div class="legend-item"><div class="legend-line" style="background:var(--connector);"></div> Data Flow</div>
+    <div class="legend-item"><div class="legend-line" style="background:var(--connector-future);border-top:2px dashed var(--volt);height:0;"></div> Planned Connection</div>
+    <div style="width:1px;height:16px;background:var(--border);"></div>
+    <div class="legend-item"><span class="diff-badge diff-easy">Easy</span> 1-2 days</div>
+    <div class="legend-item"><span class="diff-badge diff-medium">Medium</span> 1-2 weeks</div>
+    <div class="legend-item"><span class="diff-badge diff-hard">Hard</span> 2-4 weeks</div>
+    <div class="legend-item"><span class="diff-badge diff-complex">Complex</span> 1-3 months</div>
+  </div>
+
+  <!-- ═══ HUB: Central Config ═══ -->
+  <div class="arch-section">
+    <div class="arch-section-label">Central Configuration Hub</div>
+    <div class="rel-map">
+      <div class="rel-center">
+        <div class="hub">
+          <div class="hub-name">Upstash Redis</div>
+          <div class="hub-sub">features.json config store</div>
+          <div style="font-size:11px;color:var(--text-mid);margin-top:8px;">Taglines &bull; Features &bull; Archive</div>
+        </div>
+
+        <div class="spoke-grid">
+          <div class="spoke">
+            <div class="spoke-card">
+              <div class="spoke-name">Admin Panel</div>
+              <div class="spoke-items">WYSIWYG editor<br>Tagline management<br>Feature scheduling<br>AI Generator (Claude)<br>Archive & recovery</div>
+            </div>
+          </div>
+          <div class="spoke">
+            <div class="spoke-card">
+              <div class="spoke-name">API Layer</div>
+              <div class="spoke-items">/api/features (GET/POST)<br>/api/generate (POST)<br>/api/seed (POST)<br>Auth via x-admin-key</div>
+            </div>
+          </div>
+          <div class="spoke">
+            <div class="spoke-card">
+              <div class="spoke-name">Site Frontend</div>
+              <div class="spoke-items">Feature flag evaluation<br>Date-gated content<br>Dynamic show/hide<br>Fallback to static JSON</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ LIVE SYSTEMS ═══ -->
+  <div class="arch-section">
+    <div class="arch-section-label">Live Systems</div>
+
+    <div class="flow-row">
+      <!-- Brand & Creative -->
+      <div class="flow-col">
+        <div class="node">
+          <span class="node-badge node-badge-live">Live</span>
+          <div class="node-icon node-icon-cyan">&#9670;</div>
+          <div class="node-name">Brand Kit</div>
+          <div class="node-desc">Complete design system with 30+ banner ad templates, color palette, typography, component library, voice & tone guide, and Getting Started tutorial.</div>
+          <div class="node-tech">glydr-brand-kit.html &bull; Self-contained</div>
+          <div class="node-difficulty"><span class="diff-badge diff-easy">Complete</span></div>
+        </div>
+        <div class="node">
+          <span class="node-badge node-badge-live">Live</span>
+          <div class="node-icon node-icon-cyan">&#9733;</div>
+          <div class="node-name">Admin Panel</div>
+          <div class="node-desc">Password-protected WYSIWYG for tagline management (status, themes, reorder, archive), feature scheduling, and AI-powered tagline generation via Claude.</div>
+          <div class="node-tech">/admin &bull; Upstash Redis &bull; Claude API</div>
+          <div class="node-difficulty"><span class="diff-badge diff-easy">Complete</span></div>
+        </div>
+      </div>
+
+      <div class="flow-divider">
+        <div class="flow-divider-label">Feeds Into</div>
+      </div>
+
+      <!-- Site Pages -->
+      <div class="flow-col">
+        <div class="node">
+          <span class="node-badge node-badge-live">Live</span>
+          <div class="node-icon node-icon-cyan">&#9632;</div>
+          <div class="node-name">Marketing Site</div>
+          <div class="node-desc">Homepage, product page, about page, and blog. Hero video background, feature-gated content, responsive design with GLYDR design tokens.</div>
+          <div class="node-tech">HTML + CSS + Vanilla JS &bull; Vercel</div>
+          <div class="node-difficulty"><span class="diff-badge diff-easy">Complete</span></div>
+        </div>
+        <div class="node">
+          <span class="node-badge node-badge-live">Live</span>
+          <div class="node-icon node-icon-cyan">&#9881;</div>
+          <div class="node-name">Vercel Platform</div>
+          <div class="node-desc">Hosting, serverless API routes, Upstash Redis integration, automatic deployments from GitHub, environment variable management.</div>
+          <div class="node-tech">Vercel &bull; GitHub &bull; Serverless Functions</div>
+          <div class="node-difficulty"><span class="diff-badge diff-easy">Complete</span></div>
+        </div>
+      </div>
+
+      <div class="flow-divider">
+        <div class="flow-divider-label">Connects To</div>
+      </div>
+
+      <!-- External -->
+      <div class="flow-col">
+        <div class="node">
+          <span class="node-badge node-badge-external">External</span>
+          <div class="node-icon" style="background:var(--bg-panel);border:1px solid var(--border);color:var(--text-mid);">&#9733;</div>
+          <div class="node-name">Shopify</div>
+          <div class="node-desc">Product sales at glydr.gg/products/glydr ($299). Buy Button JS embed placeholder on the product page.</div>
+          <div class="node-tech">glydr.gg &bull; Buy Button JS</div>
+          <div class="node-difficulty"><span class="diff-badge diff-easy">Connected</span></div>
+        </div>
+        <div class="node">
+          <span class="node-badge node-badge-external">External</span>
+          <div class="node-icon" style="background:var(--bg-panel);border:1px solid var(--border);color:var(--text-mid);">&#9672;</div>
+          <div class="node-name">Community & Social</div>
+          <div class="node-desc">Discord server, LinkedIn, Kickstarter backers, YouTube channels. Currently linked but not managed from admin.</div>
+          <div class="node-tech">Discord &bull; LinkedIn &bull; YouTube &bull; Kickstarter</div>
+          <div class="node-difficulty"><span class="diff-badge diff-easy">Connected</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ DATA FLOW ═══ -->
+  <div class="arch-section">
+    <div class="arch-section-label">Data Flow</div>
+    <div style="background:var(--bg-surface);border:1px solid var(--border);border-radius:12px;padding:28px;">
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;align-items:center;text-align:center;">
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:12px;">
+          <div style="font-family:var(--font-display);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--text-white);">Admin Panel</div>
+          <div style="font-family:var(--font-mono);font-size:8px;color:var(--text-muted);margin-top:2px;">Edit & Generate</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-size:18px;color:var(--connector);">&#8594;</div>
+          <div style="font-family:var(--font-mono);font-size:7px;letter-spacing:.1em;color:var(--text-muted);">POST /API</div>
+        </div>
+        <div style="background:var(--cyan-ghost);border:2px solid var(--cyan);border-radius:8px;padding:12px;">
+          <div style="font-family:var(--font-display);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--cyan);">Upstash Redis</div>
+          <div style="font-family:var(--font-mono);font-size:8px;color:var(--text-muted);margin-top:2px;">Config Store</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-size:18px;color:var(--connector);">&#8594;</div>
+          <div style="font-family:var(--font-mono);font-size:7px;letter-spacing:.1em;color:var(--text-muted);">GET /API</div>
+        </div>
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:12px;">
+          <div style="font-family:var(--font-display);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--text-white);">Site Pages</div>
+          <div style="font-family:var(--font-mono);font-size:8px;color:var(--text-muted);margin-top:2px;">Feature Flags</div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;align-items:center;text-align:center;margin-top:16px;">
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:12px;">
+          <div style="font-family:var(--font-display);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--text-white);">AI Generator</div>
+          <div style="font-family:var(--font-mono);font-size:8px;color:var(--text-muted);margin-top:2px;">Claude Haiku</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-size:18px;color:var(--connector);">&#8596;</div>
+          <div style="font-family:var(--font-mono);font-size:7px;letter-spacing:.1em;color:var(--text-muted);">GENERATE</div>
+        </div>
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:12px;">
+          <div style="font-family:var(--font-display);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--text-white);">Brand Voice</div>
+          <div style="font-family:var(--font-mono);font-size:8px;color:var(--text-muted);margin-top:2px;">System Prompt</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-size:18px;color:var(--connector);">&#8594;</div>
+          <div style="font-family:var(--font-mono);font-size:7px;letter-spacing:.1em;color:var(--text-muted);">SAVE</div>
+        </div>
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:12px;">
+          <div style="font-family:var(--font-display);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--text-white);">Tagline Library</div>
+          <div style="font-family:var(--font-mono);font-size:8px;color:var(--text-muted);margin-top:2px;">Status & Themes</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ FUTURE: GTM HUB ═══ -->
+  <div class="arch-section">
+    <div class="arch-section-label" style="color:var(--volt);">Future — Go-To-Market Hub</div>
+    <div class="future-section">
+      <div class="future-label">GTM Management Platform</div>
+      <div style="font-size:13px;color:var(--text-light);margin-bottom:20px;line-height:1.6;">Unified marketing operations pulling from the same config store. All tools share taglines, themes, and brand voice — so messaging stays consistent from admin panel to inbox to social feed.</div>
+
+      <div class="node-grid-3">
+        <div class="node" style="border-color:rgba(170,255,0,.15);">
+          <span class="node-badge node-badge-planned">Planned</span>
+          <div class="node-icon node-icon-volt">&#9993;</div>
+          <div class="node-name">Email Campaigns</div>
+          <div class="node-desc">Build and schedule email campaigns using approved taglines and brand templates. Pull copy from the tagline library by theme. A/B test with status-tagged alternatives.</div>
+          <div class="node-tech">Template builder &bull; Sendgrid or Resend &bull; Tagline API</div>
+          <div class="node-difficulty"><span class="diff-badge diff-medium">Medium</span></div>
+        </div>
+        <div class="node" style="border-color:rgba(170,255,0,.15);">
+          <span class="node-badge node-badge-planned">Planned</span>
+          <div class="node-icon node-icon-volt">&#9783;</div>
+          <div class="node-name">Social Scheduler</div>
+          <div class="node-desc">Draft and schedule posts for Discord announcements, LinkedIn, and other channels. Auto-populate with taglines by theme. Preview with brand kit components.</div>
+          <div class="node-tech">Multi-platform API &bull; Content calendar &bull; Brand voice AI</div>
+          <div class="node-difficulty"><span class="diff-badge diff-hard">Hard</span></div>
+        </div>
+        <div class="node" style="border-color:rgba(170,255,0,.15);">
+          <span class="node-badge node-badge-planned">Planned</span>
+          <div class="node-icon node-icon-volt">&#9776;</div>
+          <div class="node-name">Content Calendar</div>
+          <div class="node-desc">Visual calendar showing scheduled emails, social posts, feature launches, and campaigns. Tied to feature activation dates for coordinated launches.</div>
+          <div class="node-tech">Calendar UI &bull; Feature sync &bull; Campaign grouping</div>
+          <div class="node-difficulty"><span class="diff-badge diff-medium">Medium</span></div>
+        </div>
+      </div>
+
+      <div style="margin-top:20px;">
+        <div class="node-grid-3">
+          <div class="node" style="border-color:rgba(170,255,0,.15);">
+            <span class="node-badge node-badge-planned">Planned</span>
+            <div class="node-icon node-icon-volt">&#9673;</div>
+            <div class="node-name">Ad Manager</div>
+            <div class="node-desc">Export banner ad templates from the brand kit with approved copy pre-filled. Track which tagline themes perform best across campaigns.</div>
+            <div class="node-tech">Banner export &bull; Copy sync &bull; Performance tracking</div>
+            <div class="node-difficulty"><span class="diff-badge diff-medium">Medium</span></div>
+          </div>
+          <div class="node" style="border-color:rgba(170,255,0,.15);">
+            <span class="node-badge node-badge-planned">Planned</span>
+            <div class="node-icon node-icon-volt">&#9878;</div>
+            <div class="node-name">Analytics Dashboard</div>
+            <div class="node-desc">Track which taglines, themes, and CTAs convert best. Feed winning copy back into the tagline library with performance data.</div>
+            <div class="node-tech">PostHog integration &bull; Conversion tracking &bull; Copy insights</div>
+            <div class="node-difficulty"><span class="diff-badge diff-hard">Hard</span></div>
+          </div>
+          <div class="node" style="border-color:rgba(170,255,0,.15);">
+            <span class="node-badge node-badge-planned">Planned</span>
+            <div class="node-icon node-icon-volt">&#9733;</div>
+            <div class="node-name">Audience Segments</div>
+            <div class="node-desc">Target messaging by audience: competitive gamers (competitive theme), accessibility users (accessibility theme), RSI sufferers (health theme).</div>
+            <div class="node-tech">Theme-to-audience mapping &bull; Personalized copy</div>
+            <div class="node-difficulty"><span class="diff-badge diff-complex">Complex</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ SAAS EVOLUTION PATH ═══ -->
+  <div class="arch-section">
+    <div class="arch-section-label" style="color:var(--ember);">SaaS Evolution Path</div>
+    <div style="background:var(--bg-surface);border:1px solid var(--border);border-radius:12px;padding:28px;">
+      <div style="font-size:13px;color:var(--text-light);margin-bottom:24px;line-height:1.6;">Starting as an internal marketing ops tool for consulting engagements. Architecture is designed to support multi-tenant SaaS if the tool proves valuable enough to productize.</div>
+
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;">
+        <!-- Phase 1 -->
+        <div style="background:var(--bg-card);border:1px solid var(--cyan);border-radius:8px;padding:16px;position:relative;">
+          <div style="font-family:var(--font-mono);font-size:8px;letter-spacing:.15em;color:var(--cyan);margin-bottom:8px;">PHASE 1 &mdash; NOW</div>
+          <div style="font-family:var(--font-display);font-weight:700;font-size:13px;text-transform:uppercase;color:var(--text-white);margin-bottom:6px;">Internal Tool</div>
+          <div style="font-size:11px;color:var(--text-mid);line-height:1.5;">Single-tenant admin panel. Password auth. Used by GLYDR team only. Brand kit + tagline management + feature flags.</div>
+          <div style="margin-top:10px;"><span class="diff-badge diff-easy">Complete</span></div>
+        </div>
+
+        <!-- Phase 2 -->
+        <div style="background:var(--bg-card);border:1px solid rgba(170,255,0,.2);border-radius:8px;padding:16px;">
+          <div style="font-family:var(--font-mono);font-size:8px;letter-spacing:.15em;color:var(--volt);margin-bottom:8px;">PHASE 2 &mdash; NEXT</div>
+          <div style="font-family:var(--font-display);font-weight:700;font-size:13px;text-transform:uppercase;color:var(--text-white);margin-bottom:6px;">GTM Hub</div>
+          <div style="font-size:11px;color:var(--text-mid);line-height:1.5;">Add email campaigns, social scheduling, content calendar. Still single-tenant but usable for client consulting engagements.</div>
+          <div style="margin-top:10px;"><span class="diff-badge diff-hard">Hard &mdash; 4-6 weeks</span></div>
+        </div>
+
+        <!-- Phase 3 -->
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:16px;">
+          <div style="font-family:var(--font-mono);font-size:8px;letter-spacing:.15em;color:var(--text-muted);margin-bottom:8px;">PHASE 3 &mdash; LATER</div>
+          <div style="font-family:var(--font-display);font-weight:700;font-size:13px;text-transform:uppercase;color:var(--text-white);margin-bottom:6px;">Multi-Tenant</div>
+          <div style="font-size:11px;color:var(--text-mid);line-height:1.5;">User accounts, org-level isolation, per-client brand kits and config stores. Each consulting client gets their own workspace.</div>
+          <div style="margin-top:10px;"><span class="diff-badge diff-complex">Complex &mdash; 2-3 months</span></div>
+        </div>
+
+        <!-- Phase 4 -->
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:16px;border-style:dashed;">
+          <div style="font-family:var(--font-mono);font-size:8px;letter-spacing:.15em;color:var(--text-muted);margin-bottom:8px;">PHASE 4 &mdash; FUTURE</div>
+          <div style="font-family:var(--font-display);font-weight:700;font-size:13px;text-transform:uppercase;color:var(--text-white);margin-bottom:6px;">SaaS Product</div>
+          <div style="font-size:11px;color:var(--text-mid);line-height:1.5;">Self-serve onboarding, billing (Stripe), usage tiers, white-label option. Full marketing ops platform with AI copywriting.</div>
+          <div style="margin-top:10px;"><span class="diff-badge diff-complex">Complex &mdash; 3-6 months</span></div>
+        </div>
+      </div>
+
+      <div style="margin-top:20px;padding:16px;background:var(--bg-panel);border:1px solid var(--border);border-radius:8px;">
+        <div style="font-family:var(--font-display);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--text-white);margin-bottom:8px;">What Changes Per Phase</div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;font-size:11px;color:var(--text-mid);line-height:1.6;">
+          <div><strong style="color:var(--cyan);">Auth:</strong> Password &rarr; JWT sessions &rarr; OAuth/SSO &rarr; Stripe-gated</div>
+          <div><strong style="color:var(--cyan);">Storage:</strong> Single Redis key &rarr; Namespaced keys &rarr; Per-org isolation &rarr; Dedicated instances</div>
+          <div><strong style="color:var(--cyan);">Frontend:</strong> Vanilla JS &rarr; React/Svelte &rarr; Component library &rarr; White-label theming</div>
+          <div><strong style="color:var(--cyan);">AI:</strong> Haiku taglines &rarr; Campaign copy &rarr; Multi-channel generation &rarr; Fine-tuned brand models</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ INTEGRATION MAP ═══ -->
+  <div class="arch-section">
+    <div class="arch-section-label">Integration Map — How It All Connects</div>
+    <div style="background:var(--bg-surface);border:1px solid var(--border);border-radius:12px;padding:28px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+        <!-- Left: current -->
+        <div>
+          <div style="font-family:var(--font-display);font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--cyan);margin-bottom:16px;display:flex;align-items:center;gap:8px;"><span style="width:8px;height:8px;border-radius:2px;background:var(--cyan);"></span> Live Now</div>
+          <div style="font-size:12px;color:var(--text-light);line-height:2;">
+            <div><strong style="color:var(--text-white);">Brand Kit</strong> &#8594; defines design tokens &#8594; <strong style="color:var(--text-white);">Site Pages</strong></div>
+            <div><strong style="color:var(--text-white);">Admin Panel</strong> &#8594; manages config &#8594; <strong style="color:var(--text-white);">Upstash Redis</strong></div>
+            <div><strong style="color:var(--text-white);">Redis Config</strong> &#8594; serves feature flags &#8594; <strong style="color:var(--text-white);">Site Frontend</strong></div>
+            <div><strong style="color:var(--text-white);">Claude AI</strong> &#8594; generates taglines &#8594; <strong style="color:var(--text-white);">Tagline Library</strong></div>
+            <div><strong style="color:var(--text-white);">GitHub</strong> &#8594; auto-deploys &#8594; <strong style="color:var(--text-white);">Vercel</strong></div>
+            <div><strong style="color:var(--text-white);">Site</strong> &#8594; links to &#8594; <strong style="color:var(--text-white);">Shopify / Discord / YouTube</strong></div>
+          </div>
+        </div>
+        <!-- Right: future -->
+        <div>
+          <div style="font-family:var(--font-display);font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--volt);margin-bottom:16px;display:flex;align-items:center;gap:8px;"><span style="width:8px;height:8px;border-radius:2px;background:var(--volt);"></span> Future Connections</div>
+          <div style="font-size:12px;color:var(--text-light);line-height:2;">
+            <div><strong style="color:var(--text-white);">Tagline Library</strong> &#8594; populates copy &#8594; <strong style="color:var(--text-white);">Email Templates</strong></div>
+            <div><strong style="color:var(--text-white);">Theme Groups</strong> &#8594; target audiences &#8594; <strong style="color:var(--text-white);">Email Segments</strong></div>
+            <div><strong style="color:var(--text-white);">Banner Ads</strong> &#8594; auto-export &#8594; <strong style="color:var(--text-white);">Ad Manager</strong></div>
+            <div><strong style="color:var(--text-white);">Feature Dates</strong> &#8594; coordinate with &#8594; <strong style="color:var(--text-white);">Content Calendar</strong></div>
+            <div><strong style="color:var(--text-white);">Social Scheduler</strong> &#8594; posts to &#8594; <strong style="color:var(--text-white);">Discord / LinkedIn</strong></div>
+            <div><strong style="color:var(--text-white);">Analytics</strong> &#8594; feeds winners back &#8594; <strong style="color:var(--text-white);">Tagline Library</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ TECH STACK ═══ -->
+  <div class="arch-section">
+    <div class="arch-section-label">Tech Stack Summary</div>
+    <div class="node-grid-4">
+      <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:16px;text-align:center;">
+        <div style="font-family:var(--font-display);font-weight:700;font-size:12px;text-transform:uppercase;color:var(--text-white);margin-bottom:4px;">Frontend</div>
+        <div style="font-family:var(--font-mono);font-size:9px;color:var(--text-mid);line-height:1.8;">HTML &bull; CSS &bull; Vanilla JS<br>No framework</div>
+      </div>
+      <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:16px;text-align:center;">
+        <div style="font-family:var(--font-display);font-weight:700;font-size:12px;text-transform:uppercase;color:var(--text-white);margin-bottom:4px;">Backend</div>
+        <div style="font-family:var(--font-mono);font-size:9px;color:var(--text-mid);line-height:1.8;">Vercel Serverless<br>Upstash Redis</div>
+      </div>
+      <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:16px;text-align:center;">
+        <div style="font-family:var(--font-display);font-weight:700;font-size:12px;text-transform:uppercase;color:var(--text-white);margin-bottom:4px;">AI</div>
+        <div style="font-family:var(--font-mono);font-size:9px;color:var(--text-mid);line-height:1.8;">Claude Haiku 4.5<br>Anthropic API</div>
+      </div>
+      <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:16px;text-align:center;">
+        <div style="font-family:var(--font-display);font-weight:700;font-size:12px;text-transform:uppercase;color:var(--text-white);margin-bottom:4px;">Commerce</div>
+        <div style="font-family:var(--font-mono);font-size:9px;color:var(--text-mid);line-height:1.8;">Shopify Buy Button<br>glydr.gg</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function toggleTheme() {
+  var html = document.documentElement;
+  var current = html.getAttribute('data-theme');
+  html.setAttribute('data-theme', current === 'light' ? '' : 'light');
+}
+</script>
+</body>
+</html>
