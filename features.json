@@ -19,77 +19,80 @@
   },
   "taglines": {
     "hero": {
-      "primary": "Unlock Your Feet.",
+      "primary": {"text": "Unlock Your Feet.", "status": "production", "theme": "empowerment", "benefit": "Frames the product as unlocking new capability"},
       "alternatives": [
-        "Your Hands Are Maxed Out.",
-        "Engage the Agility of Your Feet.",
-        "Your Hands Need Backup.",
-        "Stop Punishing Your Wrists.",
-        "Two More Limbs. Zero More Pain.",
-        "Play Longer. Hurt Less.",
-        "Your Feet Were Always in the Game.",
-        "Gaming Has No Prerequisites.",
-        "More Ways In.",
-        "Every Body Plays."
+        {"text": "Your Hands Are Maxed Out.", "status": "production", "theme": "pain-point", "benefit": "Problem-first framing — speaks to RSI and input overload"},
+        {"text": "Engage the Agility of Your Feet.", "status": "production", "theme": "empowerment", "benefit": "Action-oriented, highlights body capability"},
+        {"text": "Your Hands Need Backup.", "status": "staging", "theme": "pain-point", "benefit": "Acknowledges strain without being clinical"},
+        {"text": "Stop Punishing Your Wrists.", "status": "staging", "theme": "health", "benefit": "Direct RSI messaging — emotionally resonant"},
+        {"text": "Two More Limbs. Zero More Pain.", "status": "test", "theme": "health", "benefit": "Solution-forward, balances gain and pain relief"},
+        {"text": "Play Longer. Hurt Less.", "status": "test", "theme": "health", "benefit": "Benefit-first, speaks directly to RSI sufferers"},
+        {"text": "Your Feet Were Always in the Game.", "status": "test", "theme": "empowerment", "benefit": "Inclusive, empowering, reframes the body"},
+        {"text": "Gaming Has No Prerequisites.", "status": "development", "theme": "accessibility", "benefit": "Accessibility-forward without being patronizing"},
+        {"text": "More Ways In.", "status": "development", "theme": "accessibility", "benefit": "Double meaning — more input methods + more access to gaming"},
+        {"text": "Every Body Plays.", "status": "development", "theme": "accessibility", "benefit": "Wordplay on everybody + body-inclusive"}
       ]
     },
     "sub": {
-      "primary": "The world's first analog dual foot controller for PC gaming and VR. 16 additional actions. Zero extra fingers required.",
+      "primary": {"text": "The world's first analog dual foot controller for PC gaming and VR. 16 additional actions. Zero extra fingers required.", "status": "production", "theme": "product", "benefit": "Core product description with wit"},
       "alternatives": [
-        "36% of pro gamers suffer wrist pain. GLYDR redistributes the load — 16 analog actions, zero extra strain.",
-        "Your hands are overloaded. Your feet are untapped. GLYDR bridges the gap with analog precision."
+        {"text": "36% of pro gamers suffer wrist pain. GLYDR redistributes the load — 16 analog actions, zero extra strain.", "status": "staging", "theme": "health", "benefit": "Stat-driven RSI messaging from esports research"},
+        {"text": "Your hands are overloaded. Your feet are untapped. GLYDR bridges the gap with analog precision.", "status": "test", "theme": "pain-point", "benefit": "Problem/solution framing with technical credibility"}
       ]
     },
     "tagline": {
-      "primary": "Engage the agility of your feet.",
+      "primary": {"text": "Engage the agility of your feet.", "status": "production", "theme": "empowerment", "benefit": "Official brand tagline"},
       "alternatives": [
-        "Your hands aren't required.",
-        "Retire the strain. Not the player.",
-        "The input your rivals can't see.",
-        "Feet first into victory."
+        {"text": "Your hands aren't required.", "status": "staging", "theme": "accessibility", "benefit": "Bold, challenges assumptions about gaming input"},
+        {"text": "Retire the strain. Not the player.", "status": "staging", "theme": "health", "benefit": "References pro player retirements from RSI"},
+        {"text": "The input your rivals can't see.", "status": "test", "theme": "competitive", "benefit": "Stealth advantage framing for competitive gamers"},
+        {"text": "Feet first into victory.", "status": "test", "theme": "competitive", "benefit": "Action-oriented, Halo callback for FPS audience"}
       ]
     },
     "product": {
-      "primary": "Fully configurable analog foot controller for video games and virtual reality. Assembled in Texas.",
+      "primary": {"text": "Fully configurable analog foot controller for video games and virtual reality. Assembled in Texas.", "status": "production", "theme": "product", "benefit": "Core product descriptor with origin pride"},
       "alternatives": [
-        "16 analog actions under your desk. Built for competitive gamers, VR users, and anyone who needs their hands back.",
-        "The accessibility-first foot controller that gives every body a competitive edge. USB-C wired. Assembled in Texas."
+        {"text": "16 analog actions under your desk. Built for competitive gamers, VR users, and anyone who needs their hands back.", "status": "staging", "theme": "competitive", "benefit": "Spec-forward with broad audience targeting"},
+        {"text": "The accessibility-first foot controller that gives every body a competitive edge. USB-C wired. Assembled in Texas.", "status": "test", "theme": "accessibility", "benefit": "Accessibility-led positioning with specs"}
       ]
     },
     "cta_primary": {
-      "primary": "Order Now — $299",
+      "primary": {"text": "Order Now — $299", "status": "production", "theme": "direct", "benefit": "Clear price + action"},
       "alternatives": [
-        "Shop Now",
-        "Get GLYDR — $299",
-        "Free Your Hands — $299",
-        "Get the Edge — $299"
+        {"text": "Shop Now", "status": "production", "theme": "direct", "benefit": "Simple, universal CTA"},
+        {"text": "Get GLYDR — $299", "status": "staging", "theme": "direct", "benefit": "Brand name in CTA with price"},
+        {"text": "Free Your Hands — $299", "status": "test", "theme": "health", "benefit": "Benefit-first CTA — RSI angle"},
+        {"text": "Get the Edge — $299", "status": "test", "theme": "competitive", "benefit": "Competitive advantage CTA"}
       ]
     },
     "cta_secondary": {
-      "primary": "Watch Demo",
+      "primary": {"text": "Watch Demo", "status": "production", "theme": "direct", "benefit": "Low-commitment action"},
       "alternatives": [
-        "Join Discord",
-        "Learn More"
+        {"text": "Join Discord", "status": "production", "theme": "community", "benefit": "Community funnel"},
+        {"text": "Learn More", "status": "staging", "theme": "direct", "benefit": "Generic fallback CTA"}
       ]
     },
     "ticker": [
-      "Now Shipping",
-      "Play Without Pain",
-      "Designed for Every Body",
-      "16 Actions Your Opponents Don't Have",
-      "The Advantage Under Your Desk",
-      "Because Wrist Braces Aren't a Gaming Peripheral",
-      "Your Career Shouldn't End at Your Wrists",
-      "Assembled in Texas",
-      "16 Mappable Actions",
-      "USB-C Wired",
-      "Mac + Windows + Linux"
+      {"text": "Now Shipping", "status": "production", "theme": "product", "benefit": "Availability signal"},
+      {"text": "Play Without Pain", "status": "staging", "theme": "health", "benefit": "RSI benefit in 3 words"},
+      {"text": "Designed for Every Body", "status": "staging", "theme": "accessibility", "benefit": "Inclusive messaging"},
+      {"text": "16 Actions Your Opponents Don't Have", "status": "test", "theme": "competitive", "benefit": "Competitive FOMO"},
+      {"text": "The Advantage Under Your Desk", "status": "test", "theme": "competitive", "benefit": "Intrigue + stealth advantage"},
+      {"text": "Because Wrist Braces Aren't a Gaming Peripheral", "status": "test", "theme": "health", "benefit": "Sardonic truth about RSI solutions"},
+      {"text": "Your Career Shouldn't End at Your Wrists", "status": "development", "theme": "health", "benefit": "Speaks to esports pros and serious gamers"},
+      {"text": "Assembled in Texas", "status": "production", "theme": "product", "benefit": "Origin pride"},
+      {"text": "16 Mappable Actions", "status": "production", "theme": "product", "benefit": "Core spec"},
+      {"text": "USB-C Wired", "status": "production", "theme": "product", "benefit": "Connection spec"},
+      {"text": "Mac + Windows + Linux", "status": "production", "theme": "product", "benefit": "Platform compatibility"}
     ]
   },
+  "archive": [],
   "_instructions": {
-    "how_to_add_tagline": "Add new entries under taglines.<category>.alternatives. They'll be available for use across the site and brand kit.",
-    "how_to_schedule_feature": "Set activateDate to an ISO date string (e.g. '2025-08-01') and change status to 'scheduled'. The site JS will auto-show elements with the matching CSS selector on that date.",
+    "tagline_statuses": "production = live on site | staging = approved, ready to deploy | test = being evaluated | development = concept/draft",
+    "themes": "pain-point, health, empowerment, accessibility, competitive, community, product, direct — group related taglines for campaign planning",
+    "archive": "Deleted taglines move here with timestamp. Can be restored from the Archive tab in admin.",
+    "how_to_schedule_feature": "Set activateDate to an ISO date string and change status to 'scheduled'.",
     "how_to_activate_now": "Set activateDate to today's date or earlier and status to 'active'.",
-    "statuses": "active = live now | scheduled = has future date | planned = no date yet | blocked = cannot activate (legal/tech/budget)"
+    "feature_statuses": "active = live now | scheduled = has future date | planned = no date yet | blocked = cannot activate"
   }
 }

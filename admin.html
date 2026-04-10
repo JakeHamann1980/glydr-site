@@ -83,6 +83,44 @@
   .btn-add-feature { background: none; border: 1px dashed var(--g-border); border-radius: 8px; padding: 20px; font-family: var(--font-display); font-weight: 700; font-size: 13px; letter-spacing: .1em; text-transform: uppercase; color: var(--g-mid); cursor: pointer; transition: all 150ms ease; width: 100%; margin-bottom: 20px; }
   .btn-add-feature:hover { border-color: var(--g-volt); color: var(--g-volt); background: var(--g-volt-ghost); }
 
+  /* Tagline row with reorder + status + theme */
+  .tag-row { display: flex; gap: 8px; margin-bottom: 8px; align-items: flex-start; padding: 10px 12px; background: var(--g-panel); border: 1px solid var(--g-border); border-radius: 6px; transition: all 150ms ease; }
+  .tag-row:hover { border-color: var(--g-cyan-dark); }
+  .tag-row-reorder { display: flex; flex-direction: column; gap: 2px; flex-shrink: 0; }
+  .tag-row-reorder button { background: none; border: 1px solid var(--g-border); border-radius: 3px; width: 24px; height: 20px; color: var(--g-mid); cursor: pointer; font-size: 10px; display: flex; align-items: center; justify-content: center; transition: all 100ms ease; padding: 0; }
+  .tag-row-reorder button:hover { color: var(--g-cyan); border-color: var(--g-cyan); background: var(--g-cyan-ghost); }
+  .tag-row-content { flex: 1; min-width: 0; }
+  .tag-row-text { font-family: var(--font-body); font-size: 14px; color: var(--g-offwhite); margin-bottom: 4px; background: none; border: none; width: 100%; outline: none; padding: 0; }
+  .tag-row-text:focus { color: var(--g-white); }
+  .tag-row-meta { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .tag-row-benefit { font-family: var(--font-body); font-size: 11px; color: var(--g-muted); background: none; border: none; outline: none; flex: 1; min-width: 120px; padding: 0; }
+  .tag-row-benefit:focus { color: var(--g-mid); }
+  .tag-row-benefit::placeholder { color: var(--g-muted); }
+  .tag-mini-select { background: var(--g-surface); border: 1px solid var(--g-border); border-radius: 3px; padding: 2px 6px; font-family: var(--font-mono); font-size: 8px; letter-spacing: .08em; text-transform: uppercase; color: var(--g-mid); cursor: pointer; outline: none; appearance: none; }
+  .tag-mini-select:focus { border-color: var(--g-cyan); }
+  .tag-status-production { color: var(--g-volt); border-color: rgba(170,255,0,.2); background: var(--g-volt-ghost); }
+  .tag-status-staging { color: var(--g-cyan); border-color: rgba(0,229,255,.2); background: var(--g-cyan-ghost); }
+  .tag-status-test { color: #FFD700; border-color: rgba(255,215,0,.2); background: rgba(255,200,0,.05); }
+  .tag-status-development { color: var(--g-mid); }
+  .tag-theme-badge { font-family: var(--font-mono); font-size: 8px; letter-spacing: .1em; text-transform: uppercase; color: var(--g-muted); background: var(--g-surface); border: 1px solid var(--g-border); border-radius: 3px; padding: 2px 6px; }
+  .tag-row-actions { display: flex; flex-direction: column; gap: 2px; flex-shrink: 0; }
+  .tag-row-actions button { background: none; border: 1px solid var(--g-border); border-radius: 3px; width: 24px; height: 20px; cursor: pointer; font-size: 10px; display: flex; align-items: center; justify-content: center; transition: all 100ms ease; padding: 0; }
+  .tag-archive-btn { color: var(--g-ember); }
+  .tag-archive-btn:hover { background: var(--g-ember-ghost); border-color: var(--g-ember); }
+
+  /* Archive panel */
+  .archive-item { display: flex; gap: 12px; align-items: center; padding: 10px 14px; background: var(--g-panel); border: 1px solid var(--g-border); border-radius: 6px; margin-bottom: 6px; }
+  .archive-item-text { flex: 1; font-size: 13px; color: var(--g-light); }
+  .archive-item-meta { font-family: var(--font-mono); font-size: 8px; letter-spacing: .1em; color: var(--g-muted); flex-shrink: 0; }
+  .archive-restore-btn { background: none; border: 1px solid var(--g-volt); border-radius: 4px; padding: 5px 10px; font-family: var(--font-mono); font-size: 8px; letter-spacing: .1em; text-transform: uppercase; color: var(--g-volt); cursor: pointer; flex-shrink: 0; }
+  .archive-restore-btn:hover { background: var(--g-volt-ghost); }
+
+  /* Filter bar */
+  .filter-bar { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; align-items: center; }
+  .filter-btn { background: none; border: 1px solid var(--g-border); border-radius: 4px; padding: 5px 10px; font-family: var(--font-mono); font-size: 8px; letter-spacing: .1em; text-transform: uppercase; color: var(--g-mid); cursor: pointer; transition: all 150ms ease; }
+  .filter-btn:hover { color: var(--g-offwhite); border-color: var(--g-mid); }
+  .filter-btn.active { color: var(--g-cyan); background: var(--g-cyan-ghost); border-color: rgba(0,229,255,.2); }
+
   /* Toast */
   .toast { position: fixed; bottom: 24px; right: 24px; background: var(--g-surface); border: 1px solid var(--g-border); border-radius: 8px; padding: 14px 20px; font-family: var(--font-mono); font-size: 11px; letter-spacing: .1em; color: var(--g-offwhite); z-index: 1000; transform: translateY(100px); opacity: 0; transition: all 300ms cubic-bezier(0.16,1,0.3,1); }
   .toast.show { transform: translateY(0); opacity: 1; }
@@ -135,6 +173,7 @@
       <button class="admin-tab active" data-panel="taglines">Taglines</button>
       <button class="admin-tab" data-panel="generate">AI Generator</button>
       <button class="admin-tab" data-panel="features">Features</button>
+      <button class="admin-tab" data-panel="archive">Archive</button>
     </div>
     <div class="admin-actions">
       <span id="save-status" style="font-family:var(--font-mono);font-size:9px;letter-spacing:.1em;color:var(--g-muted);"></span>
@@ -147,7 +186,31 @@
     <!-- TAGLINES PANEL -->
     <div class="panel active" id="panel-taglines">
       <div class="section-head">Tagline Management</div>
-      <div class="section-desc">Edit approved taglines for each category. The primary tagline is used by default across the site. Alternatives are available for A/B tests and campaign variations.</div>
+      <div class="section-desc">Manage taglines with status tracking, theme grouping, and benefit statements. Drag to reorder. Archive instead of deleting — recover anytime.</div>
+
+      <!-- Filters -->
+      <div class="filter-bar">
+        <span style="font-family:var(--font-mono);font-size:9px;letter-spacing:.1em;color:var(--g-muted);">FILTER:</span>
+        <button class="filter-btn active" onclick="setFilter('all',this)">All</button>
+        <button class="filter-btn" onclick="setFilter('production',this)">Production</button>
+        <button class="filter-btn" onclick="setFilter('staging',this)">Staging</button>
+        <button class="filter-btn" onclick="setFilter('test',this)">Test</button>
+        <button class="filter-btn" onclick="setFilter('development',this)">Development</button>
+        <span style="width:1px;height:16px;background:var(--g-border);"></span>
+        <span style="font-family:var(--font-mono);font-size:9px;letter-spacing:.1em;color:var(--g-muted);">THEME:</span>
+        <select class="tag-mini-select" id="theme-filter" onchange="applyFilters()" style="padding:4px 8px;font-size:9px;">
+          <option value="all">All Themes</option>
+          <option value="pain-point">Pain Point</option>
+          <option value="health">Health</option>
+          <option value="empowerment">Empowerment</option>
+          <option value="accessibility">Accessibility</option>
+          <option value="competitive">Competitive</option>
+          <option value="community">Community</option>
+          <option value="product">Product</option>
+          <option value="direct">Direct</option>
+        </select>
+      </div>
+
       <div id="taglines-container"></div>
 
       <!-- Ticker -->
@@ -235,6 +298,16 @@
   </div>
 </div>
 
+    <!-- ARCHIVE PANEL -->
+    <div class="panel" id="panel-archive">
+      <div class="section-head">Archive</div>
+      <div class="section-desc">Deleted taglines are moved here. You can restore them to any category at any time.</div>
+      <div id="archive-container"><div style="font-family:var(--font-mono);font-size:11px;color:var(--g-muted);text-align:center;padding:40px;">No archived taglines yet.</div></div>
+    </div>
+
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
@@ -244,283 +317,338 @@
   var config = null;
   var API_URL = '/api/features';
   var password = '';
+  var activeStatusFilter = 'all';
+  var activeThemeFilter = 'all';
+  var STATUSES = ['production','staging','test','development'];
+  var THEMES = ['pain-point','health','empowerment','accessibility','competitive','community','product','direct'];
+  var CAT_LABELS = { hero:'Hero Headline', sub:'Sub-headline', tagline:'Brand Tagline', product:'Product Descriptor', cta_primary:'Primary CTA', cta_secondary:'Secondary CTA' };
+  var CATEGORIES = Object.keys(CAT_LABELS);
+  var GEN_ICON = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg> Generate with Claude';
+
+  // ── Helpers ──
+  function escHtml(s) { return String(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  function getTag(obj) { return (typeof obj === 'string') ? {text:obj,status:'development',theme:'',benefit:''} : obj; }
+  function tagText(obj) { return (typeof obj === 'string') ? obj : (obj.text||''); }
+  function statusClass(s) { return 'tag-mini-select tag-status-'+(s||'development'); }
+
+  function makeStatusSelect(val, onchangeStr) {
+    var h = '<select class="'+statusClass(val)+'" onchange="'+onchangeStr+';this.className=\'tag-mini-select tag-status-\'+this.value">';
+    STATUSES.forEach(function(s){ h+='<option value="'+s+'"'+(val===s?' selected':'')+'>'+s.charAt(0).toUpperCase()+s.slice(1)+'</option>'; });
+    return h+'</select>';
+  }
+  function makeThemeSelect(val, onchangeStr) {
+    var h = '<select class="tag-mini-select" onchange="'+onchangeStr+'">';
+    h += '<option value="">No theme</option>';
+    THEMES.forEach(function(t){ h+='<option value="'+t+'"'+(val===t?' selected':'')+'>'+t+'</option>'; });
+    return h+'</select>';
+  }
 
   // ── Password gate ──
   var gateEl = document.getElementById('gate');
   var adminEl = document.getElementById('admin');
   var gateInput = document.getElementById('gate-password');
-  var gateError = document.getElementById('gate-error');
-
-  // Check session
   var stored = sessionStorage.getItem('glydr-admin');
-  if (stored) {
-    password = stored;
-    unlock();
-  }
-
+  if (stored) { password = stored; unlock(); }
   gateInput.addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') {
-      password = gateInput.value;
-      sessionStorage.setItem('glydr-admin', password);
-      unlock();
-    }
+    if (e.key === 'Enter') { password = gateInput.value; sessionStorage.setItem('glydr-admin', password); unlock(); }
   });
-
-  function unlock() {
-    gateEl.style.display = 'none';
-    adminEl.classList.add('active');
-    loadConfig();
-  }
+  function unlock() { gateEl.style.display = 'none'; adminEl.classList.add('active'); loadConfig(); }
 
   // ── Tab switching ──
   document.querySelectorAll('.admin-tab').forEach(function(tab) {
     tab.addEventListener('click', function() {
-      document.querySelectorAll('.admin-tab').forEach(function(t) { t.classList.remove('active'); });
-      document.querySelectorAll('.panel').forEach(function(p) { p.classList.remove('active'); });
+      document.querySelectorAll('.admin-tab').forEach(function(t){ t.classList.remove('active'); });
+      document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
       tab.classList.add('active');
-      document.getElementById('panel-' + tab.dataset.panel).classList.add('active');
+      document.getElementById('panel-'+tab.dataset.panel).classList.add('active');
     });
   });
 
   // ── Load config ──
   function loadConfig() {
-    fetch(API_URL)
-      .then(function(r) {
-        if (!r.ok) throw new Error('API returned ' + r.status);
-        return r.json();
-      })
-      .then(function(data) {
-        config = data;
-        renderTaglines();
-        renderFeatures();
-      })
-      .catch(function() {
-        // Fallback to static file (local dev)
-        fetch('/features.json')
-          .then(function(r) { return r.json(); })
-          .then(function(data) {
-            config = data;
-            renderTaglines();
-            renderFeatures();
-            showToast('Loaded from local file (API not available)', 'error');
-          });
-      });
+    fetch(API_URL).then(function(r){ if(!r.ok) throw new Error(); return r.json(); })
+    .then(function(data){ config=data; if(!config.archive) config.archive=[]; renderAll(); })
+    .catch(function(){
+      fetch('/features.json').then(function(r){ return r.json(); })
+      .then(function(data){ config=data; if(!config.archive) config.archive=[]; renderAll(); showToast('Loaded from local file (API not available)','error'); });
+    });
+  }
+  function renderAll() { renderTaglines(); renderFeatures(); renderArchive(); }
+
+  // ── Filters ──
+  window.setFilter = function(status, btn) {
+    activeStatusFilter = status;
+    document.querySelectorAll('.filter-btn').forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+    applyFilters();
+  };
+  window.applyFilters = function() {
+    activeThemeFilter = document.getElementById('theme-filter').value;
+    renderTaglines();
+  };
+
+  function shouldShow(item) {
+    var t = getTag(item);
+    if (activeStatusFilter !== 'all' && t.status !== activeStatusFilter) return false;
+    if (activeThemeFilter !== 'all' && t.theme !== activeThemeFilter) return false;
+    return true;
   }
 
   // ── Render taglines ──
   function renderTaglines() {
     var container = document.getElementById('taglines-container');
     container.innerHTML = '';
-    var taglines = config.taglines || {};
 
-    var categories = ['hero', 'sub', 'tagline', 'product', 'cta_primary', 'cta_secondary'];
-    var labels = {
-      hero: 'Hero Headline',
-      sub: 'Sub-headline',
-      tagline: 'Brand Tagline',
-      product: 'Product Descriptor',
-      cta_primary: 'Primary CTA',
-      cta_secondary: 'Secondary CTA'
-    };
-
-    categories.forEach(function(cat) {
-      var data = taglines[cat] || { primary: '', alternatives: [] };
+    CATEGORIES.forEach(function(cat) {
+      var data = config.taglines[cat];
+      if (!data) return;
+      var primary = getTag(data.primary);
+      var alts = data.alternatives || [];
       var div = document.createElement('div');
       div.className = 'tag-category';
-      div.innerHTML =
-        '<div class="tag-cat-header"><div class="tag-cat-name">' + (labels[cat] || cat) + '</div></div>' +
-        '<div class="field"><div class="tag-label">Primary</div>' +
-        '<input class="field-input" value="' + escHtml(data.primary || '') + '" onchange="updateTagPrimary(\'' + cat + '\', this.value)"></div>' +
-        '<div class="tag-label">Alternatives</div>' +
-        '<div id="alts-' + cat + '"></div>' +
-        '<button class="alt-add" onclick="addAlt(\'' + cat + '\')">+ Add Alternative</button>';
-      container.appendChild(div);
 
-      var altsContainer = div.querySelector('#alts-' + cat);
-      (data.alternatives || []).forEach(function(alt, i) {
-        altsContainer.appendChild(makeAltRow(cat, i, alt));
+      // Header
+      var hdr = '<div class="tag-cat-header"><div class="tag-cat-name">' + CAT_LABELS[cat] + '</div>';
+      var count = alts.filter(shouldShow).length + (shouldShow(data.primary) ? 1 : 0);
+      hdr += '<span style="font-family:var(--font-mono);font-size:8px;letter-spacing:.1em;color:var(--g-muted);">' + count + ' VISIBLE</span></div>';
+
+      // Primary row
+      var pShow = shouldShow(data.primary);
+      hdr += '<div class="tag-row" style="border-left:3px solid var(--g-cyan);'+(pShow?'':'display:none;')+'">';
+      hdr += '<div class="tag-row-content">';
+      hdr += '<input class="tag-row-text" value="'+escHtml(primary.text)+'" onchange="updatePrimary(\''+cat+'\',\'text\',this.value)">';
+      hdr += '<div class="tag-row-meta">';
+      hdr += '<span style="font-family:var(--font-mono);font-size:8px;letter-spacing:.1em;color:var(--g-cyan);">PRIMARY</span>';
+      hdr += makeStatusSelect(primary.status, 'updatePrimary(\''+cat+'\',\'status\',this.value)');
+      hdr += makeThemeSelect(primary.theme||'', 'updatePrimary(\''+cat+'\',\'theme\',this.value)');
+      hdr += '<input class="tag-row-benefit" placeholder="Benefit statement..." value="'+escHtml(primary.benefit||'')+'" onchange="updatePrimary(\''+cat+'\',\'benefit\',this.value)">';
+      hdr += '</div></div></div>';
+
+      // Alts label
+      hdr += '<div class="tag-label" style="margin-top:12px;">Alternatives</div>';
+      div.innerHTML = hdr;
+
+      // Alt container
+      var altsDiv = document.createElement('div');
+      altsDiv.id = 'alts-' + cat;
+      alts.forEach(function(alt, i) {
+        var a = getTag(alt);
+        if (!shouldShow(alt)) return;
+        var row = document.createElement('div');
+        row.className = 'tag-row';
+        row.innerHTML =
+          '<div class="tag-row-reorder">' +
+            '<button onclick="moveAlt(\''+cat+'\','+i+',-1)" title="Move up">&#9650;</button>' +
+            '<button onclick="moveAlt(\''+cat+'\','+i+',1)" title="Move down">&#9660;</button>' +
+          '</div>' +
+          '<div class="tag-row-content">' +
+            '<input class="tag-row-text" value="'+escHtml(a.text)+'" onchange="updateAlt(\''+cat+'\','+i+',\'text\',this.value)">' +
+            '<div class="tag-row-meta">' +
+              makeStatusSelect(a.status, 'updateAlt(\''+cat+'\','+i+',\'status\',this.value)') +
+              makeThemeSelect(a.theme||'', 'updateAlt(\''+cat+'\','+i+',\'theme\',this.value)') +
+              '<input class="tag-row-benefit" placeholder="Benefit..." value="'+escHtml(a.benefit||'')+'" onchange="updateAlt(\''+cat+'\','+i+',\'benefit\',this.value)">' +
+            '</div>' +
+          '</div>' +
+          '<div class="tag-row-actions">' +
+            '<button class="tag-archive-btn" onclick="archiveAlt(\''+cat+'\','+i+')" title="Archive">&#x2715;</button>' +
+          '</div>';
+        altsDiv.appendChild(row);
       });
+      div.appendChild(altsDiv);
+
+      // Add button
+      var addBtn = document.createElement('button');
+      addBtn.className = 'alt-add';
+      addBtn.textContent = '+ Add Alternative';
+      addBtn.onclick = function(){ addAlt(cat); };
+      div.appendChild(addBtn);
+
+      container.appendChild(div);
     });
 
     // Ticker
     var tickerContainer = document.getElementById('ticker-container');
     tickerContainer.innerHTML = '';
-    (taglines.ticker || []).forEach(function(item, i) {
+    (config.taglines.ticker || []).forEach(function(item, i) {
+      var t = getTag(item);
+      if (!shouldShow(item)) return;
       var row = document.createElement('div');
-      row.className = 'ticker-row';
+      row.className = 'tag-row';
       row.innerHTML =
-        '<input class="field-input" value="' + escHtml(item) + '" onchange="updateTicker(' + i + ', this.value)">' +
-        '<button class="alt-remove" onclick="removeTicker(' + i + ')">×</button>';
+        '<div class="tag-row-reorder">' +
+          '<button onclick="moveTicker('+i+',-1)">&#9650;</button>' +
+          '<button onclick="moveTicker('+i+',1)">&#9660;</button>' +
+        '</div>' +
+        '<div class="tag-row-content">' +
+          '<input class="tag-row-text" value="'+escHtml(t.text)+'" onchange="updateTicker('+i+',\'text\',this.value)">' +
+          '<div class="tag-row-meta">' +
+            makeStatusSelect(t.status, 'updateTicker('+i+',\'status\',this.value)') +
+            makeThemeSelect(t.theme||'', 'updateTicker('+i+',\'theme\',this.value)') +
+            '<input class="tag-row-benefit" placeholder="Benefit..." value="'+escHtml(t.benefit||'')+'" onchange="updateTicker('+i+',\'benefit\',this.value)">' +
+          '</div>' +
+        '</div>' +
+        '<div class="tag-row-actions">' +
+          '<button class="tag-archive-btn" onclick="archiveTicker('+i+')">&#x2715;</button>' +
+        '</div>';
       tickerContainer.appendChild(row);
     });
   }
 
-  function makeAltRow(cat, index, value) {
-    var row = document.createElement('div');
-    row.className = 'alt-row';
-    row.innerHTML =
-      '<input class="field-input" value="' + escHtml(value) + '" onchange="updateAlt(\'' + cat + '\', ' + index + ', this.value)">' +
-      '<button class="alt-remove" onclick="removeAlt(\'' + cat + '\', ' + index + ')">×</button>';
-    return row;
+  // ── Tagline mutations ──
+  window.updatePrimary = function(cat, field, val) {
+    var p = config.taglines[cat].primary;
+    if (typeof p === 'string') { config.taglines[cat].primary = {text:p,status:'production',theme:'',benefit:''}; }
+    config.taglines[cat].primary[field] = val;
+  };
+  window.updateAlt = function(cat, i, field, val) {
+    var a = config.taglines[cat].alternatives[i];
+    if (typeof a === 'string') { config.taglines[cat].alternatives[i] = {text:a,status:'development',theme:'',benefit:''}; }
+    config.taglines[cat].alternatives[i][field] = val;
+  };
+  window.addAlt = function(cat) {
+    if (!config.taglines[cat].alternatives) config.taglines[cat].alternatives = [];
+    config.taglines[cat].alternatives.push({text:'',status:'development',theme:'',benefit:''});
+    renderTaglines();
+  };
+  window.moveAlt = function(cat, i, dir) {
+    var arr = config.taglines[cat].alternatives;
+    var j = i + dir;
+    if (j < 0 || j >= arr.length) return;
+    var tmp = arr[i]; arr[i] = arr[j]; arr[j] = tmp;
+    renderTaglines();
+  };
+  window.archiveAlt = function(cat, i) {
+    var item = getTag(config.taglines[cat].alternatives[i]);
+    item.archivedFrom = cat;
+    item.archivedAt = new Date().toISOString();
+    config.archive.push(item);
+    config.taglines[cat].alternatives.splice(i, 1);
+    renderAll();
+    showToast('Archived — find it in the Archive tab', 'success');
+  };
+
+  // Ticker mutations
+  window.updateTicker = function(i, field, val) {
+    var t = config.taglines.ticker[i];
+    if (typeof t === 'string') { config.taglines.ticker[i] = {text:t,status:'production',theme:'',benefit:''}; }
+    config.taglines.ticker[i][field] = val;
+  };
+  window.addTicker = function() {
+    if (!config.taglines.ticker) config.taglines.ticker = [];
+    config.taglines.ticker.push({text:'',status:'development',theme:'product',benefit:''});
+    renderTaglines();
+  };
+  window.moveTicker = function(i, dir) {
+    var arr = config.taglines.ticker;
+    var j = i + dir;
+    if (j < 0 || j >= arr.length) return;
+    var tmp = arr[i]; arr[i] = arr[j]; arr[j] = tmp;
+    renderTaglines();
+  };
+  window.archiveTicker = function(i) {
+    var item = getTag(config.taglines.ticker[i]);
+    item.archivedFrom = 'ticker';
+    item.archivedAt = new Date().toISOString();
+    config.archive.push(item);
+    config.taglines.ticker.splice(i, 1);
+    renderAll();
+    showToast('Archived — find it in the Archive tab', 'success');
+  };
+
+  // ── Archive ──
+  function renderArchive() {
+    var container = document.getElementById('archive-container');
+    var archive = config.archive || [];
+    if (!archive.length) {
+      container.innerHTML = '<div style="font-family:var(--font-mono);font-size:11px;color:var(--g-muted);text-align:center;padding:40px;">No archived taglines yet.</div>';
+      return;
+    }
+    container.innerHTML = '';
+    archive.forEach(function(item, i) {
+      var div = document.createElement('div');
+      div.className = 'archive-item';
+      var date = item.archivedAt ? new Date(item.archivedAt).toLocaleDateString() : '';
+      div.innerHTML =
+        '<div class="archive-item-text">' + escHtml(item.text) + '</div>' +
+        '<span class="tag-theme-badge">' + escHtml(item.theme||'—') + '</span>' +
+        '<div class="archive-item-meta">' + escHtml(item.archivedFrom||'') + ' &bull; ' + date + '</div>' +
+        '<button class="archive-restore-btn" onclick="restoreArchive('+i+')">Restore</button>';
+      container.appendChild(div);
+    });
   }
+  window.restoreArchive = function(i) {
+    var item = config.archive[i];
+    var cat = item.archivedFrom || 'hero';
+    delete item.archivedFrom;
+    delete item.archivedAt;
+    if (cat === 'ticker') {
+      config.taglines.ticker.push(item);
+    } else {
+      if (!config.taglines[cat]) config.taglines[cat] = {primary:{text:'',status:'production',theme:'',benefit:''},alternatives:[]};
+      config.taglines[cat].alternatives.push(item);
+    }
+    config.archive.splice(i, 1);
+    renderAll();
+    showToast('Restored to ' + cat, 'success');
+  };
 
   // ── Render features ──
   function renderFeatures() {
     var container = document.getElementById('features-container');
     container.innerHTML = '';
     var features = config.features || {};
-
     Object.keys(features).forEach(function(key) {
       var f = features[key];
       var div = document.createElement('div');
       div.className = 'feature-card';
       div.innerHTML =
-        '<button class="feature-remove" onclick="removeFeature(\'' + key + '\')" title="Delete feature">×</button>' +
-        '<div class="feature-header">' +
-          '<div class="feature-name">' + escHtml(f.label || key) + '</div>' +
-          '<div class="feature-key">' + key + '</div>' +
-        '</div>' +
+        '<button class="feature-remove" onclick="removeFeature(\''+key+'\')" title="Delete feature">×</button>' +
+        '<div class="feature-header"><div class="feature-name">'+escHtml(f.label||key)+'</div><div class="feature-key">'+key+'</div></div>' +
         '<div class="feature-grid">' +
-          '<div class="field"><div class="tag-label">Label</div>' +
-            '<input class="field-input" value="' + escHtml(f.label || '') + '" onchange="updateFeature(\'' + key + '\', \'label\', this.value)"></div>' +
-          '<div class="field"><div class="tag-label">Status</div>' +
-            '<select class="status-select" onchange="updateFeature(\'' + key + '\', \'status\', this.value)">' +
-              '<option value="active"' + (f.status === 'active' ? ' selected' : '') + '>Active</option>' +
-              '<option value="scheduled"' + (f.status === 'scheduled' ? ' selected' : '') + '>Scheduled</option>' +
-              '<option value="planned"' + (f.status === 'planned' ? ' selected' : '') + '>Planned</option>' +
-              '<option value="blocked"' + (f.status === 'blocked' ? ' selected' : '') + '>Blocked</option>' +
-            '</select></div>' +
-          '<div class="field"><div class="tag-label">Activate Date</div>' +
-            '<input type="date" class="field-input" value="' + (f.activateDate || '') + '" onchange="updateFeature(\'' + key + '\', \'activateDate\', this.value || null)"></div>' +
-          '<div class="field"><div class="tag-label">CSS Selectors (comma-separated)</div>' +
-            '<input class="field-input" value="' + escHtml((f.affectedSelectors || []).join(', ')) + '" onchange="updateFeatureSelectors(\'' + key + '\', this.value)"></div>' +
-          '<div class="field" style="grid-column: span 2;"><div class="tag-label">Description</div>' +
-            '<textarea class="field-input" onchange="updateFeature(\'' + key + '\', \'description\', this.value)">' + escHtml(f.description || '') + '</textarea></div>' +
-          '<div class="field" style="grid-column: span 2;"><div class="tag-label">Notes</div>' +
-            '<textarea class="field-input" onchange="updateFeature(\'' + key + '\', \'notes\', this.value)">' + escHtml(f.notes || '') + '</textarea></div>' +
+          '<div class="field"><div class="tag-label">Label</div><input class="field-input" value="'+escHtml(f.label||'')+'" onchange="updateFeature(\''+key+'\',\'label\',this.value)"></div>' +
+          '<div class="field"><div class="tag-label">Status</div><select class="status-select" onchange="updateFeature(\''+key+'\',\'status\',this.value)">' +
+            '<option value="active"'+(f.status==='active'?' selected':'')+'>Active</option>' +
+            '<option value="scheduled"'+(f.status==='scheduled'?' selected':'')+'>Scheduled</option>' +
+            '<option value="planned"'+(f.status==='planned'?' selected':'')+'>Planned</option>' +
+            '<option value="blocked"'+(f.status==='blocked'?' selected':'')+'>Blocked</option>' +
+          '</select></div>' +
+          '<div class="field"><div class="tag-label">Activate Date</div><input type="date" class="field-input" value="'+(f.activateDate||'')+'" onchange="updateFeature(\''+key+'\',\'activateDate\',this.value||null)"></div>' +
+          '<div class="field"><div class="tag-label">CSS Selectors</div><input class="field-input" value="'+escHtml((f.affectedSelectors||[]).join(', '))+'" onchange="updateFeatureSelectors(\''+key+'\',this.value)"></div>' +
+          '<div class="field" style="grid-column:span 2;"><div class="tag-label">Description</div><textarea class="field-input" onchange="updateFeature(\''+key+'\',\'description\',this.value)">'+escHtml(f.description||'')+'</textarea></div>' +
+          '<div class="field" style="grid-column:span 2;"><div class="tag-label">Notes</div><textarea class="field-input" onchange="updateFeature(\''+key+'\',\'notes\',this.value)">'+escHtml(f.notes||'')+'</textarea></div>' +
         '</div>';
       container.appendChild(div);
     });
   }
-
-  // ── Tagline mutations ──
-  window.updateTagPrimary = function(cat, val) {
-    config.taglines[cat].primary = val;
-  };
-
-  window.updateAlt = function(cat, index, val) {
-    config.taglines[cat].alternatives[index] = val;
-  };
-
-  window.addAlt = function(cat) {
-    if (!config.taglines[cat].alternatives) config.taglines[cat].alternatives = [];
-    config.taglines[cat].alternatives.push('');
-    renderTaglines();
-  };
-
-  window.removeAlt = function(cat, index) {
-    config.taglines[cat].alternatives.splice(index, 1);
-    renderTaglines();
-  };
-
-  window.updateTicker = function(index, val) {
-    config.taglines.ticker[index] = val;
-  };
-
-  window.addTicker = function() {
-    if (!config.taglines.ticker) config.taglines.ticker = [];
-    config.taglines.ticker.push('');
-    renderTaglines();
-  };
-
-  window.removeTicker = function(index) {
-    config.taglines.ticker.splice(index, 1);
-    renderTaglines();
-  };
-
-  // ── Feature mutations ──
-  window.updateFeature = function(key, field, val) {
-    config.features[key][field] = val;
-    if (field === 'label') {
-      renderFeatures(); // update display name in header
-    }
-  };
-
-  window.updateFeatureSelectors = function(key, val) {
-    config.features[key].affectedSelectors = val.split(',').map(function(s) { return s.trim(); }).filter(Boolean);
-  };
-
+  window.updateFeature = function(key,field,val) { config.features[key][field]=val; if(field==='label') renderFeatures(); };
+  window.updateFeatureSelectors = function(key,val) { config.features[key].affectedSelectors=val.split(',').map(function(s){return s.trim();}).filter(Boolean); };
   window.addFeature = function() {
     var name = prompt('Feature key (lowercase, hyphens only):');
     if (!name) return;
-    name = name.toLowerCase().replace(/[^a-z0-9-]/g, '-');
-    if (config.features[name]) {
-      showToast('Feature "' + name + '" already exists', 'error');
-      return;
-    }
-    config.features[name] = {
-      label: name.replace(/-/g, ' ').replace(/\b\w/g, function(c) { return c.toUpperCase(); }),
-      activateDate: null,
-      description: '',
-      affectedSelectors: ['.feature-' + name],
-      status: 'planned',
-      notes: ''
-    };
+    name = name.toLowerCase().replace(/[^a-z0-9-]/g,'-');
+    if (config.features[name]) { showToast('Feature "'+name+'" already exists','error'); return; }
+    config.features[name] = { label:name.replace(/-/g,' ').replace(/\b\w/g,function(c){return c.toUpperCase();}), activateDate:null, description:'', affectedSelectors:['.feature-'+name], status:'planned', notes:'' };
     renderFeatures();
   };
-
-  window.removeFeature = function(key) {
-    if (!confirm('Delete feature "' + key + '"?')) return;
-    delete config.features[key];
-    renderFeatures();
-  };
+  window.removeFeature = function(key) { if(!confirm('Delete feature "'+key+'"?')) return; delete config.features[key]; renderFeatures(); };
 
   // ── Save ──
   window.saveConfig = function() {
     var btn = document.getElementById('save-btn');
-    var status = document.getElementById('save-status');
-    btn.disabled = true;
-    status.textContent = 'SAVING...';
-    status.style.color = 'var(--g-cyan)';
-
-    fetch(API_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-admin-key': password
-      },
-      body: JSON.stringify(config)
-    })
+    var st = document.getElementById('save-status');
+    btn.disabled = true; st.textContent = 'SAVING...'; st.style.color = 'var(--g-cyan)';
+    fetch(API_URL, { method:'POST', headers:{'Content-Type':'application/json','x-admin-key':password}, body:JSON.stringify(config) })
     .then(function(r) {
-      if (r.status === 401) {
-        sessionStorage.removeItem('glydr-admin');
-        showToast('Invalid password. Reloading...', 'error');
-        setTimeout(function() { location.reload(); }, 1500);
-        throw new Error('Unauthorized');
-      }
-      if (!r.ok) throw new Error('Save failed: ' + r.status);
+      if (r.status===401) { sessionStorage.removeItem('glydr-admin'); showToast('Invalid password. Reloading...','error'); setTimeout(function(){location.reload();},1500); throw new Error('Unauthorized'); }
+      if (!r.ok) throw new Error('Save failed: '+r.status);
       return r.json();
     })
-    .then(function() {
-      btn.disabled = false;
-      status.textContent = 'SAVED';
-      status.style.color = 'var(--g-volt)';
-      showToast('Changes saved successfully', 'success');
-      setTimeout(function() { status.textContent = ''; }, 3000);
-    })
-    .catch(function(err) {
-      btn.disabled = false;
-      status.textContent = 'FAILED';
-      status.style.color = 'var(--g-ember)';
-      if (err.message !== 'Unauthorized') {
-        showToast('Save failed — ' + err.message, 'error');
-      }
-    });
+    .then(function() { btn.disabled=false; st.textContent='SAVED'; st.style.color='var(--g-volt)'; showToast('Changes saved successfully','success'); setTimeout(function(){st.textContent='';},3000); })
+    .catch(function(err) { btn.disabled=false; st.textContent='FAILED'; st.style.color='var(--g-ember)'; if(err.message!=='Unauthorized') showToast('Save failed — '+err.message,'error'); });
   };
 
   // ── AI Generator ──
   var savedItems = [];
-
   window.generateTaglines = function() {
     var category = document.getElementById('gen-category').value;
     var count = parseInt(document.getElementById('gen-count').value);
@@ -529,99 +657,71 @@
     var results = document.getElementById('gen-results');
     var list = document.getElementById('gen-results-list');
     var meta = document.getElementById('gen-results-meta');
-
-    btn.disabled = true;
-    btn.textContent = 'Generating...';
+    btn.disabled = true; btn.textContent = 'Generating...';
     results.style.display = 'block';
     list.innerHTML = '<div class="gen-loading"><div class="gen-spinner"></div><div style="font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;color:var(--g-mid);margin-top:12px;">CLAUDE IS THINKING...</div></div>';
-
-    fetch('/api/generate', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'x-admin-key': password },
-      body: JSON.stringify({ category: category, count: count, prompt: prompt })
-    })
-    .then(function(r) {
-      if (!r.ok) throw new Error('API returned ' + r.status);
-      return r.json();
-    })
+    fetch('/api/generate', { method:'POST', headers:{'Content-Type':'application/json','x-admin-key':password}, body:JSON.stringify({category:category,count:count,prompt:prompt}) })
+    .then(function(r){ if(!r.ok) throw new Error('API returned '+r.status); return r.json(); })
     .then(function(data) {
-      btn.disabled = false;
-      btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg> Generate with Claude';
-      meta.textContent = data.suggestions.length + ' OPTIONS — ' + category.toUpperCase();
-
+      btn.disabled=false; btn.innerHTML=GEN_ICON;
+      meta.textContent = data.suggestions.length+' OPTIONS — '+category.toUpperCase();
       list.innerHTML = '';
-      data.suggestions.forEach(function(text, i) {
+      data.suggestions.forEach(function(text) {
         var item = document.createElement('div');
         item.className = 'gen-item';
         item.innerHTML =
-          '<div class="gen-item-text">' + escHtml(text) + '</div>' +
+          '<div class="gen-item-text">'+escHtml(text)+'</div>' +
           '<div class="gen-item-actions">' +
-            '<button class="gen-save-btn" onclick="saveGenerated(\'' + category + '\', this)" data-text="' + escHtml(text) + '">Save as Alt</button>' +
-            '<button class="gen-primary-btn" onclick="saveAsPrimary(\'' + category + '\', this)" data-text="' + escHtml(text) + '">Set Primary</button>' +
+            '<button class="gen-save-btn" onclick="saveGenerated(\''+category+'\',this)" data-text="'+escHtml(text)+'">Save as Alt</button>' +
+            '<button class="gen-primary-btn" onclick="saveAsPrimary(\''+category+'\',this)" data-text="'+escHtml(text)+'">Set Primary</button>' +
           '</div>';
         list.appendChild(item);
       });
     })
-    .catch(function(err) {
-      btn.disabled = false;
-      btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg> Generate with Claude';
-      list.innerHTML = '<div style="padding:20px;text-align:center;color:var(--g-ember);font-family:var(--font-mono);font-size:11px;">Error: ' + err.message + '</div>';
-      showToast('Generation failed — ' + err.message, 'error');
-    });
+    .catch(function(err) { btn.disabled=false; btn.innerHTML=GEN_ICON; list.innerHTML='<div style="padding:20px;text-align:center;color:var(--g-ember);font-family:var(--font-mono);font-size:11px;">Error: '+err.message+'</div>'; showToast('Generation failed — '+err.message,'error'); });
   };
-
   window.saveGenerated = function(category, btn) {
     var text = btn.dataset.text;
+    var obj = {text:text,status:'development',theme:'',benefit:'AI generated'};
     if (category === 'ticker') {
       if (!config.taglines.ticker) config.taglines.ticker = [];
-      config.taglines.ticker.push(text);
+      config.taglines.ticker.push(obj);
     } else {
-      if (!config.taglines[category]) config.taglines[category] = { primary: '', alternatives: [] };
-      if (!config.taglines[category].alternatives) config.taglines[category].alternatives = [];
-      config.taglines[category].alternatives.push(text);
+      if (!config.taglines[category]) config.taglines[category] = {primary:{text:'',status:'production',theme:'',benefit:''},alternatives:[]};
+      config.taglines[category].alternatives.push(obj);
     }
-    btn.textContent = 'Saved';
-    btn.classList.add('saved');
+    btn.textContent='Saved'; btn.classList.add('saved');
     addToSavedList(category, text);
     renderTaglines();
-    showToast('Added to ' + category + ' alternatives', 'success');
+    showToast('Added to '+category+' alternatives','success');
   };
-
   window.saveAsPrimary = function(category, btn) {
     var text = btn.dataset.text;
+    var obj = {text:text,status:'production',theme:'',benefit:'AI generated — set as primary'};
     if (category === 'ticker') {
-      // For ticker, just add it
       if (!config.taglines.ticker) config.taglines.ticker = [];
-      config.taglines.ticker.push(text);
+      config.taglines.ticker.push(obj);
     } else {
-      if (!config.taglines[category]) config.taglines[category] = { primary: '', alternatives: [] };
-      // Move current primary to alternatives
+      if (!config.taglines[category]) config.taglines[category] = {primary:{text:'',status:'production',theme:'',benefit:''},alternatives:[]};
       var old = config.taglines[category].primary;
-      if (old) {
-        if (!config.taglines[category].alternatives) config.taglines[category].alternatives = [];
-        config.taglines[category].alternatives.push(old);
-      }
-      config.taglines[category].primary = text;
+      if (old && tagText(old)) config.taglines[category].alternatives.push(old);
+      config.taglines[category].primary = obj;
     }
-    btn.textContent = 'Set';
-    btn.style.pointerEvents = 'none';
-    btn.style.opacity = '.5';
-    // Also mark the save btn as done
+    btn.textContent='Set'; btn.style.pointerEvents='none'; btn.style.opacity='.5';
     var saveBtn = btn.parentElement.querySelector('.gen-save-btn');
-    if (saveBtn) { saveBtn.textContent = 'Saved'; saveBtn.classList.add('saved'); }
-    addToSavedList(category, text + ' (PRIMARY)');
+    if (saveBtn) { saveBtn.textContent='Saved'; saveBtn.classList.add('saved'); }
+    addToSavedList(category, text+' (PRIMARY)');
     renderTaglines();
-    showToast('Set as ' + category + ' primary', 'success');
+    showToast('Set as '+category+' primary','success');
   };
-
   function addToSavedList(category, text) {
-    savedItems.push({ category: category, text: text });
+    savedItems.push({category:category,text:text});
     var container = document.getElementById('gen-saved');
     var list = document.getElementById('gen-saved-list');
     container.style.display = 'block';
     var item = document.createElement('div');
     item.className = 'gen-saved-item';
-    item.innerHTML = '<span class="gen-saved-cat">' + category + '</span> ' + escHtml(text);
+    item.innerHTML = '<span class="gen-saved-cat">'+category+'</span> '+escHtml(text);
     list.appendChild(item);
   }
 
@@ -629,15 +729,10 @@
   function showToast(msg, type) {
     var toast = document.getElementById('toast');
     toast.textContent = msg;
-    toast.className = 'toast ' + (type || '') + ' show';
-    setTimeout(function() { toast.classList.remove('show'); }, 3000);
+    toast.className = 'toast '+(type||'')+' show';
+    setTimeout(function(){ toast.classList.remove('show'); }, 3000);
   }
   window.showToast = showToast;
-
-  // ── Util ──
-  function escHtml(str) {
-    return String(str).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-  }
 
 })();
 </script>
